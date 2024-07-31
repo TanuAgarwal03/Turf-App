@@ -23,12 +23,20 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   DetailController detailController = Get.put(DetailController());
   ReviewController reviewController = Get.put(ReviewController());
-  PopularGroundController popularGroundController = Get.put(PopularGroundController());
+  PopularGroundController popularGroundController =
+      Get.put(PopularGroundController());
   bool blockScroll = false;
 
+  @override
+  void initState() {
+    super.initState();
+    DetailScreen();
+    detailController.fetchTurfData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final detailModel = detailController.detailModel.value;
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
@@ -86,12 +94,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding:
                                     EdgeInsets.only(right: 20.h, top: 16.v),
                                 child: GestureDetector(
-                                  onTap: (){},
-                                  // onTap: () async {
-                                  //   await Share.share(
-                                  //       'Hello Welcome to FlutterCampus',
-                                  //       subject: 'Welcome Message');
-                                  // },
+                                  onTap: () {},
                                   child: Container(
                                     height: 48.v,
                                     width: 48.h,
@@ -124,9 +127,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                       itemCount: 2,
                                       itemBuilder: (context, index) {
                                         return Hero(
-                                          tag: popularGroundController.currentimage,
+                                          tag: popularGroundController
+                                              .currentImage,
                                           child: CustomImageView(
-                                            imagePath:popularGroundController.currentimage,
+                                            // imagePath: popularGroundController
+                                            //     .currentImage,
+                                            imagePath: detailModel.image,
                                             height: double.infinity,
                                             width: double.infinity,
                                             fit: BoxFit.fill,
@@ -176,15 +182,18 @@ class _DetailScreenState extends State<DetailScreen> {
                                 buildReviews(),
                                 SizedBox(height: 12.v),
                                 ExpandableText(
-                                  "msg_ultricies_arcu_venenatis2".tr +
-                                      "msg_ultricies_arcu_venenatis2".tr,
+                                  detailModel.title +
+                                      detailModel.image +
+                                      detailModel.title +
+                                      detailModel.image +
+                                      detailModel.title +
+                                      detailModel.image,
                                   expandText: "lbl_read_more".tr,
                                   collapseText: 'Read less',
                                   maxLines: 3,
                                   linkColor: appTheme.buttonColor,
-                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                    color:appTheme.black900
-                                  ),
+                                  style: theme.textTheme.bodyLarge!
+                                      .copyWith(color: appTheme.black900),
                                   linkStyle:
                                       theme.textTheme.titleMedium!.copyWith(
                                     color: appTheme.buttonColor,
@@ -192,10 +201,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 24.v),
-                                Text("lbl_facilities".tr,
-                                    style: theme.textTheme.titleLarge!.copyWith(
-                                        color:appTheme.black900
-                                    ),),
+                                // buildFacilities(),
+                                Text(
+                                  "lbl_facilities".tr,
+                                  style: theme.textTheme.titleLarge!
+                                      .copyWith(color: appTheme.black900),
+                                ),
                                 SizedBox(height: 19.v),
                                 GridView.builder(
                                   primary: false,
@@ -229,13 +240,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                               height: 40.v,
                                               width: 40.h,
                                               decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: appTheme.whiteA700
-                                              ),
+                                                  shape: BoxShape.circle,
+                                                  color: appTheme.whiteA700),
                                               child: Padding(
-                                                padding:  EdgeInsets.all(10.h),
+                                                padding: EdgeInsets.all(10.h),
                                                 child: CustomImageView(
                                                   imagePath: model.icon,
+                                                  // imagePath: detailModel.image,
                                                   height: 24.adaptSize,
                                                   width: 24.adaptSize,
                                                 ),
@@ -250,7 +261,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 style: CustomTextStyles
                                                     .bodyMediumOnErrorContainer
                                                     .copyWith(
-                                                        color: appTheme.black900)),
+                                                        color:
+                                                            appTheme.black900)),
                                           ],
                                         ),
                                       ),
@@ -258,10 +270,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                   },
                                 ),
                                 SizedBox(height: 26.v),
-                                Text("lbl_ground_list".tr,
-                                    style: theme.textTheme.titleLarge!.copyWith(
-                                        color:appTheme.black900
-                                    ),),
+                                Text(
+                                  "lbl_ground_list".tr,
+                                  style: theme.textTheme.titleLarge!
+                                      .copyWith(color: appTheme.black900),
+                                ),
                                 SizedBox(height: 19.v),
                                 GridView.builder(
                                   primary: false,
@@ -299,10 +312,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                       return ReviewItemWidget(model);
                                     }),
                                 SizedBox(height: 26.v),
-                                Text("msg_our_popular_features".tr,
-                                    style: theme.textTheme.titleLarge!.copyWith(
-                                        color:appTheme.black900
-                                    ),),
+                                Text(
+                                  "msg_our_popular_features".tr,
+                                  style: theme.textTheme.titleLarge!
+                                      .copyWith(color: appTheme.black900),
+                                ),
                                 SizedBox(height: 19.v),
                                 Padding(
                                     padding: EdgeInsets.only(right: 67.h),
@@ -326,7 +340,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   left: 12.h, top: 1.v),
                                               child: Text(
                                                   "lbl_hiring_partners".tr,
-                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                  style: theme
+                                                      .textTheme.bodyLarge!
+                                                      .copyWith(
                                                     color: appTheme.black900,
                                                   ))),
                                           Spacer(),
@@ -346,7 +362,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   EdgeInsets.only(left: 12.h),
                                               child: Text(
                                                   "lbl_miniature_field".tr,
-                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                  style: theme
+                                                      .textTheme.bodyLarge!
+                                                      .copyWith(
                                                     color: appTheme.black900,
                                                   )))
                                         ])),
@@ -372,7 +390,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                               padding:
                                                   EdgeInsets.only(left: 12.h),
                                               child: Text("lbl_grass_pitch".tr,
-                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                  style: theme
+                                                      .textTheme.bodyLarge!
+                                                      .copyWith(
                                                     color: appTheme.black900,
                                                   ))),
                                           Spacer(),
@@ -392,7 +412,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   EdgeInsets.only(left: 12.h),
                                               child: Text(
                                                   "msg_outdoor_indoor".tr,
-                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                  style: theme
+                                                      .textTheme.bodyLarge!
+                                                      .copyWith(
                                                     color: appTheme.black900,
                                                   )))
                                         ])),
@@ -414,7 +436,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                           padding: EdgeInsets.only(left: 12.h),
                                           child: Text(
                                               "msg_natural_grass_pitch".tr,
-                                              style: theme.textTheme.bodyLarge!.copyWith(
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
                                                 color: appTheme.black900,
                                               )))
                                     ]),
@@ -446,9 +469,9 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-
   /// Section Widget
   Widget buildReviews() {
+    final detailModel = detailController.detailModel.value;
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Expanded(
           child:
@@ -460,19 +483,18 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 24.adaptSize),
           Padding(
               padding: EdgeInsets.only(left: 7.h, top: 3.v),
-              child: Text("msg_4_5_140_reviews".tr,
+              child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
                   style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),
-        Text("msg_stadium_in_lights4".tr, style: CustomTextStyles.titleLarge22)
+        Text(detailModel.title, style: CustomTextStyles.titleLarge22)
       ])),
       Padding(
           padding: EdgeInsets.only(left: 21.h, bottom: 38.v),
-          child:
-              Text("lbl_100_00".tr, style: CustomTextStyles.titleLargePrimary))
+          child: Text("\$${detailModel.price}.00",
+              style: CustomTextStyles.titleLargePrimary))
     ]);
   }
-
 
   /// Section Widget
   Widget buildButtons() {
@@ -503,4 +525,72 @@ class _DetailScreenState extends State<DetailScreen> {
       AppRoutes.selectDateTimeScreen,
     );
   }
+
+
+  Widget buildFacilities() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "Facilities",
+        style: theme.textTheme.titleLarge!.copyWith(color: appTheme.black900),
+      ),
+      SizedBox(height: 19.v),
+      GridView.builder(
+        primary: false,
+        shrinkWrap: true,
+        itemCount: detailController.facilityList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          mainAxisSpacing: 16.h,
+          crossAxisSpacing: 16.h,
+        ),
+        itemBuilder: (context, index) {
+          DetailscreenItemModel model = detailController.facilityList[index];
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.h),
+              color: appTheme.textfieldFillColor,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40.v,
+                    width: 40.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: appTheme.whiteA700,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.h),
+                      child: CustomImageView(
+                        imagePath: model.icon,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.v),
+                  Text(
+                    model.title!,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    style: CustomTextStyles.bodyMediumOnErrorContainer.copyWith(
+                      color: appTheme.black900,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ],
+  );
+}
+
 }

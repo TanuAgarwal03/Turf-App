@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_icon_button.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_search_view.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../categories_screen/controller/categories_controller.dart';
 import '../categories_screen/models/categories_item_model.dart';
 import '../categories_screen/widgets/categories_item_widget.dart';
@@ -15,7 +17,6 @@ import '../nearby_you_screen/models/nearby_you_model.dart';
 import '../popular_ground_screen/controller/popular_ground_controller.dart';
 import '../popular_ground_screen/models/popularground_item_model.dart';
 import 'controller/home_controller.dart';
-import 'models/home_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,30 +26,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeController controller = Get.put(HomeController(HomeModel().obs));
+  HomeController controller = Get.put(HomeController());
   CategoriesController categoriesController = Get.put(CategoriesController());
   NearbyYouController nearbyYouController = Get.put(NearbyYouController());
   PopularGroundController popularGroundController =
       Get.put(PopularGroundController());
-  // String storedValue = '';
+      final ApiService apiService = ApiService();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _loadStoredValue();
-  // }
-
-  // Future<void> _loadStoredValue() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     storedValue = prefs.getString('username') ?? ''; // Replace 'key' with your actual key
-  //   });
-  // }
+    @override
+  void initState() {
+    super.initState();
+    // controller.turfList();
+    controller.turfList();
+  }
   
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    return Column(children: [
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
       buildAppBar(),
       SizedBox(height: 16.v),
       _buildSearchbar(),
@@ -98,19 +96,19 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 12.h),
                 child: Row(
                   children: List.generate(
-                      popularGroundController.populerGround.length > 2
+                      popularGroundController.popularGround.length > 2
                           ? 2
-                          : popularGroundController.populerGround.length,
+                          : popularGroundController.popularGround.length,
                       (index) {
                     PopulargroundItemModel data =
-                        popularGroundController.populerGround[index];
+                        popularGroundController.popularGround[index];
                     return animationfunction(
                         index,
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.h),
                           child: GestureDetector(
                             onTap: () {
-                              popularGroundController.currentimage =
+                              popularGroundController.currentImage =
                                   data.image!;
                               popularGroundController.update();
                               Get.toNamed(AppRoutes.detailScreen);
@@ -184,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                                         Row(
                                           children: [
                                             CustomImageView(
-                                              imagePath: data.isBedMintan!
+                                              imagePath: data.isBadminton!
                                                   ? ImageConstant
                                                       .imgShuttlecock31
                                                   : ImageConstant
@@ -194,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             SizedBox(width: 8.h),
                                             CustomImageView(
-                                              imagePath: data.iscricket!
+                                              imagePath: data.isCricket!
                                                   ? ImageConstant
                                                       .imgBall1LightGreen400
                                                   : ImageConstant
@@ -204,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             SizedBox(width: 8.h),
                                             CustomImageView(
-                                              imagePath: data.isfootball!
+                                              imagePath: data.isFootball!
                                                   ? ImageConstant.imgBasketBall
                                                   : ImageConstant.imgBasketBall,
                                               height: 24.adaptSize,
@@ -250,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.symmetric(horizontal: 8.h),
                             child: GestureDetector(
                               onTap: () {
-                                popularGroundController.currentimage =
+                                popularGroundController.currentImage =
                                     data.image!;
                                 popularGroundController.update();
                                 Get.toNamed(AppRoutes.detailScreen);
@@ -305,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 16.v)
+                                        SizedBox(height: 16.v),
                                       ])),
                             )));
                   }),
@@ -315,7 +313,8 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 24.v),
           ],
         ),
-      )
+      ),
+      // FloatingActionButton(onPressed: (){} , child: Icon(Icons.add),backgroundColor: Colors.blue,)
     ]);
   }
 
@@ -341,6 +340,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+void fetchUserProfile() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int userId = prefs.getInt('user_id') ?? 0;
+  final response = await apiService.getAPI('user_profile?user_id=${userId}');
+  if (response.statusCode == 200) {
+    var data = jsonDecode(response.body);
+    String firstName = data['first_name'] ?? '';
+    print(firstName);
+    print(response.body);
+  }
+  else{
+    print('error loading profile');
+  }
+}
   /// Section Widget
   Widget _buildSearchbar() {
     return Padding(

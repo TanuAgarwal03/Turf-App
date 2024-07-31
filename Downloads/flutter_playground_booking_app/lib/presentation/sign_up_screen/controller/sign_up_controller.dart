@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
@@ -9,7 +10,7 @@ class SignUpController extends GetxController {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  final ApiService apiService = ApiService();
   Rx<SignUpModel> signUpModelObj = SignUpModel().obs;
   Rx<String?> errorMessage = Rx<String?>(null);
   Rx<bool> isShowPassword = true.obs;
@@ -25,7 +26,8 @@ class SignUpController extends GetxController {
 
   Future<void> registerUser() async {
     String url =
-        'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=Priyanshu &lastname=Kast&email=priyanshuy@gmail.com&password=abCD@12345678&role=user';
+        'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=user';
+        
     try {
       var response = await http.post(
         Uri.parse(url),
@@ -39,15 +41,12 @@ class SignUpController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        // var jsonResponse = json.decode(response.body);
-        // Handle the success response here
         Get.snackbar('Success', 'User registered successfully',
             duration: Duration(seconds: 4),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.teal[800]);
       } else {
         var errorResponse = json.decode(response.body);
-        // Handle the error response here
         errorMessage.value =
             errorResponse['message'] ?? 'Failed to register user';
         Get.snackbar(

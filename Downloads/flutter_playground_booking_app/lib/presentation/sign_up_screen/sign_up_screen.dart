@@ -189,7 +189,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   SignUpController controller = Get.put(SignUpController());
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  // String _selectedRole = 'User';
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -203,6 +203,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 36.v),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
@@ -236,7 +238,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 buildEmail(),
                 SizedBox(height: 25.v),
                 buildPassword(),
+            //     SizedBox(height: 30.v),
+            //     Text('Choose your role :'),
+            //     Row(
+            //   children: [
+            //     Expanded(
+            //       child: RadioListTile<String>(
+            //         title: Text('Owner'),
+            //         value: 'Owner',
+            //         groupValue: _selectedRole,
+            //         onChanged: (String? value) {
+            //           setState(() {
+            //             _selectedRole = value!;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //     Expanded(
+            //       child: RadioListTile<String>(
+            //         title: Text('User'),
+            //         value: 'User',
+            //         groupValue: _selectedRole,
+            //         onChanged: (String? value) {
+            //           setState(() {
+            //             _selectedRole = value!;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //   ],
+            // ),
                 SizedBox(height: 49.v),
+                
+                
                 buildSignUp(),
                 Obx(() {
                   if (controller.errorMessage.value != null) {

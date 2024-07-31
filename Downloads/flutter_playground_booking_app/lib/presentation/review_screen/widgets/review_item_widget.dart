@@ -29,7 +29,8 @@ class ReviewItemWidget extends StatelessWidget {
               Row(
                 children: [
                   CustomImageView(
-                    imagePath: reviewItemModelObj.image,
+                    // imagePath: reviewItemModelObj.image,
+                    imagePath: 'assets/images/img_avtar_1.svg',
                     height: 40.adaptSize,
                     width: 40.adaptSize,
                     radius: BorderRadius.circular(
@@ -42,24 +43,35 @@ class ReviewItemWidget extends StatelessWidget {
                       top: 13.v,
                       bottom: 6.v,
                     ),
-                    child: Text(
-                      reviewItemModelObj.userName!,
-                      style: CustomTextStyles.titleMedium16!.copyWith(
-                          color:appTheme.black900
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          reviewItemModelObj.firstName,
+                          style: CustomTextStyles.titleMedium16!.copyWith(
+                              color:appTheme.black900
+                          ),
+                        ),
+                        SizedBox(width: 2.0),
+                        Text(
+                          reviewItemModelObj.lastName,
+                          style: CustomTextStyles.titleMedium16!.copyWith(
+                              color:appTheme.black900
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 8.h,
-                      top: 13.v,
-                      bottom: 6.v,
-                    ),
-                    child: Text(
-                      reviewItemModelObj.time!,
-                      style: CustomTextStyles.bodyLargeGray60001,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(
+                  //     left: 8.h,
+                  //     top: 13.v,
+                  //     bottom: 6.v,
+                  //   ),
+                  //   child: Text(
+                  //     reviewItemModelObj.time!,
+                  //     style: CustomTextStyles.bodyLargeGray60001,
+                  //   ),
+                  // ),
                 ],
               ),
 
@@ -78,7 +90,7 @@ class ReviewItemWidget extends StatelessWidget {
                      bottom: 9.v,
                    ),
                    child: Text(
-                     reviewItemModelObj.noOfReview!,
+                     '${reviewItemModelObj.rating}.0',
                      style: theme.textTheme.bodyLarge!.copyWith(
                          color:appTheme.black900
                      ),
@@ -93,7 +105,7 @@ class ReviewItemWidget extends StatelessWidget {
             width: double.infinity,
             margin: EdgeInsets.only(right: 11.h),
             child:  Text(
-              reviewItemModelObj.reviewMSG!,
+              reviewItemModelObj.description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodyLarge!.copyWith(

@@ -1,21 +1,21 @@
-import '../../../core/app_export.dart';
-import 'review_item_model.dart';
+// import '../../../core/app_export.dart';
+// import 'review_item_model.dart';
 
 /// This class defines the variables used in the [review_screen],
 /// and is typically used to hold data that is passed between different parts of the application.
 class ReviewModel {
 
 
-  static List<ReviewItemModel> getReviewList(){
-    return [
-      ReviewItemModel(ImageConstant.imgEllipse15240x40,"Floyd Miles","2min ago","3.0","Qorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus."),
-      ReviewItemModel(ImageConstant.imgEllipse1521,"Wade Warren","20min ago","4.0","QIt is a long established fact that a reader will be distracted by the readable content of a page."),
-      ReviewItemModel(ImageConstant.imgEllipse1522,"Brooklyn Simmons","30min ago","4.5","There are many variations of passages of Lorem Ipsum available, but the majority have suffered."),
-      ReviewItemModel(ImageConstant.imgEllipse1523,"Dianne Russell","40min ago","4.0","All the Lorem Ipsum generators on the Internet tend to on the Internet. It uses a dictionary."),
-      ReviewItemModel(ImageConstant.imgEllipse1524,"Marvin McKinney","50min ago","3.5","It uses a dictionary of over 200 Latin words, combined with a handful."),
-      ReviewItemModel(ImageConstant.imgEllipse1525,"Albert Flores","56min ago","4.0","Qorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus."),
-    ];
-  }
+  // static List<ReviewItemModel> getReviewList(){
+  //   return [
+  //     ReviewItemModel(firstName :"Floyd Miles",rating: "3.0",description: "Qorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.", id: '01', title: 'review 1', lastName: 'Miles', status: 'approved'),
+  //     // ReviewItemModel(ImageConstant.imgEllipse1521,"Wade Warren","20min ago","4.0","QIt is a long established fact that a reader will be distracted by the readable content of a page."),
+  //     // ReviewItemModel(ImageConstant.imgEllipse1522,"Brooklyn Simmons","30min ago","4.5","There are many variations of passages of Lorem Ipsum available, but the majority have suffered."),
+  //     // ReviewItemModel(ImageConstant.imgEllipse1523,"Dianne Russell","40min ago","4.0","All the Lorem Ipsum generators on the Internet tend to on the Internet. It uses a dictionary."),
+  //     // ReviewItemModel(ImageConstant.imgEllipse1524,"Marvin McKinney","50min ago","3.5","It uses a dictionary of over 200 Latin words, combined with a handful."),
+  //     // ReviewItemModel(ImageConstant.imgEllipse1525,"Albert Flores","56min ago","4.0","Qorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus."),
+  //   ];
+  // }
 
 
 
