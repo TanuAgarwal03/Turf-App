@@ -109,8 +109,8 @@ class ThemeHelper {
         ),
       ),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateColor.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateColor.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return colorScheme.onSurface;
@@ -361,6 +361,8 @@ class PrimaryColors {
 
   // White
   Color get whiteA700 => Color(0XFFFFFFFE);
+
+  get primaryColor => null;
 }
 
 PrimaryColors get appTheme => ThemeHelper().themeColor();

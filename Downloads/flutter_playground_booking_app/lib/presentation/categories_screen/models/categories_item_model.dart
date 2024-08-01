@@ -1,38 +1,37 @@
-// import 'dart:ui';
-
-// /// This class is used in the [categories_item_widget] screen.
-
-// class CategoriesItemModel {
-
-//   String? icon;
-//   String? title;
-//   Color? bgColor;
-//   CategoriesItemModel(this.icon, this.title, this.bgColor);
-// }
-// import 'dart:convert';
-// import 'package:flutter/material.dart';
-
-// class CategoriesItemModel {
-//   String? icon;
-//   String? title;
-//   Color? bgColor;
-
-// CategoriesItemModel(String imgSoccer11, String s, Color footBollColor, {
-//     this.icon,
-//     this.title,
-//     this.bgColor,
-//   });
-//   factory CategoriesItemModel.fromJson(Map<String, dynamic> json) {
-//     return CategoriesItemModel(
-//       icon: json['icon'] ?? '',  // Adjust according to the API response
-//       title: json['title']['rendered'] ?? '',  // Adjust according to the API response
-//       bgColor: Colors.transparent,  // You may need to handle color differently
-//     );
-//   }
-// }
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
+String getAssetImagePath(String title) {
+  switch (title) {
+    case 'Badminton':
+      return 'assets/images/img_badminton_1.svg';
+    case 'Basketball':
+      return 'assets/images/basketball_icon.svg';
+      case 'Cricket':
+      return 'assets/images/img_cricket_1.svg';
+      case 'Football':
+      return 'assets/images/img_soccer_1.svg';
+      case 'Tennis':
+      return 'assets/images/img_tennis_ball_1.svg';
+      case 'VolleyBall':
+      return 'assets/images/img_volley_ball_1.svg';
+      case 'Kabaddi':
+      return 'assets/images/img_basketball_1.svg';
+      case 'Golf':
+      return 'assets/images/img_basketball_1.svg';
+      case 'Archery':
+      return 'assets/images/img_basketball_1.svg';
+      case 'Baseball':
+      return 'assets/images/img_beachball_1.svg';
+      case 'Biathlon':
+      return 'assets/images/img_biathlonist_1.svg';
+      case 'Shooting':
+      return 'assets/images/img_basketball_1.svg';
+      case 'Swimming Pool':
+      return 'assets/images/img_basketball_1.svg';
+    default:
+      return 'assets/images/img_avtar_1.svg';
+  }
+}
 
 class CategoriesItemModel {
   String? id; 
@@ -50,32 +49,10 @@ class CategoriesItemModel {
   factory CategoriesItemModel.fromJson(Map<String, dynamic> json) {
     return CategoriesItemModel(
       id: json['id']?.toString(),
-      icon: json['icon'] ?? '', // Adjust according to the API response
-      // icon: 'assets/images/${json['icon']}',
-      title: json['name'] ?? '', // Adjust according to the API response
-      bgColor: Colors.transparent, // Handle color as needed
-      // icon:_getIconFromTitle(json['name'] ?? ''),
+      icon : getAssetImagePath(json['name']),
+      title: json['name'] ?? '',
+      bgColor: Colors.transparent,
     );
   }
 
-
-
-  // static String _getIconFromTitle(String title) {
-  //   switch (title.toLowerCase()) {
-  //     case 'Badminton':
-  //       return 'assets/images/img_ellipse_225.png';
-  //     case 'tennis':
-  //       return 'assets/images/tennis.png';
-  //     case 'basketball':
-  //       return 'assets/images/basketball.png';
-  //     case 'volleyball':
-  //       return 'assets/images/volleyball.png';
-  //     case 'cricket':
-  //       return 'assets/images/cricket.png';
-  //     case 'kabaddi':
-  //       return 'assets/images/kabaddi.png';
-  //     default:
-  //       return 'assets/images/default.png';
-  //   }
-  // }
 }

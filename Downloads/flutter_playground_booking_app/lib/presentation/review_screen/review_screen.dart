@@ -170,7 +170,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
-import 'package:get/get.dart';
 import '../review_screen/widgets/review_item_widget.dart';
 import 'controller/review_controller.dart';
 import 'models/review_item_model.dart';

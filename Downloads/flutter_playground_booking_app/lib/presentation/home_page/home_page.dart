@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:flutter_playground_booking_app/presentation/detail_screen/detail_screen.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/custom_app_bar.dart';
@@ -67,8 +68,9 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisExtent: 118.v,
                     crossAxisCount: 4,
-                    mainAxisSpacing: 16.h,
-                    crossAxisSpacing: 16.h),
+                    // mainAxisSpacing: 16.h,
+                    // crossAxisSpacing: 16.h
+                    ),
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: categoriesController.categoriesData.length > 4
                     ? 4
@@ -108,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.symmetric(horizontal: 8.h),
                           child: GestureDetector(
                             onTap: () {
-                              popularGroundController.currentImage =
+                              popularGroundController.currentImage.value =
                                   data.image!;
                               popularGroundController.update();
                               Get.toNamed(AppRoutes.detailScreen);
@@ -248,10 +250,11 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.symmetric(horizontal: 8.h),
                             child: GestureDetector(
                               onTap: () {
-                                popularGroundController.currentImage =
+                                popularGroundController.currentImage.value =
                                     data.image!;
                                 popularGroundController.update();
                                 Get.toNamed(AppRoutes.detailScreen);
+                                DetailScreen();
                               },
                               child: Container(
                                   width: 298.h,

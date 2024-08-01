@@ -3,18 +3,12 @@ import '../models/mygrounds_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 
-// ignore: must_be_immutable
 class MygroundsItemWidget extends StatelessWidget {
-  MygroundsItemWidget(
-    this.mygroundsItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+  final MygroundsItemModel mygroundsItemModelObj;
 
-  MygroundsItemModel mygroundsItemModelObj;
+  MygroundsItemWidget(this.mygroundsItemModelObj, {Key? key}) : super(key: key);
 
-  var controller = Get.find<MyGroundsController>();
+  final MyGroundsController controller = Get.find<MyGroundsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +24,10 @@ class MygroundsItemWidget extends StatelessWidget {
             imagePath: mygroundsItemModelObj.image!,
             height: 90.adaptSize,
             width: 90.adaptSize,
-            radius: BorderRadius.circular(
-              16.h,
-            ),
+            radius: BorderRadius.circular(16.h),
           ),
           Padding(
-            padding: EdgeInsets.only(
-              left: 16.h,
-              top: 22.v,
-              bottom: 20.v,
-            ),
+            padding: EdgeInsets.only(left: 16.h, top: 22.v, bottom: 20.v),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -53,7 +41,6 @@ class MygroundsItemWidget extends StatelessWidget {
                   style: CustomTextStyles.bodyLargeGray60001.copyWith(
                     color: appTheme.gray60001,
                   ),
-
                 ),
               ],
             ),

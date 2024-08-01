@@ -44,7 +44,7 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
                  padding:  EdgeInsets.symmetric(vertical: 8.v),
                  child: GestureDetector(
                    onTap: (){
-                     popularGroundController.currentImage = data.image!;
+                    //  popularGroundController.currentImage = data.image!;
                      popularGroundController.update();
                      Get.toNamed(AppRoutes.detailScreen);
                    },

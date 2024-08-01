@@ -13,6 +13,7 @@ import 'controller/detail_controller.dart';
 import 'models/detailscreen_item_model.dart';
 import 'models/ground_list_model.dart';
 
+
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
 
@@ -30,8 +31,8 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    DetailScreen();
     detailController.fetchTurfData();
+    // DetailScreen();
   }
 
   @override
@@ -52,7 +53,7 @@ class _DetailScreenState extends State<DetailScreen> {
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: [ 
                     Expanded(
                         child: CustomScrollView(
                       shrinkWrap: true,
@@ -124,14 +125,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                         controller.update();
                                       },
                                       controller: controller.pageController,
-                                      itemCount: 2,
+                                      itemCount: 1,
                                       itemBuilder: (context, index) {
                                         return Hero(
                                           tag: popularGroundController
                                               .currentImage,
                                           child: CustomImageView(
                                             // imagePath: popularGroundController
-                                            //     .currentImage,
+                                            //     .currentImage.value,
                                             imagePath: detailModel.image,
                                             height: double.infinity,
                                             width: double.infinity,
@@ -312,135 +313,135 @@ class _DetailScreenState extends State<DetailScreen> {
                                       return ReviewItemWidget(model);
                                     }),
                                 SizedBox(height: 26.v),
-                                Text(
-                                  "msg_our_popular_features".tr,
-                                  style: theme.textTheme.titleLarge!
-                                      .copyWith(color: appTheme.black900),
-                                ),
-                                SizedBox(height: 19.v),
-                                Padding(
-                                    padding: EdgeInsets.only(right: 67.h),
-                                    child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              height: 10.adaptSize,
-                                              width: 10.adaptSize,
-                                              margin: EdgeInsets.only(
-                                                  top: 4.v, bottom: 6.v),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      theme.colorScheme.primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.h))),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 12.h, top: 1.v),
-                                              child: Text(
-                                                  "lbl_hiring_partners".tr,
-                                                  style: theme
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                    color: appTheme.black900,
-                                                  ))),
-                                          Spacer(),
-                                          Container(
-                                              height: 10.adaptSize,
-                                              width: 10.adaptSize,
-                                              margin: EdgeInsets.only(
-                                                  top: 4.v, bottom: 6.v),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      theme.colorScheme.primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.h))),
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 12.h),
-                                              child: Text(
-                                                  "lbl_miniature_field".tr,
-                                                  style: theme
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                    color: appTheme.black900,
-                                                  )))
-                                        ])),
-                                SizedBox(height: 19.v),
-                                Padding(
-                                    padding: EdgeInsets.only(right: 51.h),
-                                    child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              height: 10.adaptSize,
-                                              width: 10.adaptSize,
-                                              margin: EdgeInsets.only(
-                                                  top: 3.v, bottom: 6.v),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      theme.colorScheme.primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.h))),
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 12.h),
-                                              child: Text("lbl_grass_pitch".tr,
-                                                  style: theme
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                    color: appTheme.black900,
-                                                  ))),
-                                          Spacer(),
-                                          Container(
-                                              height: 10.adaptSize,
-                                              width: 10.adaptSize,
-                                              margin: EdgeInsets.only(
-                                                  top: 3.v, bottom: 6.v),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      theme.colorScheme.primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.h))),
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 12.h),
-                                              child: Text(
-                                                  "msg_outdoor_indoor".tr,
-                                                  style: theme
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                    color: appTheme.black900,
-                                                  )))
-                                        ])),
-                                SizedBox(height: 20.v),
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          height: 10.adaptSize,
-                                          width: 10.adaptSize,
-                                          margin: EdgeInsets.only(
-                                              top: 3.v, bottom: 6.v),
-                                          decoration: BoxDecoration(
-                                              color: theme.colorScheme.primary,
-                                              borderRadius:
-                                                  BorderRadius.circular(5.h))),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 12.h),
-                                          child: Text(
-                                              "msg_natural_grass_pitch".tr,
-                                              style: theme.textTheme.bodyLarge!
-                                                  .copyWith(
-                                                color: appTheme.black900,
-                                              )))
-                                    ]),
+                                // Text(
+                                //   "msg_our_popular_features".tr,
+                                //   style: theme.textTheme.titleLarge!
+                                //       .copyWith(color: appTheme.black900),
+                                // ),
+                                // SizedBox(height: 19.v),
+                                // Padding(
+                                //     padding: EdgeInsets.only(right: 67.h),
+                                //     child: Row(
+                                //         crossAxisAlignment:
+                                //             CrossAxisAlignment.start,
+                                //         children: [
+                                //           Container(
+                                //               height: 10.adaptSize,
+                                //               width: 10.adaptSize,
+                                //               margin: EdgeInsets.only(
+                                //                   top: 4.v, bottom: 6.v),
+                                //               decoration: BoxDecoration(
+                                //                   color:
+                                //                       theme.colorScheme.primary,
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(
+                                //                           5.h))),
+                                //           Padding(
+                                //               padding: EdgeInsets.only(
+                                //                   left: 12.h, top: 1.v),
+                                //               child: Text(
+                                //                   "lbl_hiring_partners".tr,
+                                //                   style: theme
+                                //                       .textTheme.bodyLarge!
+                                //                       .copyWith(
+                                //                     color: appTheme.black900,
+                                //                   ))),
+                                //           Spacer(),
+                                //           Container(
+                                //               height: 10.adaptSize,
+                                //               width: 10.adaptSize,
+                                //               margin: EdgeInsets.only(
+                                //                   top: 4.v, bottom: 6.v),
+                                //               decoration: BoxDecoration(
+                                //                   color:
+                                //                       theme.colorScheme.primary,
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(
+                                //                           5.h))),
+                                //           Padding(
+                                //               padding:
+                                //                   EdgeInsets.only(left: 12.h),
+                                //               child: Text(
+                                //                   "lbl_miniature_field".tr,
+                                //                   style: theme
+                                //                       .textTheme.bodyLarge!
+                                //                       .copyWith(
+                                //                     color: appTheme.black900,
+                                //                   )))
+                                //         ])),
+                                // SizedBox(height: 19.v),
+                                // Padding(
+                                //     padding: EdgeInsets.only(right: 51.h),
+                                //     child: Row(
+                                //         crossAxisAlignment:
+                                //             CrossAxisAlignment.start,
+                                //         children: [
+                                //           Container(
+                                //               height: 10.adaptSize,
+                                //               width: 10.adaptSize,
+                                //               margin: EdgeInsets.only(
+                                //                   top: 3.v, bottom: 6.v),
+                                //               decoration: BoxDecoration(
+                                //                   color:
+                                //                       theme.colorScheme.primary,
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(
+                                //                           5.h))),
+                                //           Padding(
+                                //               padding:
+                                //                   EdgeInsets.only(left: 12.h),
+                                //               child: Text("lbl_grass_pitch".tr,
+                                //                   style: theme
+                                //                       .textTheme.bodyLarge!
+                                //                       .copyWith(
+                                //                     color: appTheme.black900,
+                                //                   ))),
+                                //           Spacer(),
+                                //           Container(
+                                //               height: 10.adaptSize,
+                                //               width: 10.adaptSize,
+                                //               margin: EdgeInsets.only(
+                                //                   top: 3.v, bottom: 6.v),
+                                //               decoration: BoxDecoration(
+                                //                   color:
+                                //                       theme.colorScheme.primary,
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(
+                                //                           5.h))),
+                                //           Padding(
+                                //               padding:
+                                //                   EdgeInsets.only(left: 12.h),
+                                //               child: Text(
+                                //                   "msg_outdoor_indoor".tr,
+                                //                   style: theme
+                                //                       .textTheme.bodyLarge!
+                                //                       .copyWith(
+                                //                     color: appTheme.black900,
+                                //                   )))
+                                //         ])),
+                                // SizedBox(height: 20.v),
+                                // Row(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Container(
+                                //           height: 10.adaptSize,
+                                //           width: 10.adaptSize,
+                                //           margin: EdgeInsets.only(
+                                //               top: 3.v, bottom: 6.v),
+                                //           decoration: BoxDecoration(
+                                //               color: theme.colorScheme.primary,
+                                //               borderRadius:
+                                //                   BorderRadius.circular(5.h))),
+                                //       Padding(
+                                //           padding: EdgeInsets.only(left: 12.h),
+                                //           child: Text(
+                                //               "msg_natural_grass_pitch".tr,
+                                //               style: theme.textTheme.bodyLarge!
+                                //                   .copyWith(
+                                //                 color: appTheme.black900,
+                                //               )))
+                                //     ]),
                               ],
                             ),
                           ]),
@@ -483,8 +484,11 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 24.adaptSize),
           Padding(
               padding: EdgeInsets.only(left: 7.h, top: 3.v),
-              child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
+              child: Text(" 4.5 Ratings ",
                   style: CustomTextStyles.bodyLargeGray60001))
+
+              // child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
+              //     style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),
         Text(detailModel.title, style: CustomTextStyles.titleLarge22)

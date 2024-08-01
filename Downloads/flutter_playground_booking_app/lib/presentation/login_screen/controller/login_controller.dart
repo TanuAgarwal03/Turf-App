@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/routes/app_routes.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -10,6 +11,7 @@ import '../models/login_model.dart';
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  ApiService apiService = ApiService();
 
   Rx<LoginModel> loginModelObj = LoginModel().obs;
   Rx<bool> isShowPassword = true.obs;
@@ -41,18 +43,25 @@ class LoginController extends GetxController {
 
     if (isValid) {
       try {
-        final response = await http.post(
-          Uri.parse(
-            'https://lytechxagency.website/turf/wp-json/wp/v1/login?password=${passwordController.text}&username=${emailController.text}',
-          ),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode({
+        final response = await apiService.postAPI(
+          'login?password=${passwordController.text}&username=${emailController.text}' ,
+          {
             'username': emailController.text,
             'password': passwordController.text,
-          }),
+          }
         );
+        // final response = await http.post(
+        //   Uri.parse(
+        //     'https://lytechxagency.website/turf/wp-json/wp/v1/login?password=${passwordController.text}&username=${emailController.text}',
+        //   ),
+        //   // headers: <String, String>{
+        //   //   'Content-Type': 'application/json; charset=UTF-8',
+        //   // },
+        //   body: jsonEncode({
+        //     'username': emailController.text,
+        //     'password': passwordController.text,
+        //   }),
+        // );
         print('Response body: ${response.body}');
         if (response.statusCode == 200) {
           // Save response and credentials to local storage

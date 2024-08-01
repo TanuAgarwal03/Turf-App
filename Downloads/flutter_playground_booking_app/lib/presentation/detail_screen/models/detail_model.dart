@@ -12,25 +12,25 @@ class DetailModel {
   final String locationUrl;
   final List<Facility> facilities;
   final List<Review> reviews;
-    // final List<GroundListModel> groundList; // Add this line if groundList is part of the model
+  final List<GroundListModel> groundList; // Add this line if groundList is part of the model
 
-  DetailModel(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.image,
-      required this.address,
-      required this.price,
-      required this.locationUrl,
-      required this.facilities,
-      required this.reviews,
-      // required this.groundList, // Add this line
-      });
-
+  DetailModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.image,
+    required this.address,
+    required this.price,
+    required this.locationUrl,
+    required this.facilities,
+    required this.reviews,
+    required this.groundList, // Add this line
+  });
 
   factory DetailModel.fromJson(Map<String, dynamic> json) {
     var facilitiesJson = json['facilities'] as List;
     var reviewsJson = json['review'] as List;
+    var groundList = json['typeofgrounds'] as List;
 
     return DetailModel(
       id: json['id'],
@@ -42,7 +42,7 @@ class DetailModel {
       locationUrl: json['location_url'],
       facilities: facilitiesJson.map((e) => Facility.fromJson(e)).toList(),
       reviews: reviewsJson.map((e) => Review.fromJson(e)).toList(),
-      // groundList: (json['ground_list'] as List).map((item) => GroundListModel.fromJson(item)).toList(), // Update this
+      groundList: groundList.map((e) => GroundListModel.fromJson(e)).toList(),// Update this
     );
   }
 
@@ -66,7 +66,6 @@ class DetailModel {
     ];
   }
 }
-
 
 class Facility {
   final String listOfAminities;

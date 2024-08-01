@@ -142,7 +142,6 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'controller/write_a_review_controller.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';

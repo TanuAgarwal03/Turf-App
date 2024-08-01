@@ -1,15 +1,4 @@
 
-/// This class is used in the [popularground_item_widget] screen.
-
-// class PopulargroundItemModel {
-//  String? image;
-//   String? title;
-//   String? location;
-//   bool? isBadminton;
-//   bool? iscricket;
-//   bool? isfootball;
-//  PopulargroundItemModel(this.image, this.title, this.location,this.isBadminton, this.iscricket, this.isfootball);
-// }
 class PopulargroundItemModel {
   String? image;
   String? title;
@@ -18,16 +7,29 @@ class PopulargroundItemModel {
   bool? isCricket;
   bool? isFootball;
 
-  PopulargroundItemModel({this.image, this.title, this.location, this.isBadminton, this.isCricket, this.isFootball});
+  PopulargroundItemModel({
+    this.image,
+    this.title,
+    this.location,
+    this.isBadminton,
+    this.isCricket,
+    this.isFootball,
+  });
 
   factory PopulargroundItemModel.fromJson(Map<String, dynamic> json) {
+    List<String> facilities = List<String>.from([
+        json['facilities_0_list_of_aminities'],
+        json['facilities_1_list_of_aminities'],
+        json['facilities_2_list_of_aminities'],
+        json['facilities_3_list_of_aminities']
+      ].where((element) => element != null && element.isNotEmpty));
     return PopulargroundItemModel(
-      image: json['image'],
-      title: json['title'],
+      image: json['turf_image'],
+      title: json['title']['rendered'],
       location: json['location'],
-      isBadminton: json['isBadminton'],
-      isCricket: json['isCricket'],
-      isFootball: json['isFootball'],
+      isBadminton: facilities.contains('badminton'),
+      isCricket: facilities.contains('cricket'),
+      isFootball: facilities.contains('football'),
     );
   }
 }
