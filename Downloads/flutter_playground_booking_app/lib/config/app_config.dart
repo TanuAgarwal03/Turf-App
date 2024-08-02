@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   final String baseUrl = 'https://lytechxagency.website/turf/wp-json/wp/v1';
+  final String baseUrl2 = 'https://lytechxagency.website/turf/wp-json/wp/v2';
 
 Future<int> getUserId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,7 +34,17 @@ Future<int> getUserId() async {
         );
         return response;
       }
-    
+    Future<http.Response> getApi(String endpoint) async {
+        // final userId = await getUserId();
+        final response = await http.get(
+          Uri.parse('$baseUrl2/$endpoint'),
+          headers: {
+            // 'Authorization': 'Token $token',
+            'Content-Type': 'application/json',
+          },
+        );
+        return response;
+      }
     // POST API
     Future<dynamic> postAPI(String endpoint ,Map<String,dynamic> body) async {
       // int userId = await getUserId();

@@ -1,22 +1,23 @@
 
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/presentation/foot_ball_screen/models/foot_ball_data.dart';
 import 'package:flutter_playground_booking_app/presentation/foot_ball_screen/models/foot_ball_model.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class FootBallController extends GetxController {
   var footBallList = <FootBallModel>[].obs;
+  ApiService apiService = ApiService();
 
 
 Future<void> fetchFootBallData(int categoryId) async {
   print('method called with categoryId: $categoryId');
-  
-  final response = await http.get(
-    // Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/turf?categories=$categoryId'),
-    Uri.parse(
-          'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard&categories=$categoryId')
-  );
+  final response = await apiService.getApi('turf?&acf_format=standard&categories=$categoryId');
+  // final response = await http.get(
+  //   Uri.parse(
+  //         'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard&categories=$categoryId')
+  // );
   
   print(response.body);
   

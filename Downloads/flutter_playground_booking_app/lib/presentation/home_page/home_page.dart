@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                                   Get.toNamed(AppRoutes.detailScreen , arguments: data.id);
                                 },
                                 child: Container(
-                                  width: 260.h,
+                                  width: 240.h,
                                   decoration: AppDecoration.fillGray.copyWith(
                                     color: appTheme.textfieldFillColor,
                                     borderRadius:
@@ -407,35 +407,30 @@ class _HomePageState extends State<HomePage> {
     ]);
   }
 
-  /// Navigates to the notificationEmptyScreen when the action is triggered.
   onTapIconButton() {
     Get.toNamed(
       AppRoutes.notificationEmptyScreen,
     );
   }
 
-  /// Navigates to the filterScreen when the action is triggered.
   onTapBtnIconButton() {
     Get.toNamed(
       AppRoutes.filterScreen,
     );
   }
 
-  /// Navigates to the categoriesScreen when the action is triggered.
   onTapTxtViewAll() {
     Get.toNamed(
       AppRoutes.categoriesScreen,
     );
   }
 
-  /// Navigates to the popularGroundScreen when the action is triggered.
   onTapTxtViewAll1() {
     Get.toNamed(
       AppRoutes.popularGroundScreen,
     );
   }
 
-  /// Navigates to the nearbyYouScreen when the action is triggered.
   onTapTxtViewAll2() {
     Get.toNamed(
       AppRoutes.nearbyYouScreen,

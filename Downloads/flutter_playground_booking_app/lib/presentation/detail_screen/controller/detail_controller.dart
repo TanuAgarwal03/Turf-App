@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/detail_model.dart';
 import '../models/detailscreen_item_model.dart';
 import '../models/ground_list_model.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
 
@@ -50,21 +50,19 @@ class DetailController extends GetxController {
 
 Future<void> fetchTurfData(int turfId) async {
     try {
-      final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/$turfId'));
+      final response = await apiService.getAPI('get-turf/$turfId');
+      // final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/$turfId'));
       print("Turf ID: $turfId");
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         detailModel.value = DetailModel.fromJson(data);
         print('Loading data');
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        // facilityList.value = detailModel.value.facilities.cast<DetailscreenItemModel>();
         groundList.value = detailModel.value.groundList;
       } else {
-        // Get.snackbar("Error", "Failed to load data");
         print('error loading data');
       }
     } catch (e) {
-      // Get.snackbar("Error", "An error occurred: $e");
       print('Exception $e');
     }
   }
