@@ -36,9 +36,7 @@ class DetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // final turfId = Get.arguments as int;
     _loadTurfId();
-    // fetchTurfData();
   }
   Future<void> _loadTurfId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -62,10 +60,11 @@ Future<void> fetchTurfData(int turfId) async {
         // facilityList.value = detailModel.value.facilities.cast<DetailscreenItemModel>();
         groundList.value = detailModel.value.groundList;
       } else {
-        Get.snackbar("Error", "Failed to load data");
+        // Get.snackbar("Error", "Failed to load data");
+        print('error loading data');
       }
     } catch (e) {
-      Get.snackbar("Error", "An error occurred: $e");
+      // Get.snackbar("Error", "An error occurred: $e");
       print('Exception $e');
     }
   }

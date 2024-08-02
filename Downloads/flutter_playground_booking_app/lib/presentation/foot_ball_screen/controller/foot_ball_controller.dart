@@ -13,7 +13,9 @@ Future<void> fetchFootBallData(int categoryId) async {
   print('method called with categoryId: $categoryId');
   
   final response = await http.get(
-    Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/turf?categories=$categoryId'),
+    // Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/turf?categories=$categoryId'),
+    Uri.parse(
+          'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard&categories=$categoryId')
   );
   
   print(response.body);

@@ -79,7 +79,7 @@ class FootBallModel {
     return FootBallModel(
       id: json['id'] as int?,
       title: json['title']['rendered'] as String?,
-      turfImage: json['turf_image'] as String?,
+      turfImage: json['acf']['turf_image'] as String?,
       address: json['acf']['address'] as String?,
       description: json['acf']['description'] as String?,
       price: json['acf']['price'] as String?,
