@@ -4,7 +4,6 @@ import 'controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -44,14 +43,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "lbl_john_abram".tr,
+                        controller.profileModelObj.value.firstName + controller.profileModelObj.value.lastName ,
                         style: theme.textTheme.titleLarge!.copyWith(
                           color: appTheme.black900,
                         ),
                       ),
                       SizedBox(height: 6.v),
                       Text(
-                        "msg_johnabram_gmail_com".tr,
+                        controller.profileModelObj.value.email,
                         style: theme.textTheme.bodyLarge!.copyWith(
                           color: appTheme.black900,
                         ),

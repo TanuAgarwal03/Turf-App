@@ -27,12 +27,17 @@ class _DetailScreenState extends State<DetailScreen> {
   PopularGroundController popularGroundController =
       Get.put(PopularGroundController());
   bool blockScroll = false;
+  final int turfId = Get.arguments ?? 0;
+  // int turfId =0;
+  
 
   @override
   void initState() {
     super.initState();
-    detailController.fetchTurfData();
+    detailController.fetchTurfData(turfId);
+    print(" Turf id in detail screen : $turfId");
     // DetailScreen();
+    // detailController._loadTurfId();
   }
 
   @override

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
@@ -32,293 +30,310 @@ class _HomePageState extends State<HomePage> {
   NearbyYouController nearbyYouController = Get.put(NearbyYouController());
   PopularGroundController popularGroundController =
       Get.put(PopularGroundController());
-      final ApiService apiService = ApiService();
+  final ApiService apiService = ApiService();
 
-    @override
+  @override
   void initState() {
     super.initState();
-    // controller.turfList();
     controller.turfList();
+    // popularGroundController.
   }
-  
+
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-      buildAppBar(),
-      SizedBox(height: 16.v),
-      _buildSearchbar(),
-      SizedBox(height: 24.v),
-      Expanded(
-        child: ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20.h, right: 20.h),
-              child: getViewAllRow("lbl_categories".tr, () {
-                Get.toNamed(AppRoutes.categoriesScreen);
-              }),
-            ),
-            SizedBox(height: 16.v),
-            GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20.h),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: 118.v,
-                    crossAxisCount: 4,
-                    // mainAxisSpacing: 16.h,
-                    // crossAxisSpacing: 16.h
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildAppBar(),
+          SizedBox(height: 16.v),
+          _buildSearchbar(),
+          SizedBox(height: 24.v),
+          Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                  child: getViewAllRow("lbl_categories".tr, () {
+                    Get.toNamed(AppRoutes.categoriesScreen);
+                  }),
+                ),
+                SizedBox(height: 16.v),
+                GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 20.h),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 140.v,
+                      crossAxisCount: 4,
                     ),
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: categoriesController.categoriesData.length > 4
-                    ? 4
-                    : categoriesController.categoriesData.length,
-                itemBuilder: (context, index) {
-                  CategoriesItemModel model =
-                      categoriesController.categoriesData[index];
-                  return animationfunction(
-                      index,
-                      CategoriesItemWidget(model, onTapFootball: () {
-                        Get.toNamed(AppRoutes.footBallScreen);
-                      }));
-                }),
-            SizedBox(height: 24.v),
-            Padding(
-              padding: EdgeInsets.only(left: 20.h, right: 20.h),
-              child: getViewAllRow("lbl_popular_ground".tr, () {
-                Get.toNamed(AppRoutes.popularGroundScreen);
-              }),
-            ),
-            SizedBox(height: 16.v),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.h),
-                child: Row(
-                  children: List.generate(
-                      popularGroundController.popularGround.length > 2
-                          ? 2
-                          : popularGroundController.popularGround.length,
-                      (index) {
-                    PopulargroundItemModel data =
-                        popularGroundController.popularGround[index];
-                    return animationfunction(
-                        index,
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.h),
-                          child: GestureDetector(
-                            onTap: () {
-                              popularGroundController.currentImage.value =
-                                  data.image!;
-                              popularGroundController.update();
-                              Get.toNamed(AppRoutes.detailScreen);
-                            },
-                            child: Container(
-                              width: 260.h,
-                              decoration: AppDecoration.fillGray.copyWith(
-                                color: appTheme.textfieldFillColor,
-                                borderRadius: BorderRadiusStyle.roundedBorder16,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Hero(
-                                    tag: data.image!,
-                                    child: CustomImageView(
-                                      imagePath: data.image,
-                                      height: 126.v,
-                                      width: double.infinity,
-                                      radius: BorderRadius.circular(
-                                        16.h,
-                                      ),
-                                      alignment: Alignment.topCenter,
-                                    ),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: categoriesController.categoriesData.length > 4
+                        ? 4
+                        : categoriesController.categoriesData.length,
+                    itemBuilder: (context, index) {
+                      CategoriesItemModel model =
+                          categoriesController.categoriesData[index];
+                      return animationfunction(
+                          index,
+                          CategoriesItemWidget(model, onTap: () async{
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setInt('categoryId', model.id);
+                            Get.toNamed(AppRoutes.footBallScreen, arguments: model.id);
+                          }));
+                    }),
+                SizedBox(height: 24.v),
+                Padding(
+                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                  child: getViewAllRow("lbl_popular_ground".tr, () {
+                    Get.toNamed(AppRoutes.popularGroundScreen);
+                  }),
+                ),
+                SizedBox(height: 16.v),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.h),
+                    child: Row(
+                      children: List.generate(
+                          popularGroundController.popularGround.length > 2
+                              ? 2
+                              : popularGroundController.popularGround.length,
+                          (index) {
+                        PopulargroundItemModel data =
+                            popularGroundController.popularGround[index];
+                        return animationfunction(
+                            index,
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.h),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final prefs = await SharedPreferences.getInstance();
+                                  await prefs.setInt('selectedTurfId', data.id ?? 0);
+                                  popularGroundController.currentImage.value =
+                                      data.image!;
+                                  popularGroundController.update();
+                                  Get.toNamed(AppRoutes.detailScreen , arguments: data.id);
+                                },
+                                child: Container(
+                                  width: 260.h,
+                                  decoration: AppDecoration.fillGray.copyWith(
+                                    color: appTheme.textfieldFillColor,
+                                    borderRadius:
+                                        BorderRadiusStyle.roundedBorder16,
                                   ),
-                                  SizedBox(height: 12.v),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 16.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Hero(
+                                        tag: data.image!,
+                                        child: CustomImageView(
+                                          fit: BoxFit.cover,
+                                          imagePath: data.image,
+                                          height: 126.v,
+                                          width: double.infinity,
+                                          radius: BorderRadius.circular(
+                                            16.h,
+                                          ),
+                                          alignment: Alignment.topCenter,
+                                        ),
+                                      ),
+                                      SizedBox(height: 12.v),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.h),
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data.title!,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: theme
+                                                      .textTheme.titleMedium!
+                                                      .copyWith(
+                                                    color: appTheme.black900,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4.5.v),
+                                                Row(
+                                                  children: [
+                                                    CustomImageView(
+                                                      color: appTheme.black900,
+                                                      imagePath: ImageConstant
+                                                          .imgIcLocation,
+                                                      height: 15.adaptSize,
+                                                      width: 15.adaptSize,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 5.h),
+                                                      child: Container(
+                                                        width: 175,
+                                                        child: Text(
+                                                          data.location!,
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: theme.textTheme
+                                                              .bodyMedium!
+                                                              .copyWith(
+                                                            color: appTheme
+                                                                .black900,
+                                                          )),
+                                                      )
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            // Row(
+                                            //   children: [
+                                            //     CustomImageView(
+                                            //       imagePath: data.isBadminton!
+                                            //           ? ImageConstant
+                                            //               .imgShuttlecock31
+                                            //           : ImageConstant
+                                            //               .imgShuttlecock1,
+                                            //       height: 24.adaptSize,
+                                            //       width: 24.adaptSize,
+                                            //     ),
+                                            //     SizedBox(width: 8.h),
+                                            //     CustomImageView(
+                                            //       imagePath: data.isCricket!
+                                            //           ? ImageConstant
+                                            //               .imgBall1LightGreen400
+                                            //           : ImageConstant
+                                            //               .imgTennisBall1,
+                                            //       height: 24.adaptSize,
+                                            //       width: 24.adaptSize,
+                                            //     ),
+                                            //     SizedBox(width: 8.h),
+                                            //     CustomImageView(
+                                            //       imagePath: data.isFootball!
+                                            //           ? ImageConstant.imgBasketBall
+                                            //           : ImageConstant.imgBasketBall,
+                                            //       height: 24.adaptSize,
+                                            //       width: 24.adaptSize,
+                                            //     ),
+                                            //   ],
+                                            // )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.5.v),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ));
+                      }),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.v),
+                Padding(
+                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                  child: getViewAllRow("lbl_nearby_you".tr, () {
+                    Get.toNamed(AppRoutes.nearbyYouScreen);
+                  }),
+                ),
+                SizedBox(height: 16.v),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.h),
+                    child: Row(
+                      children: List.generate(
+                          nearbyYouController.nearlyYoudata.length > 2
+                              ? 2
+                              : nearbyYouController.nearlyYoudata.length,
+                          (index) {
+                        NearbyYouModel data =
+                            nearbyYouController.nearlyYoudata[index];
+                        return animationfunction(
+                            index,
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.h),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    popularGroundController.currentImage.value =
+                                        data.image!;
+                                    popularGroundController.update();
+                                    Get.toNamed(AppRoutes.detailScreen);
+                                    DetailScreen();
+                                  },
+                                  child: Container(
+                                      width: 298.h,
+                                      decoration: AppDecoration.fillGray
+                                          .copyWith(
+                                              color:
+                                                  appTheme.textfieldFillColor,
+                                              borderRadius: BorderRadiusStyle
+                                                  .roundedBorder16),
+                                      child: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              data.title!,
-                                              style: theme
-                                                  .textTheme.titleMedium!
-                                                  .copyWith(
-                                                color: appTheme.black900,
-                                              ),
-                                            ),
-                                            SizedBox(height: 4.5.v),
-                                            Row(
-                                              children: [
-                                                CustomImageView(
-                                                  color: appTheme.black900,
-                                                  imagePath: ImageConstant
-                                                      .imgIcLocation,
-                                                  height: 20.adaptSize,
-                                                  width: 20.adaptSize,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.h),
-                                                  child: Text(data.location!,
-                                                      style: theme
-                                                          .textTheme.bodyMedium!
-                                                          .copyWith(
-                                                        color:
-                                                            appTheme.black900,
-                                                      )),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            CustomImageView(
-                                              imagePath: data.isBadminton!
-                                                  ? ImageConstant
-                                                      .imgShuttlecock31
-                                                  : ImageConstant
-                                                      .imgShuttlecock1,
-                                              height: 24.adaptSize,
-                                              width: 24.adaptSize,
-                                            ),
-                                            SizedBox(width: 8.h),
-                                            CustomImageView(
-                                              imagePath: data.isCricket!
-                                                  ? ImageConstant
-                                                      .imgBall1LightGreen400
-                                                  : ImageConstant
-                                                      .imgTennisBall1,
-                                              height: 24.adaptSize,
-                                              width: 24.adaptSize,
-                                            ),
-                                            SizedBox(width: 8.h),
-                                            CustomImageView(
-                                              imagePath: data.isFootball!
-                                                  ? ImageConstant.imgBasketBall
-                                                  : ImageConstant.imgBasketBall,
-                                              height: 24.adaptSize,
-                                              width: 24.adaptSize,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 16.5.v),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
-                  }),
-                ),
-              ),
-            ),
-            SizedBox(height: 24.v),
-            Padding(
-              padding: EdgeInsets.only(left: 20.h, right: 20.h),
-              child: getViewAllRow("lbl_nearby_you".tr, () {
-                Get.toNamed(AppRoutes.nearbyYouScreen);
-              }),
-            ),
-            SizedBox(height: 16.v),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.h),
-                child: Row(
-                  children: List.generate(
-                      nearbyYouController.nearlyYoudata.length > 2
-                          ? 2
-                          : nearbyYouController.nearlyYoudata.length, (index) {
-                    NearbyYouModel data =
-                        nearbyYouController.nearlyYoudata[index];
-                    return animationfunction(
-                        index,
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.h),
-                            child: GestureDetector(
-                              onTap: () {
-                                popularGroundController.currentImage.value =
-                                    data.image!;
-                                popularGroundController.update();
-                                Get.toNamed(AppRoutes.detailScreen);
-                                DetailScreen();
-                              },
-                              child: Container(
-                                  width: 298.h,
-                                  decoration: AppDecoration.fillGray.copyWith(
-                                      color: appTheme.textfieldFillColor,
-                                      borderRadius:
-                                          BorderRadiusStyle.roundedBorder16),
-                                  child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        buildSeventeen(
-                                            image: data.image!,
-                                            distance: data.diatance!),
-                                        SizedBox(height: 12.v),
-                                        Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.h),
-                                            child: Text(data.title!,
-                                                style: theme
-                                                    .textTheme.titleMedium!
-                                                    .copyWith(
-                                                        color: appTheme
-                                                            .black900))),
-                                        SizedBox(height: 5.v),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.h),
-                                          child: Row(
-                                            children: [
-                                              CustomImageView(
-                                                color: appTheme.black900,
-                                                imagePath:
-                                                    ImageConstant.imgIcLocation,
-                                                height: 20.adaptSize,
-                                                width: 20.adaptSize,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.h),
-                                                child: Text(data.location!,
+                                            buildSeventeen(
+                                                image: data.image!,
+                                                distance: data.diatance!),
+                                            SizedBox(height: 12.v),
+                                            Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 8.h),
+                                                child: Text(data.title!,
                                                     style: theme
-                                                        .textTheme.bodyMedium!
+                                                        .textTheme.titleMedium!
                                                         .copyWith(
-                                                      color: appTheme.black900,
-                                                    )),
+                                                            color: appTheme
+                                                                .black900))),
+                                            SizedBox(height: 5.v),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.h),
+                                              child: Row(
+                                                children: [
+                                                  CustomImageView(
+                                                    color: appTheme.black900,
+                                                    imagePath: ImageConstant
+                                                        .imgIcLocation,
+                                                    height: 20.adaptSize,
+                                                    width: 20.adaptSize,
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.h),
+                                                    child: Text(data.location!,
+                                                        maxLines: 2,
+                                                        style: theme.textTheme
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                color: appTheme
+                                                                    .black900,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip)),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 16.v),
-                                      ])),
-                            )));
-                  }),
+                                            ),
+                                            SizedBox(height: 16.v),
+                                          ])),
+                                )));
+                      }),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 24.v),
+              ],
             ),
-            SizedBox(height: 24.v),
-          ],
-        ),
-      ),
-      // FloatingActionButton(onPressed: (){} , child: Icon(Icons.add),backgroundColor: Colors.blue,)
-    ]);
+          ),
+        ]);
   }
 
   /// Section Widget
@@ -329,8 +344,8 @@ class _HomePageState extends State<HomePage> {
           height: 72.v,
           title: Column(children: [
             AppbarSubtitleOne(
-                // text: "lbl_hello_jane".tr +storedValue,
-                text: "lbl_hello_jane".tr,
+                // text: "lbl_hello_jane".tr,
+                text: 'Hello User',
                 margin: EdgeInsets.only(right: 79.h)),
             SizedBox(height: 5.v),
             AppbarSubtitle(text: "lbl_good_morning".tr)
@@ -343,20 +358,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-void fetchUserProfile() async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int userId = prefs.getInt('user_id') ?? 0;
-  final response = await apiService.getAPI('user_profile?user_id=${userId}');
-  if (response.statusCode == 200) {
-    var data = jsonDecode(response.body);
-    String firstName = data['first_name'] ?? '';
-    print(firstName);
-    print(response.body);
-  }
-  else{
-    print('error loading profile');
-  }
-}
   /// Section Widget
   Widget _buildSearchbar() {
     return Padding(

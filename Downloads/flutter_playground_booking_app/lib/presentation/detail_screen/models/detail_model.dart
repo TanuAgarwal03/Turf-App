@@ -1,4 +1,3 @@
-import '../../../core/app_export.dart';
 import 'detailscreen_item_model.dart';
 import 'ground_list_model.dart';
 
@@ -12,7 +11,7 @@ class DetailModel {
   final String locationUrl;
   final List<Facility> facilities;
   final List<Review> reviews;
-  final List<GroundListModel> groundList; // Add this line if groundList is part of the model
+  final List<GroundListModel> groundList;// Add this line if groundList is part of the model
 
   DetailModel({
     required this.id,
@@ -30,7 +29,7 @@ class DetailModel {
   factory DetailModel.fromJson(Map<String, dynamic> json) {
     var facilitiesJson = json['facilities'] as List;
     var reviewsJson = json['review'] as List;
-    var groundList = json['typeofgrounds'] as List;
+    var groundList = json['list_of_ground'] as List;
 
     return DetailModel(
       id: json['id'],
@@ -42,27 +41,17 @@ class DetailModel {
       locationUrl: json['location_url'],
       facilities: facilitiesJson.map((e) => Facility.fromJson(e)).toList(),
       reviews: reviewsJson.map((e) => Review.fromJson(e)).toList(),
-      groundList: groundList.map((e) => GroundListModel.fromJson(e)).toList(),// Update this
+      groundList: groundList.map((e) => GroundListModel.fromJson(e)).toList(),
     );
   }
 
   static List<DetailscreenItemModel> getFacilityList() {
     return [
-      DetailscreenItemModel(ImageConstant.imgParkingIcon, "Parking"),
-      DetailscreenItemModel(ImageConstant.imgCameraIcon, "Camera"),
-      DetailscreenItemModel(ImageConstant.imgWaaitingRoomIcon, "Waiting room"),
-      DetailscreenItemModel(ImageConstant.imgChangingRoomIcon, "Change room"),
     ];
   }
 
   static List<GroundListModel> getGroundList() {
     return [
-      GroundListModel(
-          ImageConstant.imgRectangle3463281, "Main ground", "3 Hour"),
-      GroundListModel(
-          ImageConstant.imgRectangle3463281107x110, "Futsal Ground", "1 Hour"),
-      GroundListModel(
-          ImageConstant.imgRectangle34632811, "Tenis ground", "2 Hour"),
     ];
   }
 }

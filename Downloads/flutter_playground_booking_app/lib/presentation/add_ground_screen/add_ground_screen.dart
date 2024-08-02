@@ -418,11 +418,11 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
             listOfGrounds.add({
               'ground_name': groundNameController.text,
               'time': groundTimeController.text,
-              'ground_image': groundImageController.text, // Keep it as a String
+              'ground_image': groundImageController.text,
             });
             controller.addGroundModelObj.update((model) {
               model?.listofGrounds =
-                  List.from(listOfGrounds); // Update the list in the model
+                  List.from(listOfGrounds);
             });
             print('Updated list of grounds in view: $listOfGrounds');
             print(
@@ -437,29 +437,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-//   Widget _buildAddGroundButton() {
-//   return Padding(
-//     padding: EdgeInsets.symmetric(horizontal: 20.h),
-//     child: CustomElevatedButton(
-//       text: "Add Ground",
-//       onPressed: () {
-//         setState(() {
-//           listOfGrounds.add({
-//             'ground_name': groundNameController.text,
-//             'time': groundTimeController.text,
-//             'ground_image': int.tryParse(groundImageController.text) ?? 0,
-//           });
-//           controller.listOfGrounds = listOfGrounds; // Update the controller list
-//           print('Updated list of grounds: $listOfGrounds');
-//         });
-//         // Clear the fields after adding
-//         // groundNameController.clear();
-//         // groundTimeController.clear();
-//         // groundImageController.clear();
-//       },
-//     ),
-//   );
-// }
   onTapContinue() {
     controller.createGround();
     Get.toNamed(

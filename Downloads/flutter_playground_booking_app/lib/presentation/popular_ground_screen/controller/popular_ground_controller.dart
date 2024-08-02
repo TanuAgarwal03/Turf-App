@@ -1,47 +1,11 @@
-// import 'package:flutter_playground_booking_app/core/app_export.dart';
-// // import 'package:flutter_playground_booking_app/presentation/popular_ground_screen/models/popular_ground_model.dart';
-
-// import '../models/popularground_item_model.dart';
-
-// // class PopularGroundController extends GetxController {
-// //   List<PopulargroundItemModel> populerGround =
-// //       PopularGroundModel.getPopularGroundData();
-// // String currentimage = "";
-// // }
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:get/get.dart';
-
-// class PopularGroundController extends GetxController {
-//   var popularGround = <PopulargroundItemModel>[].obs;
-//   String currentImage = "";
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchPopularGroundData();
-//   }
-
-//   void fetchPopularGroundData() async {
-//     final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/turf'));
-//     if (response.statusCode == 200) {
-//       print(response.body);
-//       var data = jsonDecode(response.body) as List;
-//       popularGround.value = data.map((json) => PopulargroundItemModel.fromJson(json)).toList();
-//     } else {
-//       // Handle error
-//       Get.snackbar("Error", "Failed to fetch data");
-//     }
-//   }
-// }
 import 'dart:convert';
-import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/popular_ground_screen/models/popularground_item_model.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class PopularGroundController extends GetxController {
-  RxString currentImage = ''.obs; 
   var popularGround = <PopulargroundItemModel>[].obs;
+  RxString currentImage = ''.obs; 
 
   @override
   void onInit() {
@@ -49,14 +13,29 @@ class PopularGroundController extends GetxController {
     fetchPopularGroundData();
   }
 
-  void fetchPopularGroundData() async {
-    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/turf'));
+  Future<void> fetchPopularGroundData() async {
+  final url = 'https://lytechxagency.website/turf/wp-json/wp/v1/turflist';
+  print('Calling API: $url');
+
+  try {
+    final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body) as List;
-      popularGround.value = data.map((json) => PopulargroundItemModel.fromJson(json)).toList();
+      print('API called successfully');
+      var data = jsonDecode(response.body);      
+      if (data is List) {
+        popularGround.value = data.map((json) => PopulargroundItemModel.fromJson(json)).toList();
+      } else {
+        Get.snackbar("Error", "Unexpected data format");
+      }
     } else {
-      // Handle error
+      print('Failed to fetch data: ${response.statusCode}');
       Get.snackbar("Error", "Failed to fetch data");
     }
+  } catch (e) {
+    print('Error occurred: $e');
+    Get.snackbar("Error", "Failed to fetch data: $e");
   }
 }
+
+}
+

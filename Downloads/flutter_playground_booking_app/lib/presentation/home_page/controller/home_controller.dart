@@ -102,7 +102,6 @@ class HomeController extends GetxController {
   TextEditingController searchController = TextEditingController();
   TextEditingController iclocationController = TextEditingController();
   TextEditingController iclocationController1 = TextEditingController();
-
   List<HomeModel> homeModelList = [];
 
   Future<List<HomeModel>> turfList() async {
@@ -116,7 +115,6 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         
-        // Clear the list before adding new data
         homeModelList.clear();
         
         // Add the single object to the list

@@ -1,11 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/profile_screen/models/profile_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-// // /// A controller class for the ProfileScreen.
-// // ///
-// // /// This class manages the state of the ProfileScreen, including the
-// // /// current profileModelObj
 class ProfileController extends GetxController {
   TextEditingController profileController = TextEditingController();
 
@@ -15,7 +15,29 @@ class ProfileController extends GetxController {
 
   TextEditingController profileController3 = TextEditingController();
 
-  Rx<ProfileModel> profileModelObj = ProfileModel().obs;
+  Rx<ProfileModel> profileModelObj = ProfileModel(email: '' , firstName: '' , lastName: '').obs;
+
+
+  @override 
+  void onInit() {
+    super.onInit();
+    fetchUserProfile();
+  }
+
+  Future<void> fetchUserProfile() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int user_id = prefs.getInt('user_id') ?? 7;
+    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/user_profile?user_id=$user_id'));
+    if(response.statusCode == 200) {
+      profileModelObj.value =
+          ProfileModel.fromJson(jsonDecode(response.body));
+      print(user_id);
+      print('User data fetched');
+      print(profileModelObj.value.firstName);
+    }else{
+      print('Failed to fetch user data');
+    }
+  }
 
   @override
   void onClose() {
@@ -26,51 +48,3 @@ class ProfileController extends GetxController {
     profileController3.dispose();
   }
 }
-// import 'dart:convert';
-// import 'dart:convert';
-// import 'package:flutter_playground_booking_app/config/app_config.dart';
-// import 'package:flutter_playground_booking_app/presentation/profile_screen/models/profile_model.dart';
-// import 'package:get/get.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:http/http.dart' as http;
-
-// class ProfileController extends GetxController {
-//   Rx<ProfileModel> userProfile = ProfileModel(
-//     firstName: '',
-//     lastName: '',
-//     email: '',
-//   ).obs;
-//   final ApiService apiService = ApiService();
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchUserProfile();
-//   }
-
-//   Future<void> fetchUserProfile() async {
-//     try {
-//       SharedPreferences prefs = await SharedPreferences.getInstance();
-//       int userId = prefs.getInt('user_id') ?? 0;
-//       final response = await apiService.getAPI('user_profile?user_id=${userId}');
-      
-//       // final response = await http.get(
-//       //   Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/user_profile?user_id=$userId'),
-//       //   headers: {
-//       //     'Content-Type': 'application/json',
-//       //   },
-//       // );
-
-//       if (response.statusCode == 200) {
-//         final data = jsonDecode(response.body);
-//         userProfile.value = ProfileModel.fromJson(data);
-//         print('profile data fetched successfully');
-//       } else {
-//         // Handle error
-//         print('Error fetching user profile: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Exception occurred: $e');
-//     }
-//   }
-// }

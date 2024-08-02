@@ -1,35 +1,39 @@
-
 class PopulargroundItemModel {
-  String? image;
+  int? id;
   String? title;
+  String? image;
   String? location;
-  bool? isBadminton;
-  bool? isCricket;
-  bool? isFootball;
+  String? description;
+  String? price;
 
   PopulargroundItemModel({
-    this.image,
+    this.id,
     this.title,
+    this.image,
     this.location,
-    this.isBadminton,
-    this.isCricket,
-    this.isFootball,
+    this.description,
+    this.price,
   });
 
   factory PopulargroundItemModel.fromJson(Map<String, dynamic> json) {
-    List<String> facilities = List<String>.from([
-        json['facilities_0_list_of_aminities'],
-        json['facilities_1_list_of_aminities'],
-        json['facilities_2_list_of_aminities'],
-        json['facilities_3_list_of_aminities']
-      ].where((element) => element != null && element.isNotEmpty));
     return PopulargroundItemModel(
-      image: json['turf_image'],
-      title: json['title']['rendered'],
-      location: json['location'],
-      isBadminton: facilities.contains('badminton'),
-      isCricket: facilities.contains('cricket'),
-      isFootball: facilities.contains('football'),
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      image: json['image'] as String?,
+      location: json['address'] as String?,
+      description: json['description'] as String?,
+      price: json['price'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'image': image,
+      'address': location,
+      'description': description,
+      'price': price,
+    };
   }
 }

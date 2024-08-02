@@ -4,6 +4,25 @@
 // /// and is typically used to hold data that is passed between different parts of the application.
 // // class HomeModel { }
 
+class UserModel{
+  final String firstName;
+
+  UserModel({
+    required this.firstName,
+  });
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      firstName: json['first_name'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'first_name': firstName,
+    };
+  }
+}
+
 class HomeModel {
   final int id;
   final String title;

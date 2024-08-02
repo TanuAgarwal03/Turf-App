@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +16,7 @@ class MyGroundsController extends GetxController {
 
   void fetchMyGrounds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int user_id = prefs.getInt('user_id') ?? 1;
+    int user_id = prefs.getInt('user_id') ?? 4;
     final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_turfs_ownerwise?user_id=$user_id'));
     
     if (response.statusCode == 200) {

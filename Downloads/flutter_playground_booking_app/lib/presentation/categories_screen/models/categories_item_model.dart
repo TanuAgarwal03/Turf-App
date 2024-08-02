@@ -34,13 +34,13 @@ String getAssetImagePath(String title) {
 }
 
 class CategoriesItemModel {
-  String? id; 
+  int id; 
   String? icon;
   String? title;
   Color? bgColor;
 
   CategoriesItemModel({
-    this.id,
+    required this.id,
     required this.icon,
     required this.title,
     required this.bgColor,
@@ -48,7 +48,8 @@ class CategoriesItemModel {
 
   factory CategoriesItemModel.fromJson(Map<String, dynamic> json) {
     return CategoriesItemModel(
-      id: json['id']?.toString(),
+      // id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
+      id: json['id'],
       icon : getAssetImagePath(json['name']),
       title: json['name'] ?? '',
       bgColor: Colors.transparent,

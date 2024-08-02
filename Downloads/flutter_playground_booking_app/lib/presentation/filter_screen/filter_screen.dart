@@ -65,7 +65,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           categoriesController.categoriesData[index];
                       return animationfunction(
                           index,
-                          CategoriesItemWidget(model, onTapFootball: () {
+                          CategoriesItemWidget(model, onTap: () {
                             Get.toNamed(AppRoutes.footBallScreen);
                           }));
                     }),

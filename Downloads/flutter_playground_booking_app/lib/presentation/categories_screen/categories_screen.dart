@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/categories_screen/models/categories_item_model.dart';
@@ -47,7 +46,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: GridView.builder(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 120.v,
+              mainAxisExtent: 140.v,
               crossAxisCount: 4,
             ),
             physics: NeverScrollableScrollPhysics(),
@@ -58,8 +57,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 index,
                 CategoriesItemWidget(
                   model,
-                  onTapFootball: () {
-                    onTapFootball();
+                  onTap: () {
+                    _onCategoryItemTap(model.id);
                   },
                 ),
               );
@@ -70,8 +69,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     });
   }
 
-  void onTapFootball() {
-    Get.toNamed(AppRoutes.footBallScreen);
+  void _onCategoryItemTap(int categoryId) {
+    Get.toNamed(AppRoutes.footBallScreen, arguments: categoryId);
   }
 
   void onTapCategories() {

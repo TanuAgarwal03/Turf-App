@@ -3,23 +3,27 @@ import 'package:flutter_playground_booking_app/core/app_export.dart';
 import '../models/categories_item_model.dart';
 
 class CategoriesItemWidget extends StatelessWidget {
-  CategoriesItemWidget(
-    this.categoriesItemModelObj, {
-    Key? key,
-    this.onTapFootball,
-  }) : super(key: key);
-
   final CategoriesItemModel categoriesItemModelObj;
-  final VoidCallback? onTapFootball;
+  // final VoidCallback? onTapFootball;
+  final VoidCallback? onTap;
+
+  CategoriesItemWidget(
+    this.categoriesItemModelObj,{this.onTap}
+  //   {
+  //   Key? key,
+    // this.onTapFootball,
+  // }
+  );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            onTapFootball?.call();
-          },
+          // onTap: () {
+          //   onTapFootball?.call();
+          // },
+          onTap: onTap,
           child: Container(
             height: 85.adaptSize,
             width: 85.adaptSize,
@@ -39,10 +43,12 @@ class CategoriesItemWidget extends StatelessWidget {
         SizedBox(height:8.v),
         Text(
           categoriesItemModelObj.title ?? 'No Title',
+          textAlign: TextAlign.center,
           style: theme.textTheme.bodyLarge!.copyWith(
             color: appTheme.black900,
           ),
         ),
+        // Text('ID: ${model.id ?? 'No ID'}'),
       ],
     );
   }
