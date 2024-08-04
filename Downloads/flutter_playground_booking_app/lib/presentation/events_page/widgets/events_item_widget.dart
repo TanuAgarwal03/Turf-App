@@ -38,6 +38,7 @@ class EventsItemWidget extends StatelessWidget {
               radius: BorderRadius.circular(
                 16.h,
               ),
+              fit: BoxFit.cover,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -49,14 +50,14 @@ class EventsItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    eventsItemModelObj.footballTournament!,
+                    eventsItemModelObj.description!,
                     style: theme.textTheme.titleMedium!.copyWith(
                       color: appTheme.black900,
                     ),
                   ),
                   SizedBox(height: 9.v),
                   Text(
-                    eventsItemModelObj.date!,
+                    eventsItemModelObj.eventDateAndTime!,
                     style: theme.textTheme.bodyMedium,
                   ),
                   SizedBox(height: 9.v),

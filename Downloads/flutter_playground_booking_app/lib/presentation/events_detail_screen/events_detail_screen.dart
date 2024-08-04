@@ -9,8 +9,6 @@ import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
 
 
-
-
 class EventsDetailScreen extends StatefulWidget {
   const EventsDetailScreen({super.key});
 
@@ -88,7 +86,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                                             controller.update();
                                           },
                                           controller: controller.pageController,
-                                          itemCount: 2,
+                                          itemCount: 1,
                                           itemBuilder: (context, index) {
                                             return CustomImageView(
                                               imagePath: ImageConstant
@@ -99,29 +97,29 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                                             );
                                           },
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 20.h, bottom: 16.v),
-                                          child: Align(
-                                              alignment: Alignment.bottomLeft,
-                                              child: Container(
-                                                  width: 64.h,
-                                                  height: 27.v,
-                                                  decoration: AppDecoration.white
-                                                      .copyWith(
-                                                      borderRadius:
-                                                      BorderRadiusStyle
-                                                          .circleBorder10),
-                                                  child: Center(
-                                                    child: Text("8 KM",
-                                                        style: theme
-                                                            .textTheme.bodySmall!
-                                                            .copyWith(
-                                                            color: theme
-                                                                .colorScheme
-                                                                .onErrorContainer)),
-                                                  ))),
-                                        )
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(
+                                        //       left: 20.h, bottom: 16.v),
+                                        //   child: Align(
+                                        //       alignment: Alignment.bottomLeft,
+                                        //       child: Container(
+                                        //           width: 64.h,
+                                        //           height: 27.v,
+                                        //           decoration: AppDecoration.white
+                                        //               .copyWith(
+                                        //               borderRadius:
+                                        //               BorderRadiusStyle
+                                        //                   .circleBorder10),
+                                        //           child: Center(
+                                        //             child: Text("8 KM",
+                                        //                 style: theme
+                                        //                     .textTheme.bodySmall!
+                                        //                     .copyWith(
+                                        //                     color: theme
+                                        //                         .colorScheme
+                                        //                         .onErrorContainer)),
+                                        //           ))),
+                                        // )
                                       ],
                                     )),
                               ),
@@ -144,12 +142,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                                       children: [
                                         Text(
                                           "msg_football_tournament2".tr,
+                                          // controller.eventTitle,
                                           style: CustomTextStyles.titleLarge22,
                                         ),
-                                        Text(
-                                          "lbl_100_00".tr,
-                                          style: CustomTextStyles.titleLargePrimary,
-                                        ),
+                                        // Text(
+                                        //   "lbl_100_00".tr,
+                                        //   style: CustomTextStyles.titleLargePrimary,
+                                        // ),
                                       ],
                                     ),
                                     SizedBox(height: 12.v),

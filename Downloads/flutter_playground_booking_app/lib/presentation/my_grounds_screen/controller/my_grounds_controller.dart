@@ -18,6 +18,7 @@ class MyGroundsController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int user_id = prefs.getInt('user_id') ?? 4;
     final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_turfs_ownerwise?user_id=$user_id'));
+    print('API called - response : $response.body');
     
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body) as List;

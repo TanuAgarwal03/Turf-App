@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
-import 'package:flutter_playground_booking_app/presentation/detail_screen/detail_screen.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:flutter_playground_booking_app/widgets/app_bar/custom_app_bar.dart';
@@ -12,7 +11,6 @@ import '../categories_screen/controller/categories_controller.dart';
 import '../categories_screen/models/categories_item_model.dart';
 import '../categories_screen/widgets/categories_item_widget.dart';
 import '../nearby_you_screen/controller/nearby_you_controller.dart';
-import '../nearby_you_screen/models/nearby_you_model.dart';
 import '../popular_ground_screen/controller/popular_ground_controller.dart';
 import '../popular_ground_screen/models/popularground_item_model.dart';
 import 'controller/home_controller.dart';
@@ -172,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                                       padding: EdgeInsets.only(
                                                           left: 5.h),
                                                       child: Container(
-                                                        width: 175,
+                                                        width: 155,
                                                         child: Text(
                                                           data.location!,
                                                           maxLines: 1,
@@ -242,93 +240,93 @@ class _HomePageState extends State<HomePage> {
                   }),
                 ),
                 SizedBox(height: 16.v),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.h),
-                    child: Row(
-                      children: List.generate(
-                          nearbyYouController.nearlyYoudata.length > 2
-                              ? 2
-                              : nearbyYouController.nearlyYoudata.length,
-                          (index) {
-                        NearbyYouModel data =
-                            nearbyYouController.nearlyYoudata[index];
-                        return animationfunction(
-                            index,
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.h),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    popularGroundController.currentImage.value =
-                                        data.image!;
-                                    popularGroundController.update();
-                                    Get.toNamed(AppRoutes.detailScreen);
-                                    DetailScreen();
-                                  },
-                                  child: Container(
-                                      width: 298.h,
-                                      decoration: AppDecoration.fillGray
-                                          .copyWith(
-                                              color:
-                                                  appTheme.textfieldFillColor,
-                                              borderRadius: BorderRadiusStyle
-                                                  .roundedBorder16),
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            buildSeventeen(
-                                                image: data.image!,
-                                                distance: data.diatance!),
-                                            SizedBox(height: 12.v),
-                                            Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 8.h),
-                                                child: Text(data.title!,
-                                                    style: theme
-                                                        .textTheme.titleMedium!
-                                                        .copyWith(
-                                                            color: appTheme
-                                                                .black900))),
-                                            SizedBox(height: 5.v),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.h),
-                                              child: Row(
-                                                children: [
-                                                  CustomImageView(
-                                                    color: appTheme.black900,
-                                                    imagePath: ImageConstant
-                                                        .imgIcLocation,
-                                                    height: 20.adaptSize,
-                                                    width: 20.adaptSize,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 8.h),
-                                                    child: Text(data.location!,
-                                                        maxLines: 2,
-                                                        style: theme.textTheme
-                                                            .bodyMedium!
-                                                            .copyWith(
-                                                                color: appTheme
-                                                                    .black900,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .clip)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(height: 16.v),
-                                          ])),
-                                )));
-                      }),
-                    ),
-                  ),
-                ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: 12.h),
+                //     child: Row(
+                //       children: List.generate(
+                //           nearbyYouController.nearlyYoudata.length > 2
+                //               ? 2
+                //               : nearbyYouController.nearlyYoudata.length,
+                //           (index) {
+                //         NearbyYouModel data =
+                //             nearbyYouController.nearlyYoudata[index];
+                //         return animationfunction(
+                //             index,
+                //             Padding(
+                //                 padding: EdgeInsets.symmetric(horizontal: 8.h),
+                //                 child: GestureDetector(
+                //                   onTap: () {
+                //                     popularGroundController.currentImage.value =
+                //                         data.image!;
+                //                     popularGroundController.update();
+                //                     Get.toNamed(AppRoutes.detailScreen);
+                //                     DetailScreen();
+                //                   },
+                //                   child: Container(
+                //                       width: 298.h,
+                //                       decoration: AppDecoration.fillGray
+                //                           .copyWith(
+                //                               color:
+                //                                   appTheme.textfieldFillColor,
+                //                               borderRadius: BorderRadiusStyle
+                //                                   .roundedBorder16),
+                //                       child: Column(
+                //                           mainAxisSize: MainAxisSize.min,
+                //                           crossAxisAlignment:
+                //                               CrossAxisAlignment.start,
+                //                           children: [
+                //                             buildSeventeen(
+                //                                 image: data.image!,
+                //                                 distance: data.distance!),
+                //                             SizedBox(height: 12.v),
+                //                             Padding(
+                //                                 padding: EdgeInsets.symmetric(
+                //                                     horizontal: 8.h),
+                //                                 child: Text(data.title!,
+                //                                     style: theme
+                //                                         .textTheme.titleMedium!
+                //                                         .copyWith(
+                //                                             color: appTheme
+                //                                                 .black900))),
+                //                             SizedBox(height: 5.v),
+                //                             Padding(
+                //                               padding: EdgeInsets.symmetric(
+                //                                   horizontal: 8.h),
+                //                               child: Row(
+                //                                 children: [
+                //                                   CustomImageView(
+                //                                     color: appTheme.black900,
+                //                                     imagePath: ImageConstant
+                //                                         .imgIcLocation,
+                //                                     height: 20.adaptSize,
+                //                                     width: 20.adaptSize,
+                //                                   ),
+                //                                   Padding(
+                //                                     padding: EdgeInsets.only(
+                //                                         left: 8.h),
+                //                                     child: Text(data.location!,
+                //                                         maxLines: 2,
+                //                                         style: theme.textTheme
+                //                                             .bodyMedium!
+                //                                             .copyWith(
+                //                                                 color: appTheme
+                //                                                     .black900,
+                //                                                 overflow:
+                //                                                     TextOverflow
+                //                                                         .clip)),
+                //                                   ),
+                //                                 ],
+                //                               ),
+                //                             ),
+                //                             SizedBox(height: 16.v),
+                //                           ])),
+                //                 )));
+                //       }),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 24.v),
               ],
             ),

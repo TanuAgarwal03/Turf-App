@@ -1,12 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
-import '../popular_ground_screen/controller/popular_ground_controller.dart';
-import 'controller/nearby_you_controller.dart';
-import 'models/nearby_you_model.dart';
-
-
+import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/controller/nearby_you_controller.dart';
+import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/models/nearby_you_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NearbyYouScreen extends StatefulWidget {
   const NearbyYouScreen({super.key});
@@ -16,133 +12,127 @@ class NearbyYouScreen extends StatefulWidget {
 }
 
 class _NearbyYouScreenState extends State<NearbyYouScreen> {
- NearbyYouController controller = Get.put(NearbyYouController());
- PopularGroundController popularGroundController = Get.put(PopularGroundController());
- @override
- Widget build(BuildContext context) {
-  mediaQueryData = MediaQuery.of(context);
-  return WillPopScope(
-    onWillPop: ()async {
-      Get.back();
-      return true;
-    },
-    child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: appTheme.bgColor,
-        body: SafeArea(
-          child: Column(children: [
-          getCommonAppBar("lbl_nearby_you".tr,),
-           SizedBox(height: 16.v),
-           Expanded(
-             child: ListView.builder(
-               primary: false,
-               shrinkWrap: true,
-               itemCount: controller.nearlyYoudata.length,
-               itemBuilder: (context, index) {
-                 NearbyYouModel data = controller.nearlyYoudata[index];
-               return animationfunction(index, Padding(
-                 padding:  EdgeInsets.symmetric(vertical: 8.v),
-                 child: GestureDetector(
-                   onTap: (){
-                    //  popularGroundController.currentImage = data.image!;
-                     popularGroundController.update();
-                     Get.toNamed(AppRoutes.detailScreen);
-                   },
-                   child: Container(
-                       margin: EdgeInsets.symmetric(horizontal: 20.h),
-                       decoration: AppDecoration.fillGray
-                           .copyWith(
-                           color: appTheme.textfieldFillColor,
-                           borderRadius: BorderRadiusStyle.roundedBorder16),
-                       child: Column(
-                           mainAxisSize: MainAxisSize.min,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             buildSeventeen(
-                                 image:data.image!,
-                                 distance: data.diatance!),
-                             SizedBox(height: 12.v),
-                             Padding(
-                                 padding: EdgeInsets.symmetric(horizontal: 8.h),
-                                 child: Text(data.title!,
-                                     style: theme.textTheme.titleMedium!.copyWith(
-                                         color: appTheme.black900
-                                     ))),
-                             SizedBox(height: 5.v),
-                             Padding(
-                               padding: EdgeInsets.symmetric(horizontal: 8.h),
-                               child: Row(
-                                 children: [
-                                   CustomImageView(
-                                     color: appTheme.black900,
-                                     imagePath: ImageConstant.imgIcLocation,
-                                     height: 20.adaptSize,
-                                     width: 20.adaptSize,
-                                   ),
-                                   Padding(
-                                     padding: EdgeInsets.only(left: 8.h),
-                                     child: Text(
-                                         data.location!,
-                                         style: theme.textTheme.bodyMedium!.copyWith(
-                                           color: appTheme.black900,
-                                         )
-                                     ),
-                                   ),
-                                 ],
-                               ),
-                             ),
-                             SizedBox(height: 16.v)
-                           ])),
-                 ),
-               ));
-             },),
-           )
-          ]),
-        )),
-  );
- }
+  NearbyYouController controller = Get.put(NearbyYouController());
 
- /// Common widget
- Widget buildSeventeen({
-  required String image,
-  required String distance,
- }) {
-  return SizedBox(
-      height: 163.v,
-      width: double.infinity,
-      child: Stack(alignment: Alignment.topRight, children: [
-       Hero(
-         tag: image,
-         child: CustomImageView(
-             imagePath: image,
-             height: 163.v,
-             width: double.infinity,
-             radius: BorderRadius.circular(16.h),
-             alignment: Alignment.center),
-       ),
-       Align(
-           alignment: Alignment.topRight,
-           child: Container(
-
-               margin: EdgeInsets.only(top: 12.v, right: 12.h),
-               padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 2.v),
-               decoration: AppDecoration.white
-                   .copyWith(borderRadius: BorderRadiusStyle.circleBorder10),
-               child: Text(distance,
-                   style: theme.textTheme.bodySmall!.copyWith(
-                       color: theme.colorScheme.onErrorContainer))))
-      ]));
- }
-
- /// Navigates to the homeContainerScreen when the action is triggered.
- onTapNearbyYou() {
-  Get.toNamed(
-   AppRoutes.homeContainerScreen,
-  );
- }
+  @override
+  void initState() {
+    super.initState();
+    loadDistance();
+    controller.fetchTurflist();
+    loadDistance();
+  }
+  Future<String?> loadDistance() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('stored_distance');
 }
 
-
-
-
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Nearby You"),
+      ),
+      body: Obx(() {
+        if (controller.turfList.isEmpty) {
+          return Center(child: Text("No data available"));
+        } else {
+          return ListView.builder(
+            itemCount: controller.turfList.length,
+            itemBuilder: (context, index) {
+              NearbyYouModel data = controller.turfList[index];
+              return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.detailScreen);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.h),
+                      decoration: AppDecoration.fillGray.copyWith(
+                          color: appTheme.textfieldFillColor,
+                          borderRadius: BorderRadiusStyle.roundedBorder16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 140,
+                            width: double.infinity,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  child: Image.network(
+                                    data.image!,
+                                    height: 140,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 12, right: 12),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      data.distance ?? '... km',
+                                      // controller.distanceInKm,
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              data.title!,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                CustomImageView(
+                                  color: appTheme.black900,
+                                  imagePath: ImageConstant.imgIcLocation,
+                                  height: 20.adaptSize,
+                                  width: 20.adaptSize,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.h),
+                                  child: Text(data.location ?? 'No location',
+                                      style:
+                                          theme.textTheme.bodyMedium!.copyWith(
+                                        color: appTheme.black900,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16)
+                        ],
+                      ),
+                    ),
+                  ));
+            },
+          );
+        }
+      }),
+    );
+  }
+}
