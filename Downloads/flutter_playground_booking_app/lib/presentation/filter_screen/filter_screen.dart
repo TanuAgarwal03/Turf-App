@@ -8,7 +8,6 @@ import '../categories_screen/controller/categories_controller.dart';
 import '../categories_screen/models/categories_item_model.dart';
 import '../categories_screen/widgets/categories_item_widget.dart';
 import 'controller/filter_controller.dart';
-import 'models/ground_type_model.dart';
 import 'models/price_range_model.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -112,51 +111,6 @@ class _FilterScreenState extends State<FilterScreen> {
                   },
                 ),
                 SizedBox(height: 28.v),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 20.h),
-                        child: Text("lbl_ground_type".tr,
-                            style: theme.textTheme.titleLarge!.copyWith(
-                              color: appTheme.black900,
-                            )))),
-                SizedBox(height: 17.v),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 8.h),
-                    child: Row(
-                      children:List.generate(
-                          controller.groundList.length,  (index) {
-                        GroundTypeModel model = controller.groundList[index];
-                        return Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 12.h),
-                          child: GestureDetector(
-                            onTap: (){
-                              controller.currentGroundType = model.id!;
-                              controller.update();
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: Row(
-                                children: [
-                                  CustomImageView(
-                                    imagePath: controller.currentGroundType == model.id!?ImageConstant.imgRadioButtonSelected:ImageConstant.imgRadioButtonunSelected,
-                                  ),
-                                  SizedBox(width: 16.h),
-                                  Text(model.title!,style: theme.textTheme.bodyLarge!.copyWith(
-                                    color: appTheme.black900,
-                                  ))
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      })
-                    ),
-                  ),
-                ),
 
               ]),
             ),
@@ -201,21 +155,18 @@ class _FilterScreenState extends State<FilterScreen> {
 
 
 
-  /// Navigates to the categoriesScreen when the action is triggered.
   onTapTxtViewAll() {
     Get.toNamed(
       AppRoutes.categoriesScreen,
     );
   }
 
-  /// Navigates to the homeContainerScreen when the action is triggered.
   onTapReset() {
     Get.toNamed(
       AppRoutes.homeContainerScreen,
     );
   }
 
-  /// Navigates to the homeContainerScreen when the action is triggered.
   onTapApply() {
     Get.toNamed(
       AppRoutes.homeContainerScreen,

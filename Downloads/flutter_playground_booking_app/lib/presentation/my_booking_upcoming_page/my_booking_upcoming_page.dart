@@ -1,113 +1,142 @@
+import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'controller/my_booking_upcoming_controller.dart';
 import 'models/my_booking_upcoming_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_playground_booking_app/core/app_export.dart';
 
 class MyBookingUpcomingPage extends StatefulWidget {
-  MyBookingUpcomingPage({Key? key})
-      : super(
-          key: key,
-        );
+  MyBookingUpcomingPage({Key? key}) : super(key: key);
 
   @override
   State<MyBookingUpcomingPage> createState() => _MyBookingUpcomingPageState();
 }
 
 class _MyBookingUpcomingPageState extends State<MyBookingUpcomingPage> {
-  MyBookingUpcomingController controller = Get.put(MyBookingUpcomingController());
+  MyBookingUpcomingController controller =
+      Get.put(MyBookingUpcomingController());
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
-
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 20.h,vertical: 4.v),
-      itemCount: controller.getMybookingUpcoming.length,
-      primary: false,
-      shrinkWrap: true,
-
-      itemBuilder: (context, index) {
-        MyBookingUpcomingModel data = controller.getMybookingUpcoming[index];
-      return animationfunction(index, Padding(
-        padding:  EdgeInsets.symmetric(vertical: 8.v),
-        child: GestureDetector(
-          onTap: (){
-            Get.toNamed(AppRoutes.bookingDetailsScreen);
-          },
-          child: Container(
-            padding: EdgeInsets.all(4.h),
-            decoration: AppDecoration.fillGray.copyWith(
-              color: appTheme.textfieldFillColor,
-              borderRadius: BorderRadiusStyle.roundedBorder16,
-            ),
-            child: Row(
-              children: [
-                CustomImageView(
-                  imagePath: data.image,
-                  height: 90.adaptSize,
-                  width: 90.adaptSize,
-                  radius: BorderRadius.circular(
-                    16.h,
-                  ),
-                  margin: EdgeInsets.only(top: 2.v),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 16.h,
-                    top: 23.v,
-                    bottom: 17.v,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.title!,
-                        style: theme.textTheme.titleMedium!.copyWith(
-                          color: appTheme.black900,
-                        ),
-                      ),
-                      SizedBox(height: 9.v),
-                      Row(
+    return Scaffold(
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else if (controller.getMybookingUpcoming.isEmpty) {
+          return Center(child: Text('No upcoming bookings'));
+        } else {
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            itemCount: controller.getMybookingUpcoming.length,
+            itemBuilder: (context, index) {
+              MyBookingUpcomingModel data =
+                  controller.getMybookingUpcoming[index];
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: GestureDetector(
+                  onTap: () {
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(6.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIcLocationGray60001,
-                            height: 20.adaptSize,
-                            width: 20.adaptSize,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                data.turfName,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  color: appTheme.black900,
+                                ),
+                              ),
+                              Text(
+                                "Booking id : ${data.id}",
+                                style: theme.textTheme.bodyLarge,
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.h),
-                            child: Text(
-                              data.location!,
-                              style: theme.textTheme.bodyMedium,
-                            ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Icon(Icons.account_circle_outlined,
+                                  size: 20, color: Colors.grey[600]),
+                              SizedBox(width: 8),
+                              Text(
+                                data.name,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIcBooking,
-                            height: 20.adaptSize,
-                            width: 20.adaptSize,
-                            margin: EdgeInsets.only(left: 16.h),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_month,
+                                  size: 20, color: Colors.grey[600]),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Text(
+                                  data.bookingDate,
+                                  style: theme.textTheme.bodyLarge,
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Icon(Icons.access_time,
+                                  size: 20, color: Colors.grey[600]),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Text(
+                                  '${data.timeFrom} - ${data.timeTo}',
+                                  style: theme.textTheme.bodyLarge,
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 8.h,
-                              top: 2.v,
-                            ),
-                            child: Text(
-                              data.location!,
-                              style: theme.textTheme.bodyMedium,
+                          SizedBox(height: 5),
+                          InkWell(
+                            onTap:() async {
+                              print('Tap detected');
+                              final phoneNumber = data.phoneNumber;
+                              print('Phone number: $phoneNumber');
+                              if (data.phoneNumber.isNotEmpty) {
+                                final Uri url =
+                                    Uri(scheme: 'tel', path: data.phoneNumber);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  print('Could not launch $url');
+                                }
+                              } else {
+                                print('Phone number is null or empty');
+                              }
+                            } ,
+                            child:Row(
+                              children: [
+                                Icon(Icons.local_phone_outlined,
+                                    size: 20, color: Colors.grey[600]),
+                                SizedBox(width: 8),
+                                Text(
+                                  data.phoneNumber,
+                                  style: theme.textTheme.bodyLarge,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ));
-    },);
+              );
+            },
+          );
+        }
+      }),
+    );
   }
-
 }

@@ -1,10 +1,28 @@
-import 'package:flutter_playground_booking_app/core/app_export.dart';import 'package:flutter_playground_booking_app/presentation/booking_details_one_screen/models/booking_details_one_model.dart';import 'package:flutter/material.dart';/// A controller class for the BookingDetailsOneScreen.
+import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+/// A controller class for the BookingDetailsOneScreen.
 ///
 /// This class manages the state of the BookingDetailsOneScreen, including the
 /// current bookingDetailsOneModelObj
-class BookingDetailsOneController extends GetxController {TextEditingController iclocationController = TextEditingController();
+// class BookingDetailsOneController extends GetxController {TextEditingController iclocationController = TextEditingController();
 
-Rx<BookingDetailsOneModel> bookingDetailsOneModelObj = BookingDetailsOneModel().obs;
+// Rx<BookingDetailsOneModel> bookingDetailsOneModelObj = BookingDetailsOneModel().obs;
 
-@override void onClose() { super.onClose(); iclocationController.dispose(); } 
- }
+// @override void onClose() { super.onClose(); iclocationController.dispose(); }
+//  }
+class BookingDetailsOneController extends GetxController {
+  RxString turfTitle = ''.obs;
+  RxString turfImage = ''.obs;
+  RxString turfAddress = ''.obs;
+  RxInt turfId = 0.obs;
+
+  TextEditingController iclocationController = TextEditingController();
+
+  @override
+  void onClose() {
+    super.onClose();
+    iclocationController.dispose();
+  }
+}

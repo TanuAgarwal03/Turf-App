@@ -91,48 +91,53 @@ class _MyBookingUpcomingTabContainerScreenState
             SizedBox(height: 20.v),
             Padding(
               padding: EdgeInsets.only(left: 20.h, right: 20.h),
-              child: Text(
-                  "lbl_my_booking".tr,
-                  style: theme.textTheme.headlineMedium!.copyWith(
-                      color: appTheme.black900
-                  )
-              ),
-            ),
-            SizedBox(height: 43.v),
-            Container(
-              height: 32.v,
-              width: double.infinity,
-              child: TabBar(
-                controller: controller.tabviewController,
-                labelPadding: EdgeInsets.zero,
-                labelColor: theme.colorScheme.primary,
-                labelStyle: TextStyle(
-                  fontSize: 16.fSize,
-                  fontFamily: 'SF Pro Display',
-                  fontWeight: FontWeight.w600,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 20.h),
-                unselectedLabelColor: appTheme.gray60001,
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 16.fSize,
-                  fontFamily: 'SF Pro Display',
-                  fontWeight: FontWeight.w400,
-                ),
-                indicatorColor: theme.colorScheme.primary,
-                tabs: [
-                  Tab(
-                    child: Text(
-                      "lbl_upcoming".tr,
-                    ),
+              child: Column(
+                children: [
+                  Text(
+                      "lbl_my_booking".tr,
+                      style: theme.textTheme.headlineMedium!.copyWith(
+                          color: appTheme.black900
+                      )
                   ),
-                  Tab(
-                    child: Text(
-                      "lbl_complated".tr,
-                    ),
-                  ),
+                  SizedBox(height: 15.v),
                 ],
               ),
             ),
+            SizedBox(height: 15.v),
+            // Container(
+            //   height: 32.v,
+            //   width: double.infinity,
+            //   child: TabBar(
+            //     controller: controller.tabviewController,
+            //     labelPadding: EdgeInsets.zero,
+            //     labelColor: theme.colorScheme.primary,
+            //     labelStyle: TextStyle(
+            //       fontSize: 16.fSize,
+            //       fontFamily: 'SF Pro Display',
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+            //     unselectedLabelColor: appTheme.gray60001,
+            //     unselectedLabelStyle: TextStyle(
+            //       fontSize: 16.fSize,
+            //       fontFamily: 'SF Pro Display',
+            //       fontWeight: FontWeight.w400,
+            //     ),
+            //     indicatorColor: theme.colorScheme.primary,
+            //     tabs: [
+            //       Tab(
+            //         child: Text(
+            //           "lbl_upcoming".tr,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "lbl_complated".tr,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: 12.v),
             Expanded(
               child: SizedBox(

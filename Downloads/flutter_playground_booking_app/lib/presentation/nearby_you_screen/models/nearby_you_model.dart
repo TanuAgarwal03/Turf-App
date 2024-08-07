@@ -1,4 +1,5 @@
 class NearbyYouModel {
+  int? id;
   String? image;
   String? title;
   String? location;
@@ -8,7 +9,8 @@ class NearbyYouModel {
   String? googleLocationUrl;
 
   NearbyYouModel(
-      {this.image,
+      {this.id,
+        this.image,
       this.title,
       this.location,
       this.latitude,
@@ -18,6 +20,7 @@ class NearbyYouModel {
 
   factory NearbyYouModel.fromJson(Map<String, dynamic> json) {
     return NearbyYouModel(
+      id : json['id'] ?? 0,
       title: json['title']['rendered'] as String?,
       image: json['acf']['turf_image'] as String?,
       location: json['acf']['address'] as String?,

@@ -40,8 +40,9 @@ class DetailController extends GetxController {
   }
   Future<void> _loadTurfId() async {
     final prefs = await SharedPreferences.getInstance();
-    final turfId = prefs.getInt('selectedTurfId');
-    if (turfId != null) {
+    final turfId = prefs.getInt('selectedTurfId') ?? 0;
+    if (turfId != 0) {
+      print("turf id from SharedPreferences : $turfId");
       fetchTurfData(turfId);
     } else {
       Get.snackbar("Error", "No turf ID found");
@@ -50,15 +51,16 @@ class DetailController extends GetxController {
 
 Future<void> fetchTurfData(int turfId) async {
     try {
+      print("Fetching data for Turf ID: $turfId");
       final response = await apiService.getAPI('get-turf/$turfId');
-      // final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/$turfId'));
-      print("Turf ID: $turfId");
       if (response.statusCode == 200) {
+        print("Turf ID for status 200: $turfId");
         final data = jsonDecode(response.body);
         detailModel.value = DetailModel.fromJson(data);
         print('Loading data');
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
         groundList.value = detailModel.value.groundList;
+        print("Data loaded for turf id : $turfId");
       } else {
         print('error loading data');
       }

@@ -7,7 +7,6 @@ import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.da
 import '../detail_screen/controller/detail_controller.dart';
 import '../detail_screen/models/detailscreen_item_model.dart';
 import 'controller/booking_details_controller.dart';
-import 'models/booking_details_model.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
   const BookingDetailsScreen({super.key});
@@ -24,7 +23,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         Get.back();
         return true;
       },
@@ -72,8 +71,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 8.h),
                                     child: Text("msg_agrasen_institute".tr,
-                                        style:
-                                            theme.textTheme.bodyMedium!.copyWith(
+                                        style: theme.textTheme.bodyMedium!
+                                            .copyWith(
                                           color: appTheme.black900,
                                         )),
                                   ),
@@ -82,7 +81,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                             ),
                             SizedBox(height: 27.v),
                             Padding(
-                                padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                                padding:
+                                    EdgeInsets.only(left: 20.h, right: 20.h),
                                 child: Text("lbl_facilities".tr,
                                     style: theme.textTheme.titleLarge!
                                         .copyWith(color: appTheme.black900))),
@@ -110,7 +110,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10.h),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -119,10 +120,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           width: 40.h,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: appTheme.whiteA700
-                                          ),
+                                              color: appTheme.whiteA700),
                                           child: Padding(
-                                            padding:  EdgeInsets.all(10.h),
+                                            padding: EdgeInsets.all(10.h),
                                             child: CustomImageView(
                                               imagePath: model.icon,
                                               height: 24.adaptSize,
@@ -148,50 +148,6 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                             ),
                             SizedBox(height: 24.v),
                             buildDetails(),
-                            SizedBox(height: 28.v),
-                            Padding(
-                                padding: EdgeInsets.only(left: 20.h),
-                                child: Text("lbl_notify_me".tr,
-                                    style: theme.textTheme.titleLarge!
-                                        .copyWith(color: appTheme.black900))),
-                            SizedBox(height: 17.v),
-                            GridView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 20.h),
-                              primary: false,
-                              shrinkWrap: true,
-                              itemCount: controller.notifyMeList.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisExtent: 48.v,
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 16.h,
-                                      crossAxisSpacing: 38.h),
-                              itemBuilder: (BuildContext context, int index) {
-                                BookingDetailsModel model =
-                                    controller.notifyMeList[index];
-                                return Container(
-                                  child: Row(
-                                    children: [
-                                      CustomImageView(
-                                          imagePath: model.image,
-                                          height: 48.adaptSize,
-                                          width: 48.adaptSize,
-                                          radius: BorderRadius.circular(24.h)),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 16.h,
-                                              top: 14.v,
-                                              bottom: 13.v),
-                                          child: Text(model.userName!,
-                                              style: theme.textTheme.bodyLarge!
-                                                  .copyWith(
-                                                color: appTheme.black900,
-                                              )))
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
                             SizedBox(height: 16.v),
                           ],
                         ),
@@ -201,7 +157,6 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           bottomNavigationBar: buildButtons()),
     );
   }
-
 
   /// Section Widget
   Widget buildDetails() {
@@ -217,13 +172,16 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("lbl_ground".tr,
+                    Text("Booking id",
                         style: CustomTextStyles.bodyLargeGray60001),
-                    Text("lbl_ground_01".tr,
-                        style: theme.textTheme.titleMedium!.copyWith(
-                          color: appTheme.black900,
-                          fontSize: 16.fSize,
-                        ))
+                    // Text()
+                    // Text("lbl_ground".tr,
+                    //     style: CustomTextStyles.bodyLargeGray60001),
+                    // Text("lbl_ground_01".tr,
+                    //     style: theme.textTheme.titleMedium!.copyWith(
+                    //       color: appTheme.black900,
+                    //       fontSize: 16.fSize,
+                    //     ))
                   ])),
           SizedBox(height: 20.v),
           _buildDate(date: "lbl_booking_code".tr, friSep: "lbl_gr0175".tr),
@@ -233,10 +191,6 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           _buildDate(date: "lbl_time".tr, friSep: "lbl_11_00_pm".tr)
         ]));
   }
-
-
-
-
 
   /// Section Widget
   Widget buildButtons() {
@@ -262,8 +216,6 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               }),
         ));
   }
-
-
 
   /// Common widget
   Widget _buildDate({

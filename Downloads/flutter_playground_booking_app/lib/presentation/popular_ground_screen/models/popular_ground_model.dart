@@ -19,10 +19,10 @@ class PopularGroundModel {
     return PopularGroundModel(
       id: json['id'],
       title: json['title'],
-      image: json['image'],
-      location: json['address'],
-      description: json['description'],
-      price: json['price'],
+      image: json['acf']['turf_image'],
+      location: json['acf']['address'],
+      description: json['acf']['description'],
+      price: json['acf']['price'],
     );
   }
 }

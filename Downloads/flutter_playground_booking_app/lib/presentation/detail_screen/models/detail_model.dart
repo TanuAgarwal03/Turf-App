@@ -32,7 +32,7 @@ class DetailModel {
     var groundList = json['list_of_ground'] as List;
 
     return DetailModel(
-      id: json['id'],
+      id: json['id'] as int,
       title: json['title'],
       description: json['description'],
       image: json['image'],

@@ -4,19 +4,13 @@ import 'package:flutter_playground_booking_app/core/app_export.dart';
 import '../models/eventsdetail_item_model.dart';
 import 'package:http/http.dart' as http;
 
-// class EventsDetailController extends GetxController {
-//  List<EventsdetailItemModel> previouseMemory = EventsDetailModel.getPreviousMemoryList();
-//  PageController pageController = PageController();
-//  int currentPage = 0;
-//  int currentGround = 0;
-// }
 class EventsDetailController extends GetxController {
   List<EventsdetailItemModel> previouseMemory = [];
   PageController pageController = PageController();
   int currentPage = 0;
   int currentGround = 0;
-  // String eventTitle = '';
-
+  EventsdetailItemModel? eventDetail;
+  var loading = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -24,23 +18,23 @@ class EventsDetailController extends GetxController {
   }
 
   void fetchEvents() async {
+    loading.value = true;
     try {
-      final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'));
+      final response = await http.get(Uri.parse(
+          'https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'));
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        previouseMemory = data.map((item) => EventsdetailItemModel.fromJson(item)).toList();
-        // if (previouseMemory.isNotEmpty) {
-        //   eventTitle = previouseMemory[0].title ?? 'Event Title';
-        //   // eventTitle = json['acf']['description'];
-        // } 
+        if (data.isNotEmpty) {
+          eventDetail = EventsdetailItemModel.fromJson(data[0]);        
+        }
         update();
       } else {
-        // Handle error
         print('Failed to load events');
       }
     } catch (e) {
-      // Handle error
       print('Error: $e');
+    }finally {
+      loading.value = false;
     }
   }
 }

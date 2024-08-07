@@ -22,28 +22,51 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  DetailController detailController = Get.put(DetailController());
-  ReviewController reviewController = Get.put(ReviewController());
-  PopularGroundController popularGroundController =
-      Get.put(PopularGroundController());
-  bool blockScroll = false;
-  final int turfId = Get.arguments ?? 0;
-  // int turfId =0;
+  // DetailController detailController = Get.put(DetailController());
+  // ReviewController reviewController = Get.put(ReviewController());
+  // PopularGroundController popularGroundController =
+  //     Get.put(PopularGroundController());
+  // bool blockScroll = false;
+  // late int turfId;
+  // // final int turfId = Get.arguments as int;
+
+  // // final arguments = Get.arguments as Map<String , dynamic>;
+  // // final turfId = arguments['id'] as int;
   
+
+  // @override
+  // void initState() {
+  //   super.initState();
+    
+  //   detailController.fetchTurfData(turfId);
+  //   print(" Turf id in detail screen : $turfId");
+  // }
+   late DetailController detailController;
+  late ReviewController reviewController;
+  late PopularGroundController popularGroundController;
+  late int turfId;
+  bool blockScroll = false;
 
   @override
   void initState() {
     super.initState();
+    detailController = Get.put(DetailController());
+    reviewController = Get.put(ReviewController());
+    popularGroundController = Get.put(PopularGroundController());
+
+    final arguments = Get.arguments as Map<String, dynamic>;
+    turfId = arguments['id'] as int;
     detailController.fetchTurfData(turfId);
-    print(" Turf id in detail screen : $turfId");
-    // DetailScreen();
-    // detailController._loadTurfId();
+    print("Turf id in detail screen: $turfId");
   }
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments as Map<String , dynamic>;
+  final turfId = arguments['id'] as int;
+
     final detailModel = detailController.detailModel.value;
-    mediaQueryData = MediaQuery.of(context);
+    mediaQueryData = MediaQuery.of(context);  
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -208,6 +231,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 SizedBox(height: 24.v),
                                 // buildFacilities(),
+                                Text('selected turf id : $turfId'),
                                 Text(
                                   "lbl_facilities".tr,
                                   style: theme.textTheme.titleLarge!
@@ -532,6 +556,9 @@ class _DetailScreenState extends State<DetailScreen> {
   onTapBookNow() {
     Get.toNamed(
       AppRoutes.selectDateTimeScreen,
+      arguments: {
+        'turfId' : turfId,
+      }
     );
   }
 

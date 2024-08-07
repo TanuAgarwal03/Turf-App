@@ -250,7 +250,7 @@ final Map<String, String> enUs = {
   // My booking empty Screen
   "lbl_no_booking_yet": "No booking yet",
   "msg_when_you_book_an":
-      "When you book an activity, you can find your digital ticket and receipt here.",
+      "When you book an activity, you can find the booking details here.",
 
   // My booking / Upcoming Screen
   "lbl_agrasen": "Agrasen",
