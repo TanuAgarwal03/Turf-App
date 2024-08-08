@@ -39,7 +39,10 @@ class _PopularGroundScreenState extends State<PopularGroundScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.h),
         child: Obx(() {
-          return ListView.separated(
+          if (controller.popularGround.isEmpty) {
+          return Center(child: Text('No popular grounds available'));
+        }
+        return ListView.separated(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             separatorBuilder: (context, index) {

@@ -56,17 +56,18 @@ class PopulargroundItemModel {
   });
 
   factory PopulargroundItemModel.fromJson(Map<String, dynamic> json) {
-    final acf = json['acf'] ;
-
-    return PopulargroundItemModel(
-      id: json['id'] as int?,
-      title: json['title'],
-      image: acf?['turf_image'] ,
-      location: acf?['address'] ,
-      description: acf?['description'],
-      price: acf?['price'] ,
-    );
-  }
+  print('Parsing JSON: $json');
+  final acf = json['acf'];
+  print('ACF data: $acf');
+  return PopulargroundItemModel(
+    id: json['id'] as int?,
+    title: json['title'] is Map ? json['title']['rendered'] as String? : json['title'] as String?,
+    image: acf is Map ? acf['turf_image'] as String? : null,
+    location: acf is Map ? acf['address'] as String? : null,
+    description: acf is Map ? acf['description'] as String? : null,
+    price: acf is Map ? acf['price'] as String? : null,
+  );
+}
 
   Map<String, dynamic> toJson() {
     return {
