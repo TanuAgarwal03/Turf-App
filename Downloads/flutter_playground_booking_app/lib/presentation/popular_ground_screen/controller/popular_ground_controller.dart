@@ -16,7 +16,6 @@ class PopularGroundController extends GetxController {
 Future<void> fetchPopularGroundData() async {
   final url = 'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard';
   print('Calling API: $url');
-
   try {
     final response = await http.get(Uri.parse(url));
     print('Response status: ${response.statusCode}');

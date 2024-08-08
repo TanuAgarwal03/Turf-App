@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
-
 import 'app_bar/custum_bottom_bar_controller.dart';
 import 'dart:io' show Platform;
 
