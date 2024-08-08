@@ -58,7 +58,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 CategoriesItemWidget(
                   model,
                   onTap: () {
-                    _onCategoryItemTap(model.id);
+                    _onCategoryItemTap(model.id, model.title!);
                   },
                 ),
               );
@@ -69,8 +69,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     });
   }
 
-  void _onCategoryItemTap(int categoryId) {
-    Get.toNamed(AppRoutes.footBallScreen, arguments: categoryId);
+  void _onCategoryItemTap(int categoryId , String title) {
+    Get.toNamed(AppRoutes.footBallScreen,
+     arguments: {
+      categoryId, 
+      title
+      }
+      );
   }
 
   void onTapCategories() {

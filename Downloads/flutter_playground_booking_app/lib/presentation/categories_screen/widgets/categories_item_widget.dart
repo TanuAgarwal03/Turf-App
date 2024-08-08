@@ -4,15 +4,10 @@ import '../models/categories_item_model.dart';
 
 class CategoriesItemWidget extends StatelessWidget {
   final CategoriesItemModel categoriesItemModelObj;
-  // final VoidCallback? onTapFootball;
   final VoidCallback? onTap;
 
   CategoriesItemWidget(
     this.categoriesItemModelObj,{this.onTap}
-  //   {
-  //   Key? key,
-    // this.onTapFootball,
-  // }
   );
 
   @override
@@ -20,9 +15,6 @@ class CategoriesItemWidget extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          // onTap: () {
-          //   onTapFootball?.call();
-          // },
           onTap: onTap,
           child: Container(
             height: 85.adaptSize,
@@ -48,7 +40,6 @@ class CategoriesItemWidget extends StatelessWidget {
             color: appTheme.black900,
           ),
         ),
-        // Text('ID: ${model.id ?? 'No ID'}'),
       ],
     );
   }

@@ -13,7 +13,6 @@ import 'controller/detail_controller.dart';
 import 'models/detailscreen_item_model.dart';
 import 'models/ground_list_model.dart';
 
-
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
 
@@ -22,26 +21,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  // DetailController detailController = Get.put(DetailController());
-  // ReviewController reviewController = Get.put(ReviewController());
-  // PopularGroundController popularGroundController =
-  //     Get.put(PopularGroundController());
-  // bool blockScroll = false;
-  // late int turfId;
-  // // final int turfId = Get.arguments as int;
-
-  // // final arguments = Get.arguments as Map<String , dynamic>;
-  // // final turfId = arguments['id'] as int;
-  
-
-  // @override
-  // void initState() {
-  //   super.initState();
-    
-  //   detailController.fetchTurfData(turfId);
-  //   print(" Turf id in detail screen : $turfId");
-  // }
-   late DetailController detailController;
+  late DetailController detailController;
   late ReviewController reviewController;
   late PopularGroundController popularGroundController;
   late int turfId;
@@ -62,11 +42,11 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments as Map<String , dynamic>;
-  final turfId = arguments['id'] as int;
+    final arguments = Get.arguments as Map<String, dynamic>;
+    final turfId = arguments['id'] as int;
 
     final detailModel = detailController.detailModel.value;
-    mediaQueryData = MediaQuery.of(context);  
+    mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -77,11 +57,18 @@ class _DetailScreenState extends State<DetailScreen> {
         body: SafeArea(
           child: GetBuilder<DetailController>(
             init: DetailController(),
-            builder: (controller) => Stack(
+            builder: (controller) {
+              if(controller.isLoading.value){
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            
+            return Stack(
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [ 
+                  children: [
                     Expanded(
                         child: CustomScrollView(
                       shrinkWrap: true,
@@ -492,7 +479,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 )
               ],
-            ),
+            );
+            }
           ),
         ),
       ),
@@ -516,8 +504,8 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Text(" 4.5 Ratings ",
                   style: CustomTextStyles.bodyLargeGray60001))
 
-              // child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
-              //     style: CustomTextStyles.bodyLargeGray60001))
+          // child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
+          //     style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),
         Text(detailModel.title, style: CustomTextStyles.titleLarge22)
@@ -554,79 +542,75 @@ class _DetailScreenState extends State<DetailScreen> {
 
   /// Navigates to the selectDateTimeScreen when the action is triggered.
   onTapBookNow() {
-    Get.toNamed(
-      AppRoutes.selectDateTimeScreen,
-      arguments: {
-        'turfId' : turfId,
-      }
-    );
+    Get.toNamed(AppRoutes.selectDateTimeScreen, arguments: {
+      'turfId': turfId,
+    });
   }
 
-
   Widget buildFacilities() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "Facilities",
-        style: theme.textTheme.titleLarge!.copyWith(color: appTheme.black900),
-      ),
-      SizedBox(height: 19.v),
-      GridView.builder(
-        primary: false,
-        shrinkWrap: true,
-        itemCount: detailController.facilityList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisSpacing: 16.h,
-          crossAxisSpacing: 16.h,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Facilities",
+          style: theme.textTheme.titleLarge!.copyWith(color: appTheme.black900),
         ),
-        itemBuilder: (context, index) {
-          DetailscreenItemModel model = detailController.facilityList[index];
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.h),
-              color: appTheme.textfieldFillColor,
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 40.v,
-                    width: 40.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: appTheme.whiteA700,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10.h),
-                      child: CustomImageView(
-                        imagePath: model.icon,
-                        height: 24.adaptSize,
-                        width: 24.adaptSize,
+        SizedBox(height: 19.v),
+        GridView.builder(
+          primary: false,
+          shrinkWrap: true,
+          itemCount: detailController.facilityList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 16.h,
+            crossAxisSpacing: 16.h,
+          ),
+          itemBuilder: (context, index) {
+            DetailscreenItemModel model = detailController.facilityList[index];
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.h),
+                color: appTheme.textfieldFillColor,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 40.v,
+                      width: 40.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: appTheme.whiteA700,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(10.h),
+                        child: CustomImageView(
+                          imagePath: model.icon,
+                          height: 24.adaptSize,
+                          width: 24.adaptSize,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10.v),
-                  Text(
-                    model.title!,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    style: CustomTextStyles.bodyMediumOnErrorContainer.copyWith(
-                      color: appTheme.black900,
+                    SizedBox(height: 10.v),
+                    Text(
+                      model.title!,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style:
+                          CustomTextStyles.bodyMediumOnErrorContainer.copyWith(
+                        color: appTheme.black900,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
-    ],
-  );
-}
-
+            );
+          },
+        ),
+      ],
+    );
+  }
 }

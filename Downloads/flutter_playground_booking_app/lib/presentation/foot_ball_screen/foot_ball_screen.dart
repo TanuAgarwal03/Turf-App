@@ -1,5 +1,3 @@
-// // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,11 +14,10 @@ class FootBallScreen extends StatefulWidget {
 class _FootBallScreenState extends State<FootBallScreen> {
   final FootBallController controller = Get.put(FootBallController());
   final int categoryId = Get.arguments as int;
-
   @override
   void initState() {
     super.initState();
-    controller.fetchFootBallData(categoryId);
+    controller.fetchFootBallData(categoryId); 
   }
 
   @override
@@ -38,7 +35,7 @@ class _FootBallScreenState extends State<FootBallScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              getCommonAppBar("lbl_foot_ball".tr),
+              getCommonAppBar("football"),
               SizedBox(height: 16.v),
               Expanded(
                 child: Obx(() {
@@ -77,8 +74,7 @@ class _FootBallScreenState extends State<FootBallScreen> {
                                   children: [
                                     buildSeventeen(
                                       image: model.turfImage
-                                          .toString(), // Ensure image is used correctly
-                                      distance: model.price ?? '',
+                                          .toString(), 
                                     ),
                                     SizedBox(height: 12.v),
                                     Padding(
@@ -139,7 +135,6 @@ class _FootBallScreenState extends State<FootBallScreen> {
 
   Widget buildSeventeen({
     required String image,
-    required String distance,
   }) {
     return SizedBox(
       height: 163.v,
@@ -152,20 +147,6 @@ class _FootBallScreenState extends State<FootBallScreen> {
           radius: BorderRadius.circular(16.h),
           alignment: Alignment.center,
           fit: BoxFit.cover,
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Container(
-            margin: EdgeInsets.only(top: 12.v, right: 12.h),
-            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 2.v),
-            decoration: AppDecoration.white
-                .copyWith(borderRadius: BorderRadiusStyle.circleBorder10),
-            child: Text(
-              distance,
-              style: theme.textTheme.bodySmall!
-                  .copyWith(color: theme.colorScheme.onErrorContainer),
-            ),
-          ),
         ),
       ]),
     );

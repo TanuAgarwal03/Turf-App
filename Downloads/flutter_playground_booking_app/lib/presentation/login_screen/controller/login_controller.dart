@@ -50,25 +50,12 @@ class LoginController extends GetxController {
             'password': passwordController.text,
           }
         );
-        // final response = await http.post(
-        //   Uri.parse(
-        //     'https://lytechxagency.website/turf/wp-json/wp/v1/login?password=${passwordController.text}&username=${emailController.text}',
-        //   ),
-        //   // headers: <String, String>{
-        //   //   'Content-Type': 'application/json; charset=UTF-8',
-        //   // },
-        //   body: jsonEncode({
-        //     'username': emailController.text,
-        //     'password': passwordController.text,
-        //   }),
-        // );
         print('Response body: ${response.body}');
         if (response.statusCode == 200) {
-          // Save response and credentials to local storage
           handleLoginResponse(response.body);
           await _saveDataLocally(response.body, emailController.text, passwordController.text);
 
-          Get.toNamed(AppRoutes.homeContainerScreen); // Navigate on success
+          Get.toNamed(AppRoutes.homeContainerScreen); 
         } else {
           var responseBody = jsonDecode(response.body);
           var errorMessage = responseBody['message'] ?? 'Invalid credentials';

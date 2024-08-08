@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/detail_model.dart';
 import '../models/detailscreen_item_model.dart';
 import '../models/ground_list_model.dart';
-// import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
 
@@ -51,21 +49,23 @@ class DetailController extends GetxController {
 
 Future<void> fetchTurfData(int turfId) async {
     try {
-      print("Fetching data for Turf ID: $turfId");
+      isLoading(true);
       final response = await apiService.getAPI('get-turf/$turfId');
       if (response.statusCode == 200) {
-        print("Turf ID for status 200: $turfId");
         final data = jsonDecode(response.body);
         detailModel.value = DetailModel.fromJson(data);
-        print('Loading data');
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
         groundList.value = detailModel.value.groundList;
-        print("Data loaded for turf id : $turfId");
       } else {
         print('error loading data');
+        Get.snackbar('Error', 'Failed to load turf details !');
+        isLoading(false);
       }
     } catch (e) {
       print('Exception $e');
+    }
+    finally{
+      isLoading(false);
     }
   }
 

@@ -127,7 +127,6 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
   }
 
 
-  ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:

@@ -1,6 +1,6 @@
 import 'package:flutter_playground_booking_app/presentation/filter_screen/models/price_range_model.dart';
 
-import 'ground_type_model.dart';
+// import 'ground_type_model.dart';
 
 /// This class defines the variables used in the [filter_screen],
 /// and is typically used to hold data that is passed between different parts of the application.

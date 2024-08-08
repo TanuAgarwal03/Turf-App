@@ -1,5 +1,5 @@
 
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/filter_screen/models/filter_model.dart';
@@ -17,7 +17,7 @@ class FilterController extends GetxController {
     final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/price_filter?min_price=100&max_price=1200'));
 
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
+      // List<dynamic> data = json.decode(response.body);
       // filteredGrounds = data.map((item) => PriceRangeModel.fromJson(item)).toList();
       update();
     } else {

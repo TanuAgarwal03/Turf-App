@@ -11,12 +11,12 @@ class HomeController extends GetxController {
   List<HomeModel> homeModelList = [];
 
   Future<List<HomeModel>> turfList() async {
-    String url = 'get-turf/18';
+    // String url = 'get-turf/18';
     // String url = 'https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/18';
 
     try {
       final response = await http.get(
-        Uri.parse(url),
+        Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/18'),
       );
 
       if (response.statusCode == 200) {
