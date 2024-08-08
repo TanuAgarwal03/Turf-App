@@ -144,7 +144,7 @@ class NearbyYouController extends GetxController {
   }
 
   Future<void> fetchTurflist() async {
-    print('method for nearby called');
+    print('Fetching nearby turfs');
     final response = await http.get(Uri.parse(
         'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard'));
     if (response.statusCode == 200) {
@@ -199,7 +199,7 @@ class NearbyYouController extends GetxController {
 
       double distanceInKm = distanceInMeters / 1000;
       turf.distance = distanceInKm.toStringAsFixed(2) + ' km';
-      turfList.refresh(); // Refresh the observable list to update the UI
+      turfList.refresh(); 
     } catch (e) {
       print('Error calculating distances: $e');
     }

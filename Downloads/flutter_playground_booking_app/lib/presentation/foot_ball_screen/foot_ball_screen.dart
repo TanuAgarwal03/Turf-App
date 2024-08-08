@@ -55,11 +55,15 @@ class _FootBallScreenState extends State<FootBallScreen> {
                             child: GestureDetector(
                               onTap: () async {
                                 final prefs = await SharedPreferences.getInstance();
-                                await prefs.setInt('turfId', model.id!);
+                                if(model.id != null) {
+                                  await prefs.setInt('turfId', model.id!);
                                 print('turf id in category : ${model.id}');
                                 Get.toNamed(
-                                  AppRoutes.detailScreen,arguments: model.id
+                                  AppRoutes.detailScreen,arguments: {'id':model.id}
                                 );
+                                }else {
+                                  print('model.id is null : ${model.id}');
+                                }
                               },
                               child: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 20.h),

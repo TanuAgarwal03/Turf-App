@@ -37,7 +37,6 @@ class _DetailScreenState extends State<DetailScreen> {
     final arguments = Get.arguments as Map<String, dynamic>;
     turfId = arguments['id'] as int;
     detailController.fetchTurfData(turfId);
-    print("Turf id in detail screen: $turfId");
   }
 
   @override
@@ -217,8 +216,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 24.v),
-                                // buildFacilities(),
-                                Text('selected turf id : $turfId'),
                                 Text(
                                   "lbl_facilities".tr,
                                   style: theme.textTheme.titleLarge!
@@ -487,7 +484,6 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  /// Section Widget
   Widget buildReviews() {
     final detailModel = detailController.detailModel.value;
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -503,9 +499,6 @@ class _DetailScreenState extends State<DetailScreen> {
               padding: EdgeInsets.only(left: 7.h, top: 3.v),
               child: Text(" 4.5 Ratings ",
                   style: CustomTextStyles.bodyLargeGray60001))
-
-          // child: Text(" 4.5 (${detailModel.reviews.length} reviews)",
-          //     style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),
         Text(detailModel.title, style: CustomTextStyles.titleLarge22)

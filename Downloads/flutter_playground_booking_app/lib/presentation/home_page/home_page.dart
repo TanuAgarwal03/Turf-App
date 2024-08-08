@@ -313,10 +313,13 @@ class _HomePageState extends State<HomePage> {
                                           height: 20.adaptSize,
                                           width: 20.adaptSize,
                                         ),
-                                        Padding(
+                                        Container(
+                                          width:200,
                                           padding: EdgeInsets.only(left: 8.h),
                                           child: Text(
                                             data.location ?? 'No location',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                             style: theme.textTheme.bodyMedium!
                                                 .copyWith(
                                               color: appTheme.black900,
@@ -351,7 +354,6 @@ class _HomePageState extends State<HomePage> {
           height: 72.v,
           title: Column(children: [
             AppbarSubtitleOne(
-                // text: "lbl_hello_jane".tr,
                 text: 'Hello User',
                 margin: EdgeInsets.only(right: 79.h)),
             SizedBox(height: 5.v),

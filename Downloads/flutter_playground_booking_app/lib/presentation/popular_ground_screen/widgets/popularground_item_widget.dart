@@ -23,7 +23,7 @@ class PopulargroundItemWidget extends StatelessWidget {
           await prefs.setInt('selectedTurfId', 18); 
         }
 
-        Get.toNamed(AppRoutes.detailScreen, arguments: turfId);
+        Get.toNamed(AppRoutes.detailScreen, arguments: {'id':turfId});
         print('Turf ID saved');
       },
       child: Container(
