@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     controller.turfList();
-    // popularGroundController.
   }
 
   @override
@@ -120,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                                   Get.toNamed(AppRoutes.popularGroundScreen);
                                 },
                                 child: Container(
-                                  width: 240.h,
+                                  width: 220.h,
                                   decoration: AppDecoration.fillGray.copyWith(
                                     color: appTheme.textfieldFillColor,
                                     borderRadius:

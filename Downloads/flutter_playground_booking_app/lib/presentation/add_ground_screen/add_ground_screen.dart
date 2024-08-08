@@ -23,9 +23,9 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final AddGroundModel addGroundModel = AddGroundModel(listofGrounds: []);
   final List<Map<String, dynamic>> listOfGrounds = [];
-  final TextEditingController groundNameController = TextEditingController();
-  final TextEditingController groundTimeController = TextEditingController();
-  final TextEditingController groundImageController = TextEditingController();
+  // final TextEditingController groundNameController = TextEditingController();
+  // final TextEditingController groundTimeController = TextEditingController();
+  // final TextEditingController groundImageController = TextEditingController();
   late Future<List<dynamic>> _categoriesFuture;
 
   // final CategoryController categoryController = Get.put(CategoryController());
@@ -93,10 +93,9 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                 key: _formKey,
                 child: SingleChildScrollView(
                     padding: EdgeInsets.only(bottom: viewInsets.bottom),
-                    // width: double.maxFinite,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           getCommonAppBar("lbl_add_ground".tr),
                           SizedBox(height: 25.v),
@@ -108,18 +107,25 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                           SizedBox(height: 25.v),
                           _buildMasterInput2(),
                           SizedBox(height: 25.v),
+                          _buildGoogleLocationUrl(),
+                          Padding(padding: EdgeInsets.only(left: 25.h), child: Text('*Note : Please enter google location url in the specified format : \n   https://www.google.com/maps/abc/@latitude,longitude/' , textAlign: TextAlign.start, style: TextStyle(color: Colors.red),),),
+                          SizedBox(height: 25.v),
                           _buildMasterInput3(),
                           SizedBox(height: 25.v),
                           _categoryDropdown(),
                           SizedBox(height: 25.v),
-                          _buildGroundInput1(),
+                          Center(
+                            child: _uploadImage(),
+                          ),
+                          // _uploadImage(),
+                          // _buildGroundInput1(),
                           SizedBox(height: 25.v),
-                          _buildGroundInput2(),
-                          SizedBox(height: 25.v),
-                          _buildGroundInput3(),
-                          SizedBox(height: 25.v),
-                          _buildAddGroundButton(),
-                          _imageUpload(),
+                          // _buildGroundInput2(),
+                          // SizedBox(height: 25.v),
+                          // _buildGroundInput3(),
+                          // SizedBox(height: 25.v),
+                          // _buildAddGroundButton(),
+                          // _imageUpload(),
                           SizedBox(height: 5.v),
                         ]))),
           ),
@@ -166,7 +172,7 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: CustomTextFormField(
-          controller: controller.priceController, hintText: "Price."),
+          controller: controller.priceController, hintText: "Price"),
     );
   }
 
@@ -175,7 +181,18 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: CustomTextFormField(
-          controller: controller.locationController, hintText: "Location"),
+          controller: controller.locationController, hintText: "Address"),
+    );
+  }
+
+  Widget _buildGoogleLocationUrl() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      child: CustomTextFormField(
+        controller: controller.googleLocationUrlController,
+        hintText: "Google Location URL",
+        textInputType: TextInputType.text,
+      ),
     );
   }
 
@@ -190,77 +207,75 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  ///ImageUpload Widget
-
-  Widget _imageUpload() {
-    return Padding(padding: EdgeInsets.all(10.0), child: FloatingActionButton(
-      backgroundColor: Color.fromARGB(255, 166, 190, 165),
-      elevation: 10, 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      tooltip: 'Add Turf Image',
-        child: Icon(Icons.upload_file),
-        onPressed: () => Get.defaultDialog(
-            title: 'Image upload',
-            content: Text('Choose the image from gallery'),
-            cancel: ElevatedButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'Back',
-                      style: TextStyle(color: Colors.white),
-                    ))),
-            onCancel: () => Get.back(),
-            confirm: ElevatedButton(
-                onPressed: () {
-                  _pickImage();
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'Upload',
-                      style: TextStyle(color: Colors.white),
-                    ))))));
+  Widget _uploadImage() {
+    return Padding(
+      padding: EdgeInsets.all(25.0),
+      child: ElevatedButton(
+          onPressed: () => Get.defaultDialog(
+              title: 'Image upload',
+              content: Text('Choose the image from gallery'),
+              cancel: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Back',
+                        style: TextStyle(color: Colors.white),
+                      ))),
+              onCancel: () => Get.back(),
+              confirm: ElevatedButton(
+                  onPressed: () {
+                    _pickImage();
+                    Get.back();
+                  },
+                  child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(color: Colors.white),
+                      )))),
+          child:Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Upload Image',
+                        style: TextStyle(color: Colors.white),
+                      )) ),
+    );
   }
 
-  // Widget _imageUpload1() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: ElevatedButton(
-  //         child: Padding(
-  //           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-  //           child: Text(
-  //             'Upload Image',
-  //             style: TextStyle(color: Colors.white),
-  //           ),
-  //         ),
-  //         onPressed: () => Get.defaultDialog(
-  //             title: 'Image upload',
-  //             content: Text('Choose the image from gallery'),
-  //             cancel: ElevatedButton(
-  //                 onPressed: () {
-  //                   Get.back();
-  //                 },
-  //                 child: Padding(
-  //                     padding: EdgeInsets.all(10.0),
-  //                     child: Text(
-  //                       'Back',
-  //                       style: TextStyle(color: Colors.white),
-  //                     ))),
-  //             onCancel: () => Get.back(),
-  //             confirm: ElevatedButton(
-  //                 onPressed: () {
-  //                   _pickImage();
-  //                 },
-  //                 child: Padding(
-  //                     padding: EdgeInsets.all(10.0),
-  //                     child: Text(
-  //                       'Upload',
-  //                       style: TextStyle(color: Colors.white),
-  //                     ))))),
-  //   );
+  // Widget _imageUpload() {
+  //   return Padding(padding: EdgeInsets.all(10.0), child: FloatingActionButton(
+  //     backgroundColor: Color.fromARGB(255, 166, 190, 165),
+  //     elevation: 10,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+  //     tooltip: 'Add Turf Image',
+  //       child: Icon(Icons.upload_file),
+  //       onPressed: () => Get.defaultDialog(
+  //           title: 'Image upload',
+  //           content: Text('Choose the image from gallery'),
+  //           cancel: ElevatedButton(
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //               child: Padding(
+  //                   padding: EdgeInsets.all(10.0),
+  //                   child: Text(
+  //                     'Back',
+  //                     style: TextStyle(color: Colors.white),
+  //                   ))),
+  //           onCancel: () => Get.back(),
+  //           confirm: ElevatedButton(
+  //               onPressed: () {
+  //                 _pickImage();
+  //               },
+  //               child: Padding(
+  //                   padding: EdgeInsets.all(10.0),
+  //                   child: Text(
+  //                     'Upload',
+  //                     style: TextStyle(color: Colors.white),
+  //                   ))))));
   // }
 
   /// Section Widget
@@ -355,35 +370,35 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   //   );
   // }
 
-  Widget _buildGroundInput1() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: CustomTextFormField(
-        controller: groundNameController,
-        hintText: "Ground Name",
-      ),
-    );
-  }
+  // Widget _buildGroundInput1() {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+  //     child: CustomTextFormField(
+  //       controller: groundNameController,
+  //       hintText: "Ground Name",
+  //     ),
+  //   );
+  // }
 
-  Widget _buildGroundInput2() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: CustomTextFormField(
-        controller: groundTimeController,
-        hintText: "Time",
-      ),
-    );
-  }
+  // Widget _buildGroundInput2() {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+  //     child: CustomTextFormField(
+  //       controller: groundTimeController,
+  //       hintText: "Time",
+  //     ),
+  //   );
+  // }
 
-  Widget _buildGroundInput3() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: CustomTextFormField(
-        controller: groundImageController,
-        hintText: "Ground Image",
-      ),
-    );
-  }
+  // Widget _buildGroundInput3() {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+  //     child: CustomTextFormField(
+  //       controller: groundImageController,
+  //       hintText: "Ground Image",
+  //     ),
+  //   );
+  // }
 
   // Widget _buildAddGroundButton() {
   //   return Padding(
@@ -408,34 +423,33 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   //     ),
   //   );
   // }
-  Widget _buildAddGroundButton() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: CustomElevatedButton(
-        text: "Add Ground",
-        onPressed: () {
-          setState(() {
-            listOfGrounds.add({
-              'ground_name': groundNameController.text,
-              'time': groundTimeController.text,
-              'ground_image': groundImageController.text,
-            });
-            controller.addGroundModelObj.update((model) {
-              model?.listofGrounds =
-                  List.from(listOfGrounds);
-            });
-            print('Updated list of grounds in view: $listOfGrounds');
-            print(
-                'Updated list of grounds in controller: ${controller.addGroundModelObj.value.listofGrounds}');
-          });
-          // Clear the fields after adding
-          groundNameController.clear();
-          groundTimeController.clear();
-          groundImageController.clear();
-        },
-      ),
-    );
-  }
+  // Widget _buildAddGroundButton() {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+  //     child: CustomElevatedButton(
+  //       text: "Add Ground",
+  //       onPressed: () {
+  //         setState(() {
+  //           listOfGrounds.add({
+  //             'ground_name': groundNameController.text,
+  //             'time': groundTimeController.text,
+  //             'ground_image': groundImageController.text,
+  //           });
+  //           controller.addGroundModelObj.update((model) {
+  //             model?.listofGrounds = List.from(listOfGrounds);
+  //           });
+  //           print('Updated list of grounds in view: $listOfGrounds');
+  //           print(
+  //               'Updated list of grounds in controller: ${controller.addGroundModelObj.value.listofGrounds}');
+  //         });
+  //         // Clear the fields after adding
+  //         groundNameController.clear();
+  //         groundTimeController.clear();
+  //         groundImageController.clear();
+  //       },
+  //     ),
+  //   );
+  // }
 
   onTapContinue() {
     controller.createGround();

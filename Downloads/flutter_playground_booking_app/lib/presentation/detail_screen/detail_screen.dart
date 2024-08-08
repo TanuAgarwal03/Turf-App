@@ -3,7 +3,7 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
-import 'package:flutter_playground_booking_app/presentation/detail_screen/widgets/detailscreen_item_widget.dart';
+// import 'package:flutter_playground_booking_app/presentation/detail_screen/widgets/detailscreen_item_widget.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
 import '../popular_ground_screen/controller/popular_ground_controller.dart';
 import '../review_screen/controller/review_controller.dart';
@@ -11,14 +11,14 @@ import '../review_screen/models/review_item_model.dart';
 import '../review_screen/widgets/review_item_widget.dart';
 import 'controller/detail_controller.dart';
 import 'models/detailscreen_item_model.dart';
-import 'models/ground_list_model.dart';
+// import 'models/ground_list_model.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
-}
+} 
 
 class _DetailScreenState extends State<DetailScreen> {
   late DetailController detailController;
@@ -41,9 +41,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments as Map<String, dynamic>;
-    final turfId = arguments['id'] as int;
-
     final detailModel = detailController.detailModel.value;
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
@@ -155,29 +152,29 @@ class _DetailScreenState extends State<DetailScreen> {
                                         );
                                       },
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20.h, bottom: 16.v),
-                                      child: Align(
-                                          alignment: Alignment.bottomLeft,
-                                          child: Container(
-                                              width: 64.h,
-                                              height: 27.v,
-                                              decoration: AppDecoration.white
-                                                  .copyWith(
-                                                      borderRadius:
-                                                          BorderRadiusStyle
-                                                              .circleBorder10),
-                                              child: Center(
-                                                child: Text("8 KM",
-                                                    style: theme
-                                                        .textTheme.bodySmall!
-                                                        .copyWith(
-                                                            color: theme
-                                                                .colorScheme
-                                                                .onErrorContainer)),
-                                              ))),
-                                    )
+                                    // Padding(
+                                    //   padding: EdgeInsets.only(
+                                    //       left: 20.h, bottom: 16.v),
+                                    //   child: Align(
+                                    //       alignment: Alignment.bottomLeft,
+                                    //       child: Container(
+                                    //           width: 64.h,
+                                    //           height: 27.v,
+                                    //           decoration: AppDecoration.white
+                                    //               .copyWith(
+                                    //                   borderRadius:
+                                    //                       BorderRadiusStyle
+                                    //                           .circleBorder10),
+                                    //           child: Center(
+                                    //             child: Text("8 KM",
+                                    //                 style: theme
+                                    //                     .textTheme.bodySmall!
+                                    //                     .copyWith(
+                                    //                         color: theme
+                                    //                             .colorScheme
+                                    //                             .onErrorContainer)),
+                                    //           ))),
+                                    // )
                                   ],
                                 )),
                           ),
@@ -284,28 +281,28 @@ class _DetailScreenState extends State<DetailScreen> {
                                   },
                                 ),
                                 SizedBox(height: 26.v),
-                                Text(
-                                  "lbl_ground_list".tr,
-                                  style: theme.textTheme.titleLarge!
-                                      .copyWith(color: appTheme.black900),
-                                ),
-                                SizedBox(height: 19.v),
-                                GridView.builder(
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  itemCount: controller.groundList.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisExtent: 180.v,
-                                          crossAxisCount: 3,
-                                          mainAxisSpacing: 16.h,
-                                          crossAxisSpacing: 17.h),
-                                  itemBuilder: (context, index) {
-                                    GroundListModel model =
-                                        controller.groundList[index];
-                                    return DetailscreenItemWidget(model);
-                                  },
-                                ),
+                                // Text(
+                                //   "lbl_ground_list".tr,
+                                //   style: theme.textTheme.titleLarge!
+                                //       .copyWith(color: appTheme.black900),
+                                // ),
+                                // SizedBox(height: 19.v),
+                                // GridView.builder(
+                                //   primary: false,
+                                //   shrinkWrap: true,
+                                //   itemCount: controller.groundList.length,
+                                //   gridDelegate:
+                                //       SliverGridDelegateWithFixedCrossAxisCount(
+                                //           mainAxisExtent: 180.v,
+                                //           crossAxisCount: 3,
+                                //           mainAxisSpacing: 16.h,
+                                //           crossAxisSpacing: 17.h),
+                                //   itemBuilder: (context, index) {
+                                //     GroundListModel model =
+                                //         controller.groundList[index];
+                                //     return DetailscreenItemWidget(model);
+                                //   },
+                                // ),
                                 SizedBox(height: 26.v),
                                 getViewAllRow("lbl_reviews".tr, () {
                                   Get.toNamed(AppRoutes.reviewScreen);
@@ -510,7 +507,6 @@ class _DetailScreenState extends State<DetailScreen> {
     ]);
   }
 
-  /// Section Widget
   Widget buildButtons() {
     return CustomElevatedButton(
         text: "lbl_book_now".tr,
@@ -519,21 +515,18 @@ class _DetailScreenState extends State<DetailScreen> {
         });
   }
 
-  /// Navigates to the nearbyYouScreen when the action is triggered.
   onTapIconButton() {
     Get.toNamed(
       AppRoutes.nearbyYouScreen,
     );
   }
 
-  /// Navigates to the reviewScreen when the action is triggered.
   onTapTxtViewAll() {
     Get.toNamed(
       AppRoutes.reviewScreen,
     );
   }
 
-  /// Navigates to the selectDateTimeScreen when the action is triggered.
   onTapBookNow() {
     Get.toNamed(AppRoutes.selectDateTimeScreen, arguments: {
       'turfId': turfId,

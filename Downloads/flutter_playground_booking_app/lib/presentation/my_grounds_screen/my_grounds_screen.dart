@@ -102,6 +102,7 @@ class MygroundsItemWidget extends StatelessWidget {
             height: 90.adaptSize,
             width: 90.adaptSize,
             radius: BorderRadius.circular(16.h),
+            fit: BoxFit.cover,
           ),
           SizedBox(width: 16.h),
           Expanded(

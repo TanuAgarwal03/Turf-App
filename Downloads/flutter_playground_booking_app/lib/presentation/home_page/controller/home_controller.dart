@@ -11,8 +11,6 @@ class HomeController extends GetxController {
   List<HomeModel> homeModelList = [];
 
   Future<List<HomeModel>> turfList() async {
-    // String url = 'get-turf/18';
-    // String url = 'https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/18';
 
     try {
       final response = await http.get(
@@ -24,8 +22,6 @@ class HomeController extends GetxController {
         
         homeModelList.clear();
         homeModelList.add(HomeModel.fromJson(jsonResponse));
-
-        print("This is homeModelList : $homeModelList");
       } else {
         print('Failed to load data');
       }

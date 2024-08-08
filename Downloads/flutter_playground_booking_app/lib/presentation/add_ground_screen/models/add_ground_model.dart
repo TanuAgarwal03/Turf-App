@@ -7,7 +7,7 @@ class AddGroundModel {
   String? price;
   String? facilities;
   String? category;
-  List<Map<String , dynamic>> listofGrounds;
+  String? googleLocationUrl;
 
   AddGroundModel({
     this.title,
@@ -17,7 +17,7 @@ class AddGroundModel {
     this.price,
     this.facilities,
     this.category,
-    required this.listofGrounds,
+    this.googleLocationUrl,
   });
 
   factory AddGroundModel.fromJson(Map<String, dynamic> json) {
@@ -29,7 +29,7 @@ class AddGroundModel {
       price: json['price'],
       facilities: json['facilities'],
       category: json['categories'],
-      listofGrounds: List<Map<String , dynamic>>.from(json['list_of_ground']),
+      googleLocationUrl: json['google_location_url'],
     );
   }
 
@@ -42,7 +42,7 @@ class AddGroundModel {
       'price': price,
       'facilities': facilities,
       'categories': category,
-      'list_of_ground' : listofGrounds,
+      'google_location_url' : googleLocationUrl,
     };
   }
 }

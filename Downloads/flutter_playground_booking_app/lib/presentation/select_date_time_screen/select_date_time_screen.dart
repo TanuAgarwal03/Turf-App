@@ -286,7 +286,7 @@ class _SelectDateTimeScreenState extends State<SelectDateTimeScreen> {
       text: "lbl_continue".tr,
       onPressed: () {
         if (_formKey.currentState?.validate() ?? false) {
-          // _createBooking();
+          _createBooking();
           Get.toNamed(AppRoutes.paymentScreen);
         }
       },

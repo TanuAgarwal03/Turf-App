@@ -16,13 +16,13 @@ class MyGroundsController extends GetxController {
 
   void fetchMyGrounds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int user_id = prefs.getInt('user_id') ?? 4;
+    int user_id = prefs.getInt('user_id') ?? 1;
+    print(user_id);
     final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_turfs_ownerwise?user_id=$user_id'));
-    print('API called - response : $response.body');
-    
+    print('API called - response : ${response.body}');
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body) as List;
-
       myGroundList.value = data.map((ground) => MygroundsItemModel.fromJson(ground)).toList();
     } else {
       Get.snackbar('Error', 'Failed to load grounds');

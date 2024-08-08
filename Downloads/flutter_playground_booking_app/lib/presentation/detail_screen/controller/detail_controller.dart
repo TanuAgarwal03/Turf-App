@@ -19,7 +19,7 @@ class DetailController extends GetxController {
     price: '',
     locationUrl: '',
     facilities: [],
-    groundList: [],
+    // groundList: [],
     reviews: [],
   ).obs;
 
@@ -50,26 +50,22 @@ class DetailController extends GetxController {
 Future<void> fetchTurfData(int turfId) async {
     try {
       isLoading(true);
-      print('fetchTurfdata method called');
       final response = await apiService.getAPI('get-turf/$turfId');
-      print('Response for API: ${response.body}');
-      print('Status code for API: ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
          if (data is Map<String, dynamic>) {
         detailModel.value = DetailModel.fromJson(data);
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        groundList.value = detailModel.value.groundList;
+        // groundList.value = detailModel.value.groundList;
       } else {
         detailModel.value = DetailModel.fromJson(data);
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        groundList.value = detailModel.value.groundList;
+        // groundList.value = detailModel.value.groundList;
       }
         detailModel.value = DetailModel.fromJson(data);
         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        groundList.value = detailModel.value.groundList;
+        // groundList.value = detailModel.value.groundList;
       } else {
-        print('error loading data');
         Get.snackbar('Error', 'Failed to load turf details !');
         isLoading(false);
       }

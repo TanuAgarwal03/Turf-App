@@ -58,8 +58,8 @@ class MyBookingUpcomingController extends GetxController {
   void fetchMyBookingUpcoming() async {
     try {
       isLoading(true);
-      var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=1'));
-            // var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=7'));
+      // var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=1'));
+            var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=7'));
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body) as List;

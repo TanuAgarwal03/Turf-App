@@ -7,6 +7,7 @@ class NearbyYouModel {
   double? longitude;
   String? distance;
   String? googleLocationUrl;
+  // String? listOfGround;
 
   NearbyYouModel(
       {this.id,
@@ -16,7 +17,8 @@ class NearbyYouModel {
       this.latitude,
       this.longitude,
       this.distance,
-      this.googleLocationUrl});
+      this.googleLocationUrl,  
+      });
 
   factory NearbyYouModel.fromJson(Map<String, dynamic> json) {
     return NearbyYouModel(
@@ -25,6 +27,7 @@ class NearbyYouModel {
       image: json['acf']['turf_image'] as String?,
       location: json['acf']['address'] as String?,
       googleLocationUrl: json['acf']['google_location_url'] as String?,
+      // listOfGround: json['acf']['list_of_ground'].toString()
     );
   }
   Map<String, dynamic> toJson() {
@@ -34,6 +37,7 @@ class NearbyYouModel {
       'location': location,
       'latitude': latitude,
       'longitude': longitude,
+      // 'list_of_ground' : listOfGround,
     };
   }
 }
