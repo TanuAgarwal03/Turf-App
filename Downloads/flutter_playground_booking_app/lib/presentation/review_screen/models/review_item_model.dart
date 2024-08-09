@@ -1,48 +1,8 @@
-
-// /// This class is used in the [review_item_widget] screen.
-
-// // class ReviewItemModel {
-// //   String? image;
-// //   String? userName;
-// //   String? time;
-// //   String? noOfReview;
-// //   String? reviewMSG;
-// //   ReviewItemModel(
-// //       this.image,
-// //       this.userName,
-// //       this.time,
-// //       this.noOfReview,
-// //       this.reviewMSG);
-// // }
-// class ReviewItemModel {
-//   String? image;
-//   String? userName;
-//   String? time;
-//   String? noOfReview;
-//   String? reviewMSG;
-
-//   ReviewItemModel({
-//     this.image,
-//     this.userName,
-//     this.time,
-//     this.noOfReview,
-//     this.reviewMSG,
-//   });
-
-//   factory ReviewItemModel.fromJson(Map<String, dynamic> json) {
-//     return ReviewItemModel(
-//       image: json['image'],
-//       userName: json['userName'],
-//       time: json['time'],
-//       noOfReview: json['noOfReview'],
-//       reviewMSG: json['reviewMSG'],
-//     );
-//   }
-// }
 class ReviewItemModel {
   String id;
   String title;
   String rating;
+  // double rating;
   String description;
   String firstName;
   String lastName;
@@ -63,6 +23,7 @@ class ReviewItemModel {
       id: json['id'],
       title: json['title'],
       rating: json['rating'],
+      // rating:  double.tryParse(json['rating'] ?? '0.0') ?? 0.0,
       description: json['discription'],
       firstName: json['first_name'],
       lastName: json['last_name'],

@@ -3,7 +3,6 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
-// import 'package:flutter_playground_booking_app/presentation/detail_screen/widgets/detailscreen_item_widget.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,14 +12,14 @@ import '../review_screen/models/review_item_model.dart';
 import '../review_screen/widgets/review_item_widget.dart';
 import 'controller/detail_controller.dart';
 import 'models/detailscreen_item_model.dart';
-// import 'models/ground_list_model.dart';
+// import 'package:share_plus/share_plus.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
-} 
+}
 
 class _DetailScreenState extends State<DetailScreen> {
   late DetailController detailController;
@@ -39,7 +38,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        role = prefs.getString('role'); // Retrieve the role value
+        role = prefs.getString('role');
       });
     });
 
@@ -61,423 +60,254 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: appTheme.bgColor,
         body: SafeArea(
           child: GetBuilder<DetailController>(
-            init: DetailController(),
-            builder: (controller) {
-              if(controller.isLoading.value){
-                return Center(
-                  child: LoadingAnimationWidget.staggeredDotsWave(
-              color: Colors.blue,
-              size: 50,
-            ),
-                );
-              }            
-            return Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              init: DetailController(),
+              builder: (controller) {
+                if (controller.isLoading.value) {
+                  return Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
+                      color: Colors.blue,
+                      size: 50,
+                    ),
+                  );
+                }
+                return Stack(
                   children: [
-                    Expanded(
-                        child: CustomScrollView(
-                      shrinkWrap: true,
-                      primary: true,
-                      physics: blockScroll
-                          ? NeverScrollableScrollPhysics()
-                          : BouncingScrollPhysics(),
-                      slivers: [
-                        SliverAppBar(
-                          toolbarHeight: 68.v,
-                          backgroundColor: Colors.transparent,
-                          expandedHeight: 285.v,
-                          leadingWidth: 68.h,
-                          leading: Padding(
-                              padding: EdgeInsets.only(left: 20.h, top: 16.v),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: Container(
-                                  height: 48.v,
-                                  width: 48.h,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.h),
-                                      color: appTheme.blackTransperant
-                                          .withOpacity(0.30)),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12.h),
-                                    child: CustomImageView(
-                                      imagePath:
-                                          ImageConstant.imgGroup1171274870,
-                                    ),
-                                  ),
-                                ),
-                              )),
-                          centerTitle: true,
-                          actions: [
-                            Padding(
-                                padding:
-                                    EdgeInsets.only(right: 20.h, top: 16.v),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 48.v,
-                                    width: 48.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12.h),
-                                        color: appTheme.blackTransperant
-                                            .withOpacity(0.30)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(12.h),
-                                      child: CustomImageView(
-                                        imagePath:
-                                            ImageConstant.imgGroup1171274871,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: CustomScrollView(
+                          shrinkWrap: true,
+                          primary: true,
+                          physics: blockScroll
+                              ? NeverScrollableScrollPhysics()
+                              : BouncingScrollPhysics(),
+                          slivers: [
+                            SliverAppBar(
+                              toolbarHeight: 68.v,
+                              backgroundColor: Colors.transparent,
+                              expandedHeight: 285.v,
+                              leadingWidth: 68.h,
+                              leading: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20.h, top: 16.v),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      height: 48.v,
+                                      width: 48.h,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.h),
+                                          color: appTheme.blackTransperant
+                                              .withOpacity(0.30)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(12.h),
+                                        child: CustomImageView(
+                                          imagePath:
+                                              ImageConstant.imgGroup1171274870,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )),
-                          ],
-                          flexibleSpace: FlexibleSpaceBar(
-                            background: Container(
-                                height: 285.v,
-                                child: Stack(
+                                  )),
+                              centerTitle: true,
+                              // actions: [
+                              //   Padding(
+                              //       padding:
+                              //           EdgeInsets.only(right: 20.h, top: 16.v),
+                              //       child: GestureDetector(
+                              //         onTap: () {
+                              //         },
+                              //         child: Container(
+                              //           height: 48.v,
+                              //           width: 48.h,
+                              //           decoration: BoxDecoration(
+                              //               borderRadius:
+                              //                   BorderRadius.circular(12.h),
+                              //               color: appTheme.blackTransperant
+                              //                   .withOpacity(0.30)),
+                              //           child: Padding(
+                              //             padding: EdgeInsets.all(12.h),
+                              //             child: CustomImageView(
+                              //               imagePath: ImageConstant
+                              //                   .imgGroup1171274871,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       )),
+                              // ],
+                              flexibleSpace: FlexibleSpaceBar(
+                                background: Container(
+                                    height: 285.v,
+                                    child: Stack(
+                                      children: [
+                                        PageView.builder(
+                                          onPageChanged: (value) {
+                                            controller.currentPage = value;
+                                            controller.update();
+                                          },
+                                          controller: controller.pageController,
+                                          itemCount: 1,
+                                          itemBuilder: (context, index) {
+                                            return Hero(
+                                              tag: popularGroundController
+                                                  .currentImage,
+                                              child: CustomImageView(
+                                                imagePath: detailModel.image,
+                                                height: double.infinity,
+                                                width: double.infinity,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                            SliverList(
+                              delegate: SliverChildListDelegate([
+                                ListView(
+                                  padding: EdgeInsets.only(
+                                      left: 20.h, right: 20.h, bottom: 120.v),
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   children: [
-                                    PageView.builder(
-                                      onPageChanged: (value) {
-                                        controller.currentPage = value;
-                                        controller.update();
-                                      },
-                                      controller: controller.pageController,
-                                      itemCount: 1,
+                                    SizedBox(
+                                      height: 16.v,
+                                    ),
+                                    buildReviews(),
+                                    SizedBox(height: 12.v),
+                                    ExpandableText(
+                                      detailModel.description,
+                                      expandText: "lbl_read_more".tr,
+                                      collapseText: 'Read less',
+                                      maxLines: 3,
+                                      linkColor: appTheme.buttonColor,
+                                      style: theme.textTheme.bodyLarge!
+                                          .copyWith(color: appTheme.black900),
+                                      linkStyle:
+                                          theme.textTheme.titleMedium!.copyWith(
+                                        color: appTheme.buttonColor,
+                                        fontSize: 16.fSize,
+                                      ),
+                                    ),
+                                    SizedBox(height: 24.v),
+                                    Text(
+                                      "lbl_facilities".tr,
+                                      style: theme.textTheme.titleLarge!
+                                          .copyWith(color: appTheme.black900),
+                                    ),
+                                    SizedBox(height: 19.v),
+                                    GridView.builder(
+                                      primary: false,
+                                      shrinkWrap: true,
+                                      itemCount: controller.facilityList.length,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              mainAxisExtent: 85.v,
+                                              crossAxisCount: 4,
+                                              mainAxisSpacing: 16.h,
+                                              crossAxisSpacing: 16.h),
                                       itemBuilder: (context, index) {
-                                        return Hero(
-                                          tag: popularGroundController
-                                              .currentImage,
-                                          child: CustomImageView(
-                                            // imagePath: popularGroundController
-                                            //     .currentImage.value,
-                                            imagePath: detailModel.image,
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                            fit: BoxFit.fill,
+                                        DetailscreenItemModel model =
+                                            controller.facilityList[index];
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12.h),
+                                            color: appTheme.textfieldFillColor,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.h),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 40.v,
+                                                  width: 40.h,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                          appTheme.whiteA700),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.h),
+                                                    child: CustomImageView(
+                                                      imagePath: model.icon,
+                                                      height: 24.adaptSize,
+                                                      width: 24.adaptSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.v,
+                                                ),
+                                                Text(model.title!,
+                                                    maxLines: 1,
+                                                    textAlign: TextAlign.center,
+                                                    style: CustomTextStyles
+                                                        .bodyMediumOnErrorContainer
+                                                        .copyWith(
+                                                            color: appTheme
+                                                                .black900)),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },
                                     ),
-                                    // Padding(
-                                    //   padding: EdgeInsets.only(
-                                    //       left: 20.h, bottom: 16.v),
-                                    //   child: Align(
-                                    //       alignment: Alignment.bottomLeft,
-                                    //       child: Container(
-                                    //           width: 64.h,
-                                    //           height: 27.v,
-                                    //           decoration: AppDecoration.white
-                                    //               .copyWith(
-                                    //                   borderRadius:
-                                    //                       BorderRadiusStyle
-                                    //                           .circleBorder10),
-                                    //           child: Center(
-                                    //             child: Text("8 KM",
-                                    //                 style: theme
-                                    //                     .textTheme.bodySmall!
-                                    //                     .copyWith(
-                                    //                         color: theme
-                                    //                             .colorScheme
-                                    //                             .onErrorContainer)),
-                                    //           ))),
-                                    // )
-                                  ],
-                                )),
-                          ),
-                        ),
-                        SliverList(
-                          delegate: SliverChildListDelegate([
-                            ListView(
-                              padding: EdgeInsets.only(
-                                  left: 20.h, right: 20.h, bottom: 120.v),
-                              primary: false,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: [
-                                SizedBox(
-                                  height: 16.v,
-                                ),
-                                buildReviews(),
-                                SizedBox(height: 12.v),
-                                ExpandableText(
-                                  detailModel.description,
-                                  expandText: "lbl_read_more".tr,
-                                  collapseText: 'Read less',
-                                  maxLines: 3,
-                                  linkColor: appTheme.buttonColor,
-                                  style: theme.textTheme.bodyLarge!
-                                      .copyWith(color: appTheme.black900),
-                                  linkStyle:
-                                      theme.textTheme.titleMedium!.copyWith(
-                                    color: appTheme.buttonColor,
-                                    fontSize: 16.fSize,
-                                  ),
-                                ),
-                                SizedBox(height: 24.v),
-                                Text(
-                                  "lbl_facilities".tr,
-                                  style: theme.textTheme.titleLarge!
-                                      .copyWith(color: appTheme.black900),
-                                ),
-                                SizedBox(height: 19.v),
-                                GridView.builder(
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  itemCount: controller.facilityList.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisExtent: 85.v,
-                                          crossAxisCount: 4,
-                                          mainAxisSpacing: 16.h,
-                                          crossAxisSpacing: 16.h),
-                                  itemBuilder: (context, index) {
-                                    DetailscreenItemModel model =
-                                        controller.facilityList[index];
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12.h),
-                                        color: appTheme.textfieldFillColor,
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.h),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 40.v,
-                                              width: 40.h,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: appTheme.whiteA700),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10.h),
-                                                child: CustomImageView(
-                                                  imagePath: model.icon,
-                                                  // imagePath: detailModel.image,
-                                                  height: 24.adaptSize,
-                                                  width: 24.adaptSize,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.v,
-                                            ),
-                                            Text(model.title!,
-                                                maxLines: 1,
-                                                textAlign: TextAlign.center,
-                                                style: CustomTextStyles
-                                                    .bodyMediumOnErrorContainer
-                                                    .copyWith(
-                                                        color:
-                                                            appTheme.black900)),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(height: 26.v),
-                                // Text(
-                                //   "lbl_ground_list".tr,
-                                //   style: theme.textTheme.titleLarge!
-                                //       .copyWith(color: appTheme.black900),
-                                // ),
-                                // SizedBox(height: 19.v),
-                                // GridView.builder(
-                                //   primary: false,
-                                //   shrinkWrap: true,
-                                //   itemCount: controller.groundList.length,
-                                //   gridDelegate:
-                                //       SliverGridDelegateWithFixedCrossAxisCount(
-                                //           mainAxisExtent: 180.v,
-                                //           crossAxisCount: 3,
-                                //           mainAxisSpacing: 16.h,
-                                //           crossAxisSpacing: 17.h),
-                                //   itemBuilder: (context, index) {
-                                //     GroundListModel model =
-                                //         controller.groundList[index];
-                                //     return DetailscreenItemWidget(model);
-                                //   },
-                                // ),
-                                SizedBox(height: 26.v),
-                                getViewAllRow("lbl_reviews".tr, () {
-                                  Get.toNamed(AppRoutes.reviewScreen);
-                                }),
-                                SizedBox(height: 16.v),
-                                ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    primary: false,
-                                    itemCount:
-                                        reviewController.reviewList.length > 1
-                                            ? 1
-                                            : reviewController
-                                                .reviewList.length,
-                                    itemBuilder: (context, index) {
-                                      ReviewItemModel model =
-                                          reviewController.reviewList[index];
-                                      return ReviewItemWidget(model);
+                                    SizedBox(height: 26.v),
+                                    SizedBox(height: 26.v),
+                                    getViewAllRow("lbl_reviews".tr, () {
+                                      Get.toNamed(AppRoutes.reviewScreen);
                                     }),
-                                SizedBox(height: 26.v),
-                                // Text(
-                                //   "msg_our_popular_features".tr,
-                                //   style: theme.textTheme.titleLarge!
-                                //       .copyWith(color: appTheme.black900),
-                                // ),
-                                // SizedBox(height: 19.v),
-                                // Padding(
-                                //     padding: EdgeInsets.only(right: 67.h),
-                                //     child: Row(
-                                //         crossAxisAlignment:
-                                //             CrossAxisAlignment.start,
-                                //         children: [
-                                //           Container(
-                                //               height: 10.adaptSize,
-                                //               width: 10.adaptSize,
-                                //               margin: EdgeInsets.only(
-                                //                   top: 4.v, bottom: 6.v),
-                                //               decoration: BoxDecoration(
-                                //                   color:
-                                //                       theme.colorScheme.primary,
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(
-                                //                           5.h))),
-                                //           Padding(
-                                //               padding: EdgeInsets.only(
-                                //                   left: 12.h, top: 1.v),
-                                //               child: Text(
-                                //                   "lbl_hiring_partners".tr,
-                                //                   style: theme
-                                //                       .textTheme.bodyLarge!
-                                //                       .copyWith(
-                                //                     color: appTheme.black900,
-                                //                   ))),
-                                //           Spacer(),
-                                //           Container(
-                                //               height: 10.adaptSize,
-                                //               width: 10.adaptSize,
-                                //               margin: EdgeInsets.only(
-                                //                   top: 4.v, bottom: 6.v),
-                                //               decoration: BoxDecoration(
-                                //                   color:
-                                //                       theme.colorScheme.primary,
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(
-                                //                           5.h))),
-                                //           Padding(
-                                //               padding:
-                                //                   EdgeInsets.only(left: 12.h),
-                                //               child: Text(
-                                //                   "lbl_miniature_field".tr,
-                                //                   style: theme
-                                //                       .textTheme.bodyLarge!
-                                //                       .copyWith(
-                                //                     color: appTheme.black900,
-                                //                   )))
-                                //         ])),
-                                // SizedBox(height: 19.v),
-                                // Padding(
-                                //     padding: EdgeInsets.only(right: 51.h),
-                                //     child: Row(
-                                //         crossAxisAlignment:
-                                //             CrossAxisAlignment.start,
-                                //         children: [
-                                //           Container(
-                                //               height: 10.adaptSize,
-                                //               width: 10.adaptSize,
-                                //               margin: EdgeInsets.only(
-                                //                   top: 3.v, bottom: 6.v),
-                                //               decoration: BoxDecoration(
-                                //                   color:
-                                //                       theme.colorScheme.primary,
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(
-                                //                           5.h))),
-                                //           Padding(
-                                //               padding:
-                                //                   EdgeInsets.only(left: 12.h),
-                                //               child: Text("lbl_grass_pitch".tr,
-                                //                   style: theme
-                                //                       .textTheme.bodyLarge!
-                                //                       .copyWith(
-                                //                     color: appTheme.black900,
-                                //                   ))),
-                                //           Spacer(),
-                                //           Container(
-                                //               height: 10.adaptSize,
-                                //               width: 10.adaptSize,
-                                //               margin: EdgeInsets.only(
-                                //                   top: 3.v, bottom: 6.v),
-                                //               decoration: BoxDecoration(
-                                //                   color:
-                                //                       theme.colorScheme.primary,
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(
-                                //                           5.h))),
-                                //           Padding(
-                                //               padding:
-                                //                   EdgeInsets.only(left: 12.h),
-                                //               child: Text(
-                                //                   "msg_outdoor_indoor".tr,
-                                //                   style: theme
-                                //                       .textTheme.bodyLarge!
-                                //                       .copyWith(
-                                //                     color: appTheme.black900,
-                                //                   )))
-                                //         ])),
-                                // SizedBox(height: 20.v),
-                                // Row(
-                                //     crossAxisAlignment:
-                                //         CrossAxisAlignment.start,
-                                //     children: [
-                                //       Container(
-                                //           height: 10.adaptSize,
-                                //           width: 10.adaptSize,
-                                //           margin: EdgeInsets.only(
-                                //               top: 3.v, bottom: 6.v),
-                                //           decoration: BoxDecoration(
-                                //               color: theme.colorScheme.primary,
-                                //               borderRadius:
-                                //                   BorderRadius.circular(5.h))),
-                                //       Padding(
-                                //           padding: EdgeInsets.only(left: 12.h),
-                                //           child: Text(
-                                //               "msg_natural_grass_pitch".tr,
-                                //               style: theme.textTheme.bodyLarge!
-                                //                   .copyWith(
-                                //                 color: appTheme.black900,
-                                //               )))
-                                //     ]),
-                              ],
+                                    SizedBox(height: 16.v),
+                                    ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      itemCount:
+                                          reviewController.reviewList.length > 1
+                                              ? 3
+                                              : reviewController
+                                                  .reviewList.length,
+                                      itemBuilder: (context, index) {
+                                        int reverseIndex =
+                                            reviewController.reviewList.length -
+                                                1 -
+                                                index;
+                                        ReviewItemModel model = reviewController
+                                            .reviewList[reverseIndex];
+
+                                        return Column(
+                                          children: [
+                                            ReviewItemWidget(model),
+                                            if (index <
+                                                reviewController
+                                                        .reviewList.length -
+                                                    1) 
+                                              SizedBox(height: 15),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 26.v),
+                                  ],
+                                ),
+                              ]),
                             ),
-                          ]),
-                        ),
+                          ],
+                        ))
                       ],
-                    ))
-                  ],
-                ),
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: Container(
-                //     color: appTheme.bgColor,
-                //     width: double.infinity,
-                //     child: Padding(
-                //       padding: EdgeInsets.only(
-                //           top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
-                //       child: buildButtons(),
-                //     ),
-                //   ),
-                // )
+                    ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -490,10 +320,9 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                     ),
-              ],
-            );
-            }
-          ),
+                  ],
+                );
+              }),
         ),
       ),
     );
@@ -521,7 +350,7 @@ class _DetailScreenState extends State<DetailScreen> {
       Padding(
           padding: EdgeInsets.only(left: 21.h, bottom: 38.v),
           child: Text("\$${detailModel.price}.00",
-              style: CustomTextStyles.titleLargePrimary))
+              style: CustomTextStyles.titleLargePrimary)),
     ]);
   }
 
@@ -529,12 +358,11 @@ class _DetailScreenState extends State<DetailScreen> {
     return CustomElevatedButton(
         text: "lbl_book_now".tr,
         onPressed: () {
-          if(role == 'owner'){
+          if (role == 'owner') {
             Get.snackbar('Sorry..!!', 'You cannot book as a owner');
-          }else if (role == 'user'){
+          } else if (role == 'user') {
             onTapBookNow();
-            }else {}
-          // onTapBookNow();
+          } else {}
         });
   }
 
@@ -546,7 +374,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   onTapTxtViewAll() {
     Get.toNamed(
-      AppRoutes.reviewScreen,
+      AppRoutes.reviewScreen
     );
   }
 

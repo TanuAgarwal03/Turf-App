@@ -73,7 +73,9 @@ class PopulargroundItemWidget extends StatelessWidget {
                             width: 20.adaptSize,
                             fit: BoxFit.cover,
                           ),
-                          Padding(
+                          Container(
+                            width: 280,
+                            child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.h),
                             child: Text(
                               populargroundItemModelObj.location ?? 'Unknown Location',
@@ -84,6 +86,7 @@ class PopulargroundItemWidget extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                          )
                         ],
                       ),
                     ],

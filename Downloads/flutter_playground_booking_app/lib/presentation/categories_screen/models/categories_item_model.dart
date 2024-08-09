@@ -15,9 +15,9 @@ String getAssetImagePath(String title) {
       case 'VolleyBall':
       return 'assets/images/img_volley_ball_1.svg';
       case 'Kabaddi':
-      return 'assets/images/img_basketball_1.svg';
+      return 'assets/images/img_kabaddi_court_1.svg';
       case 'Golf':
-      return 'assets/images/img_basketball_1.svg';
+      return 'assets/images/img_golf_stick_1.svg';
       case 'Archery':
       return 'assets/images/img_basketball_1.svg';
       case 'Baseball':
@@ -25,9 +25,9 @@ String getAssetImagePath(String title) {
       case 'Biathlon':
       return 'assets/images/img_biathlonist_1.svg';
       case 'Shooting':
-      return 'assets/images/img_basketball_1.svg';
+      return 'assets/images/img_gun_1.svg';
       case 'Swimming Pool':
-      return 'assets/images/img_basketball_1.svg';
+      return 'assets/images/img_beachball_1.svg';
     default:
       return 'assets/images/img_avtar_1.svg';
   }
@@ -48,7 +48,6 @@ class CategoriesItemModel {
 
   factory CategoriesItemModel.fromJson(Map<String, dynamic> json) {
     return CategoriesItemModel(
-      // id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
       id: json['id'],
       icon : getAssetImagePath(json['name']),
       title: json['name'] ?? '',

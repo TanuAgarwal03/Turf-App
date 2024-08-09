@@ -172,7 +172,8 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
       body: Obx(() {
         double? parseDistance(String? distance) {
           if (distance != null && distance.isNotEmpty) {
-            final value = double.tryParse(distance.replaceAll(RegExp(r'[^\d.]'), ''));
+            final value =
+                double.tryParse(distance.replaceAll(RegExp(r'[^\d.]'), ''));
             return value;
           }
           return null;
@@ -183,7 +184,8 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
           ..sort((a, b) {
             final distanceA = parseDistance(a.distance);
             final distanceB = parseDistance(b.distance);
-            return (distanceA ?? double.infinity).compareTo(distanceB ?? double.infinity);
+            return (distanceA ?? double.infinity)
+                .compareTo(distanceB ?? double.infinity);
           });
 
         if (sortedTurfList.isEmpty) {
@@ -198,7 +200,8 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     await _storeSelectedId(data.id!);
-                    Get.toNamed(AppRoutes.detailScreen, arguments: {'id': data.id});
+                    Get.toNamed(AppRoutes.detailScreen,
+                        arguments: {'id': data.id});
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.h),
@@ -248,6 +251,8 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             data.title!,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -266,13 +271,18 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
                                 height: 20.adaptSize,
                                 width: 20.adaptSize,
                               ),
-                              Padding(
+                              Container(
+                                width: 250,
+                                child: Padding(
                                 padding: EdgeInsets.only(left: 8.h),
                                 child: Text(data.location ?? 'No location',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
                                     style: theme.textTheme.bodyMedium!.copyWith(
                                       color: appTheme.black900,
                                     )),
                               ),
+                              )
                             ],
                           ),
                         ),

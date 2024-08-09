@@ -65,7 +65,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       return animationfunction(
                           index,
                           CategoriesItemWidget(model, onTap: () {
-                            Get.toNamed(AppRoutes.footBallScreen);
+                            // Get.toNamed(AppRoutes.footBallScreen);
                           }));
                     }),
                 SizedBox(height: 28.v),

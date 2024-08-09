@@ -13,10 +13,21 @@ class FootBallScreen extends StatefulWidget {
 
 class _FootBallScreenState extends State<FootBallScreen> {
   final FootBallController controller = Get.put(FootBallController());
-  final int categoryId = Get.arguments as int;
+  late int categoryId;
+  late String title;
+ 
+  // final int categoryId = Get.arguments as int;
   @override
   void initState() {
     super.initState();
+     if (Get.arguments is Map<String, dynamic>) {
+    final arguments = Get.arguments as Map<String, dynamic>;
+    categoryId = arguments['categoryId'] as int;
+    title = arguments['title'] as String;
+  } else {
+    categoryId = Get.arguments as int; 
+    title = "Default Title"; 
+  }
     controller.fetchFootBallData(categoryId); 
   }
 
@@ -35,7 +46,7 @@ class _FootBallScreenState extends State<FootBallScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              getCommonAppBar("football"),
+              getCommonAppBar(title),
               SizedBox(height: 16.v),
               Expanded(
                 child: Obx(() {
@@ -105,15 +116,20 @@ class _FootBallScreenState extends State<FootBallScreen> {
                                             height: 20.adaptSize,
                                             width: 20.adaptSize,
                                           ),
-                                          Padding(
+                                          Container(
+                                            width: 280,
+                                            child: Padding(
                                             padding: EdgeInsets.only(left: 8.h),
                                             child: Text(
                                               model.address ?? 'data',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
                                               style: theme.textTheme.bodyMedium!
                                                   .copyWith(
                                                 color: appTheme.black900,
                                               ),
                                             ),
+                                          )
                                           ),
                                         ],
                                       ),

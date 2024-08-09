@@ -37,7 +37,9 @@ class MygroundsItemWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 6.v),
                 Text(
-                  mygroundsItemModelObj.time!,
+                  mygroundsItemModelObj.description!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                   style: CustomTextStyles.bodyLargeGray60001.copyWith(
                     color: appTheme.gray60001,
                   ),

@@ -61,17 +61,6 @@ class ReviewItemWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     left: 8.h,
-                  //     top: 13.v,
-                  //     bottom: 6.v,
-                  //   ),
-                  //   child: Text(
-                  //     reviewItemModelObj.time!,
-                  //     style: CustomTextStyles.bodyLargeGray60001,
-                  //   ),
-                  // ),
                 ],
               ),
 

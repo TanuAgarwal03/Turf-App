@@ -163,7 +163,6 @@ class NearbyYouController extends GetxController {
 
         if (item.latitude != null && item.longitude != null) {
           await _calculateDistances(item.latitude!, item.longitude!, item);
-          // await _calculateDistances2(item.latitude!, item.longitude!, item , '');
         }
       }
       turfList.value = loadedTurfs;

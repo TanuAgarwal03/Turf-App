@@ -19,7 +19,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   fluttertoast: ^8.2.4
   pinput: ^4.0.0
-  share_plus:
+  share_plus: ^10.0.0
   expandable_text:
   calendar_date_picker2:
   flutter_rating_bar:

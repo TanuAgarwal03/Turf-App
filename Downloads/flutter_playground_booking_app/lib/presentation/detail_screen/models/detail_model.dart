@@ -1,5 +1,4 @@
 import 'detailscreen_item_model.dart';
-// import 'ground_list_model.dart';
 
 class DetailModel {
   final int id;
@@ -11,7 +10,6 @@ class DetailModel {
   final String locationUrl;
   final List<Facility> facilities;
   final List<Review> reviews;
-  // final List<GroundListModel> groundList;
 
   DetailModel({
     required this.id,
@@ -23,13 +21,11 @@ class DetailModel {
     required this.locationUrl,
     required this.facilities,
     required this.reviews,
-    // required this.groundList,
   });
 
   factory DetailModel.fromJson(Map<String, dynamic> json) {
     var facilitiesJson = json['facilities'] as List;
     var reviewsJson = json['review'] as List;
-    // var groundList = json['list_of_ground'] as List;
 
     return DetailModel(
       id: json['id'] as int,
@@ -41,7 +37,6 @@ class DetailModel {
       locationUrl: json['location_url'],
       facilities: facilitiesJson.map((e) => Facility.fromJson(e)).toList(),
       reviews: reviewsJson.map((e) => Review.fromJson(e)).toList(),
-      // groundList: groundList.map((e) => GroundListModel.fromJson(e)).toList(),
     );
   }
 
@@ -50,10 +45,6 @@ class DetailModel {
     ];
   }
 
-  // static List<GroundListModel> getGroundList() {
-  //   return [
-  //   ];
-  // }
 }
 
 class Facility {

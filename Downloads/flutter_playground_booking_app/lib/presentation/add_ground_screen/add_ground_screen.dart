@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -21,17 +20,24 @@ class AddGroundScreen extends StatefulWidget {
 class _AddGroundScreenState extends State<AddGroundScreen> {
   AddGroundController controller = Get.put(AddGroundController());
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // final AddGroundModel addGroundModel = AddGroundModel(listofGrounds: []);
   final List<Map<String, dynamic>> listOfGrounds = [];
-  // final TextEditingController groundNameController = TextEditingController();
-  // final TextEditingController groundTimeController = TextEditingController();
-  // final TextEditingController groundImageController = TextEditingController();
   late Future<List<dynamic>> _categoriesFuture;
 
-  // final CategoryController categoryController = Get.put(CategoryController());
   final AddGroundController addGroundController =
       Get.put(AddGroundController());
   var categories = [].obs;
+
+  List<String> facilities = [
+    'Parking',
+    'WiFi',
+    'Washroom',
+    'CCTV',
+    'Canteen',
+    'Changing room',
+    'Lockers'
+  ];
+
+  List<String> selectedFacilities = [];
 
   @override
   void initState() {
@@ -108,7 +114,14 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                           _buildMasterInput2(),
                           SizedBox(height: 25.v),
                           _buildGoogleLocationUrl(),
-                          Padding(padding: EdgeInsets.only(left: 25.h), child: Text('*Note : Please enter google location url in the specified format : \n   https://www.google.com/maps/abc/@latitude,longitude/' , textAlign: TextAlign.start, style: TextStyle(color: Colors.red),),),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.h),
+                            child: Text(
+                              '*Note : Please enter google location url in the specified format : \n   https://www.google.com/maps/abc/@latitude,longitude/',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
                           SizedBox(height: 25.v),
                           _buildMasterInput3(),
                           SizedBox(height: 25.v),
@@ -117,15 +130,7 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                           Center(
                             child: _uploadImage(),
                           ),
-                          // _uploadImage(),
-                          // _buildGroundInput1(),
                           SizedBox(height: 25.v),
-                          // _buildGroundInput2(),
-                          // SizedBox(height: 25.v),
-                          // _buildGroundInput3(),
-                          // SizedBox(height: 25.v),
-                          // _buildAddGroundButton(),
-                          // _imageUpload(),
                           SizedBox(height: 5.v),
                         ]))),
           ),
@@ -155,7 +160,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildEmail() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -167,7 +171,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildMasterInput1() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -176,7 +179,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildMasterInput2() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -196,14 +198,41 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  /// Section Widget
-  Widget _buildMasterInput3() {
+   Widget _buildMasterInput3() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: CustomTextFormField(
-          controller: controller.facilitiesController,
-          hintText: "Facilities",
-          textInputAction: TextInputAction.done),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Facilities",
+            style: theme.textTheme.bodyLarge,
+          ),
+          SizedBox(height: 8.v),
+          Wrap(
+            spacing: 10.h,
+            runSpacing: 10.v,
+            children: facilities.map((facility) {
+              return ChoiceChip(
+                label: Text(facility),
+                selected: selectedFacilities.contains(facility),
+                onSelected: (selected) {
+                  setState(() {
+                    if (selected) {
+                      selectedFacilities.add(facility);
+                    } else {
+                      selectedFacilities.remove(facility);
+                    }
+
+                    controller.facilitiesController.text =
+                        selectedFacilities.join(', ');
+                  });
+                },
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -236,47 +265,14 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                         'Upload',
                         style: TextStyle(color: Colors.white),
                       )))),
-          child:Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Upload Image',
-                        style: TextStyle(color: Colors.white),
-                      )) ),
+          child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'Upload Image',
+                style: TextStyle(color: Colors.white),
+              ))),
     );
   }
-
-  // Widget _imageUpload() {
-  //   return Padding(padding: EdgeInsets.all(10.0), child: FloatingActionButton(
-  //     backgroundColor: Color.fromARGB(255, 166, 190, 165),
-  //     elevation: 10,
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-  //     tooltip: 'Add Turf Image',
-  //       child: Icon(Icons.upload_file),
-  //       onPressed: () => Get.defaultDialog(
-  //           title: 'Image upload',
-  //           content: Text('Choose the image from gallery'),
-  //           cancel: ElevatedButton(
-  //               onPressed: () {
-  //                 Get.back();
-  //               },
-  //               child: Padding(
-  //                   padding: EdgeInsets.all(10.0),
-  //                   child: Text(
-  //                     'Back',
-  //                     style: TextStyle(color: Colors.white),
-  //                   ))),
-  //           onCancel: () => Get.back(),
-  //           confirm: ElevatedButton(
-  //               onPressed: () {
-  //                 _pickImage();
-  //               },
-  //               child: Padding(
-  //                   padding: EdgeInsets.all(10.0),
-  //                   child: Text(
-  //                     'Upload',
-  //                     style: TextStyle(color: Colors.white),
-  //                   ))))));
-  // }
 
   Widget _buildContinue() {
     return Padding(
@@ -331,91 +327,10 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       ),
     );
   }
-  
-
-  // Widget _buildGroundInput1() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: CustomTextFormField(
-  //       controller: groundNameController,
-  //       hintText: "Ground Name",
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildGroundInput2() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: CustomTextFormField(
-  //       controller: groundTimeController,
-  //       hintText: "Time",
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildGroundInput3() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: CustomTextFormField(
-  //       controller: groundImageController,
-  //       hintText: "Ground Image",
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildAddGroundButton() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: CustomElevatedButton(
-  //       text: "Add Ground",
-  //       onPressed: () {
-  //         setState(() {
-  //           listOfGrounds.add({
-  //             'ground_name': groundNameController.text,
-  //             'time': groundTimeController.text,
-  //             'ground_image': groundImageController.text,
-  //           });
-  //           controller.listOfGrounds = listOfGrounds; // Update the controller list
-  //           print('Updated list of grounds : $listOfGrounds');
-  //         });
-  //         // Clear the fields after adding
-  //         groundNameController.clear();
-  //         groundTimeController.clear();
-  //         groundImageController.clear();
-  //       },
-  //     ),
-  //   );
-  // }
-  // Widget _buildAddGroundButton() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: CustomElevatedButton(
-  //       text: "Add Ground",
-  //       onPressed: () {
-  //         setState(() {
-  //           listOfGrounds.add({
-  //             'ground_name': groundNameController.text,
-  //             'time': groundTimeController.text,
-  //             'ground_image': groundImageController.text,
-  //           });
-  //           controller.addGroundModelObj.update((model) {
-  //             model?.listofGrounds = List.from(listOfGrounds);
-  //           });
-  //           print('Updated list of grounds in view: $listOfGrounds');
-  //           print(
-  //               'Updated list of grounds in controller: ${controller.addGroundModelObj.value.listofGrounds}');
-  //         });
-  //         // Clear the fields after adding
-  //         groundNameController.clear();
-  //         groundTimeController.clear();
-  //         groundImageController.clear();
-  //       },
-  //     ),
-  //   );
-  // }
 
   onTapContinue() {
     controller.createGround();
+    Get.back();
     Get.toNamed(
       AppRoutes.myGroundsScreen,
     );

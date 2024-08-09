@@ -145,6 +145,8 @@ class MygroundsItemWidget extends StatelessWidget {
                   SizedBox(height: 6.v),
                   Text(
                     mygroundsItemModelObj.description ?? 'Turf description',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     style: CustomTextStyles.bodyLargeGray60001.copyWith(
                       color: appTheme.gray60001,
                     ),
