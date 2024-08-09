@@ -278,7 +278,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   //                   ))))));
   // }
 
-  /// Section Widget
   Widget _buildContinue() {
     return Padding(
       padding:
@@ -291,7 +290,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildButtons() {
     return Container(
         width: double.infinity,
@@ -305,9 +303,7 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       child: FutureBuilder<List<dynamic>>(
         future: _categoriesFuture,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
+          if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.hasData) {
             final categories = snapshot.data!;
@@ -335,40 +331,7 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       ),
     );
   }
-  // Widget _categoryDropdown() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 20.h),
-  //     child: FutureBuilder<List<dynamic>>(
-  //       future: controller.fetchCategories(),
-  //       builder: (context, snapshot) {
-  //         if (snapshot.connectionState == ConnectionState.waiting) {
-  //           return CircularProgressIndicator();
-  //         } else if (snapshot.hasError) {
-  //           return Text('Error: ${snapshot.error}');
-  //         } else {
-  //           final categories = snapshot.data!;
-  //           return CustomDropdownButtonFormField<int>(
-  //             labelText: 'Select category',
-  //             value: controller.selectedCategoryId,
-  //             items: categories.map((category) {
-  //               return DropdownMenuItem<int>(
-  //                 value: category['id'],
-  //                 child: Text(category['name']),
-  //               );
-  //             }).toList(),
-  //             onChanged: (value) {
-  //               setState(() {
-  //                 controller.selectedCategoryId = value;
-  //                 controller.selectedCategoryName = categories.firstWhere(
-  //                     (category) => category['id'] == value)['name'];
-  //               });
-  //             },
-  //           );
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
+  
 
   // Widget _buildGroundInput1() {
   //   return Padding(

@@ -1,9 +1,11 @@
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/my_booking_upcoming_page/models/my_booking_upcoming_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //only upcoming
 // class MyBookingUpcomingController extends GetxController {
@@ -47,19 +49,28 @@ class MyBookingUpcomingController extends GetxController {
   var getMybookingUpcoming = <MyBookingUpcomingModel>[].obs;
   var getMybookingCompleted = <MyBookingUpcomingModel>[].obs; // Add this line
   var isLoading = true.obs;
+  ApiService apiService = ApiService();
 
   @override
   void onInit() {
+    fetchUserProfile();
     fetchMyBookingUpcoming();
     super.onInit();
     _requestPhoneCallPermission();
   }
-
+  void fetchUserProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('user_id') ?? 0;
+      print(userId);
+    }
+  
   void fetchMyBookingUpcoming() async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('user_id') ?? 0;
       isLoading(true);
       // var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=1'));
-            var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=7'));
+            var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=$userId'));
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body) as List;

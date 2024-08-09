@@ -9,10 +9,12 @@ class HomeController extends GetxController {
   TextEditingController iclocationController = TextEditingController();
   TextEditingController iclocationController1 = TextEditingController();
   List<HomeModel> homeModelList = [];
+  var isLoading = true.obs;
 
   Future<List<HomeModel>> turfList() async {
 
     try {
+      isLoading(true);
       final response = await http.get(
         Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/18'),
       );
@@ -23,6 +25,7 @@ class HomeController extends GetxController {
         homeModelList.clear();
         homeModelList.add(HomeModel.fromJson(jsonResponse));
       } else {
+        isLoading(false);
         print('Failed to load data');
       }
     } catch (e) {

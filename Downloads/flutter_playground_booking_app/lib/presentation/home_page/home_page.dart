@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                                   Get.toNamed(AppRoutes.popularGroundScreen);
                                 },
                                 child: Container(
-                                  width: 220.h,
+                                  width: 238.h,
                                   decoration: AppDecoration.fillGray.copyWith(
                                     color: appTheme.textfieldFillColor,
                                     borderRadius:
@@ -362,7 +362,8 @@ class _HomePageState extends State<HomePage> {
             getCustomIconButton(ImageConstant.imgGroup9, () {
               Get.toNamed(AppRoutes.notificationScreen);
             })
-          ]),
+          ]
+        ),
     );
   }
 

@@ -143,6 +143,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'controller/my_booking_upcoming_controller.dart';
 import 'models/my_booking_upcoming_model.dart';
@@ -163,11 +164,13 @@ class _MyBookingUpcomingPageState extends State<MyBookingUpcomingPage> {
     return Scaffold(
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: LoadingAnimationWidget.staggeredDotsWave(
+              color: Colors.blue,
+              size: 50,
+            ),);
         } else if (controller.getMybookingUpcoming.isEmpty) {
           return Center(child: Text('No upcoming bookings'));
         } else {
-          // Filter to show only upcoming bookings
           final now = DateTime.now();
           final upcomingBookings = controller.getMybookingUpcoming.where((booking) {
             final bookingDate = DateTime.parse(booking.bookingDate);

@@ -110,7 +110,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   child: Obx(() => _buildLastName(
                       lastName: "lbl_email_address".tr, abram: controller.myProfileModelObj.value.email)),
                 ),
-                SizedBox(height: 5.v)
+                SizedBox(height: 5.v),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 20.h),
+                //   child: Obx(() => _buildLastName(
+                //       lastName: 'Role', abram: controller.myProfileModelObj.value.role)),
+                // ),
+                // SizedBox(height: 5.v)
               ],
             ),
           ),
@@ -148,14 +154,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     );
   }
 
-  /// Navigates to the profileScreen when the action is triggered.
   onTapMyProfile() {
     Get.toNamed(
       AppRoutes.editProfileScreen,
     );
   }
 
-  /// Navigates to the editProfileScreen when the action is triggered.
   onTapImgIcEdit() {
     Get.toNamed(
       AppRoutes.editProfileScreen,

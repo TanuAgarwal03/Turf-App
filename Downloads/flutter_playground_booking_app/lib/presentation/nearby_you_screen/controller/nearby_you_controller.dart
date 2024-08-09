@@ -4,7 +4,7 @@ import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/mo
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import '../models/nearby_model_data.dart';
-
+// import 'package:flutter_map_math/flutter_map_math.dart';
 // class NearbyYouController extends GetxController {
 //   List<NearbyYouModel> nearlyYoudata = NearbyYouData.getNearbyYouData();
 //   var turfList = <NearbyYouModel>[].obs;
@@ -163,6 +163,7 @@ class NearbyYouController extends GetxController {
 
         if (item.latitude != null && item.longitude != null) {
           await _calculateDistances(item.latitude!, item.longitude!, item);
+          // await _calculateDistances2(item.latitude!, item.longitude!, item , '');
         }
       }
       turfList.value = loadedTurfs;
@@ -174,22 +175,20 @@ class NearbyYouController extends GetxController {
   Map<String, double?> extractCoordinates(String url) {
     final RegExp regex = RegExp(r'@(-?\d+\.\d+),(-?\d+\.\d+)');
     final match = regex.firstMatch(url);
-
     if (match != null) {
       return {
         'latitude': double.tryParse(match.group(1)!),
         'longitude': double.tryParse(match.group(2)!),
       };
     }
-
     return {'latitude': null, 'longitude': null};
   }
 
   Future<void> _calculateDistances(
       double turfLongitude, double turfLatitude, NearbyYouModel turf) async {
     try {
-      const double fixedLatitude = 25.88823;
-      const double fixedLongitude = 76.777793;
+      const double fixedLatitude = 25.00;
+      const double fixedLongitude = 76.00;
       double distanceInMeters = Geolocator.distanceBetween(
         turfLatitude,
         turfLongitude,
@@ -199,6 +198,7 @@ class NearbyYouController extends GetxController {
 
       double distanceInKm = distanceInMeters / 1000;
       turf.distance = distanceInKm.toStringAsFixed(2) + ' km';
+      print('Distance : ${turf.distance}');
       turfList.refresh(); 
     } catch (e) {
       print('Error calculating distances: $e');
@@ -215,4 +215,27 @@ class NearbyYouController extends GetxController {
       print('Error fetching turf details');
     }
   }
+  //   Future<void> _calculateDistances2(
+  //     double turfLongitude, double turfLatitude, NearbyYouModel turf, String meters) async {
+  //   try {
+  //     FlutterMapMath mapMath = FlutterMapMath();
+  //     const double fixedLatitude = 25.88823;
+  //     const double fixedLongitude = 76.777793;
+  //     double distanceInMeters = mapMath.distanceBetween(
+  //       turfLatitude,
+  //       turfLongitude,
+  //       fixedLatitude,
+  //       fixedLongitude,
+  //       meters,
+  //     );
+
+  //     double distanceInKm = distanceInMeters / 1000;
+  //     turf.distance = distanceInKm.toStringAsFixed(2) + ' km';
+  //     print(' distance using method 2 : ${turf.distance}');
+  //     turfList.refresh(); 
+  //   } catch (e) {
+  //     print('Error calculating distances: $e');
+  //   }
+  // }
 }
+

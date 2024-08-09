@@ -33,12 +33,12 @@ class CustomBottomBar extends StatelessWidget {
       title: "lbl_event".tr,
       type: BottomBarEnum.Event,
     ),
-    BottomMenuModel(
-      icon: ImageConstant.imgNavHistory,
-      activeIcon: ImageConstant.imgNavHistorySelected,
-      title: "lbl_history".tr,
-      type: BottomBarEnum.History,
-    ),
+    // BottomMenuModel(
+    //   icon: ImageConstant.imgNavHistory,
+    //   activeIcon: ImageConstant.imgNavHistorySelected,
+    //   title: "lbl_history".tr,
+    //   type: BottomBarEnum.History,
+    // ),
     BottomMenuModel(
       icon: ImageConstant.imgNavProfile,
       activeIcon: ImageConstant.imgNavProfileSelected,
@@ -147,7 +147,7 @@ enum BottomBarEnum {
   Home,
   Booking,
   Event,
-  History,
+  // History,
   Profile,
 }
 

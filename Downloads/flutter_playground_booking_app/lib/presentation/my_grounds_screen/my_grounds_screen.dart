@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/my_grounds_controller.dart';
 import 'models/mygrounds_item_model.dart';
 
@@ -13,6 +14,19 @@ class MyGroundsScreen extends StatefulWidget {
 
 class _MyGroundsScreenState extends State<MyGroundsScreen> {
   final MyGroundsController controller = Get.put(MyGroundsController());
+  String? role;
+
+   @override
+  void initState() {
+    super.initState();
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        role = prefs.getString('role'); 
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +45,20 @@ class _MyGroundsScreenState extends State<MyGroundsScreen> {
               Expanded(
                 child: buildMyGrounds(),
               ),
-              buildButtons(),
+              if (role != 'user') 
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: appTheme.bgColor,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
+                          child: buildButtons(),
+                        ),
+                      ),
+                    ),
+            
             ],
           ),
         ),

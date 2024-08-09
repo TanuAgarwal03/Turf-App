@@ -188,7 +188,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   SignUpController controller = Get.put(SignUpController());
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // String _selectedRole = 'User';
+  String _selectedRole = '';
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -237,36 +237,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 buildEmail(),
                 SizedBox(height: 25.v),
                 buildPassword(),
-            //     SizedBox(height: 30.v),
-            //     Text('Choose your role :'),
-            //     Row(
-            //   children: [
-            //     Expanded(
-            //       child: RadioListTile<String>(
-            //         title: Text('Owner'),
-            //         value: 'Owner',
-            //         groupValue: _selectedRole,
-            //         onChanged: (String? value) {
-            //           setState(() {
-            //             _selectedRole = value!;
-            //           });
-            //         },
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: RadioListTile<String>(
-            //         title: Text('User'),
-            //         value: 'User',
-            //         groupValue: _selectedRole,
-            //         onChanged: (String? value) {
-            //           setState(() {
-            //             _selectedRole = value!;
-            //           });
-            //         },
-            //       ),
-            //     ),
-            //   ],
-            // ),
+                SizedBox(height: 30.v),
+                Text('Choose your role :' , style: TextStyle(fontSize: 14),),
+                Row(
+              children: [
+                Expanded(
+                  child: RadioListTile<String>(
+                    title: Text('Owner'),
+                    value: 'owner',
+                    groupValue: _selectedRole,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedRole = value!;
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: RadioListTile<String>(
+                    title: Text('User'),
+                    value: 'user',
+                    groupValue: _selectedRole,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedRole = value!;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
                 SizedBox(height: 49.v),
                 
                 
@@ -381,7 +381,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validator: (value) {
           if (value == null || (!isValidPassword(value, isRequired: true))) {
             // return "err_msg_please_enter_valid_password".tr;
-            return "Password must contain atleast an uppercase letter,a lowercase letter \n,a digit,a special character ans should be at least 8 characters long.";
+            return "Password must contain atleast an uppercase letter,a lowercase letter \n,a digit,a special character and should be at least 8 characters long.";
           }
           return null;
         },
@@ -406,7 +406,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   /// Calls the registerUser method from the controller.
   void onTapSignUp() {
-    controller.registerUser();
+    controller.registerUser(_selectedRole);
   }
 }
 

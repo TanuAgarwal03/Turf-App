@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 // import 'package:flutter_playground_booking_app/presentation/detail_screen/widgets/detailscreen_item_widget.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../popular_ground_screen/controller/popular_ground_controller.dart';
 import '../review_screen/controller/review_controller.dart';
 import '../review_screen/models/review_item_model.dart';
@@ -26,6 +28,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late PopularGroundController popularGroundController;
   late int turfId;
   bool blockScroll = false;
+  String? role;
 
   @override
   void initState() {
@@ -33,6 +36,12 @@ class _DetailScreenState extends State<DetailScreen> {
     detailController = Get.put(DetailController());
     reviewController = Get.put(ReviewController());
     popularGroundController = Get.put(PopularGroundController());
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        role = prefs.getString('role'); // Retrieve the role value
+      });
+    });
 
     final arguments = Get.arguments as Map<String, dynamic>;
     turfId = arguments['id'] as int;
@@ -56,10 +65,12 @@ class _DetailScreenState extends State<DetailScreen> {
             builder: (controller) {
               if(controller.isLoading.value){
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+              color: Colors.blue,
+              size: 50,
+            ),
                 );
-              }
-            
+              }            
             return Stack(
               children: [
                 Column(
@@ -194,12 +205,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 buildReviews(),
                                 SizedBox(height: 12.v),
                                 ExpandableText(
-                                  detailModel.title +
-                                      detailModel.image +
-                                      detailModel.title +
-                                      detailModel.image +
-                                      detailModel.title +
-                                      detailModel.image,
+                                  detailModel.description,
                                   expandText: "lbl_read_more".tr,
                                   collapseText: 'Read less',
                                   maxLines: 3,
@@ -460,18 +466,30 @@ class _DetailScreenState extends State<DetailScreen> {
                     ))
                   ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: appTheme.bgColor,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
-                      child: buildButtons(),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Container(
+                //     color: appTheme.bgColor,
+                //     width: double.infinity,
+                //     child: Padding(
+                //       padding: EdgeInsets.only(
+                //           top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
+                //       child: buildButtons(),
+                //     ),
+                //   ),
+                // )
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: appTheme.bgColor,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
+                          child: buildButtons(),
+                        ),
+                      ),
                     ),
-                  ),
-                )
               ],
             );
             }
@@ -511,7 +529,12 @@ class _DetailScreenState extends State<DetailScreen> {
     return CustomElevatedButton(
         text: "lbl_book_now".tr,
         onPressed: () {
-          onTapBookNow();
+          if(role == 'owner'){
+            Get.snackbar('Sorry..!!', 'You cannot book as a owner');
+          }else if (role == 'user'){
+            onTapBookNow();
+            }else {}
+          // onTapBookNow();
         });
   }
 

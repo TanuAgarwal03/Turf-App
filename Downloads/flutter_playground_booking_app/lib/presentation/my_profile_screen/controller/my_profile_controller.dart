@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfileController extends GetxController {
   Rx<MyProfileModel> myProfileModelObj =
-      MyProfileModel( email: '', firstName: '', lastName: '').obs;
+      MyProfileModel( email: '', firstName: '', lastName: '', role: 'user').obs;
   final ApiService apiService = ApiService();
 
   @override

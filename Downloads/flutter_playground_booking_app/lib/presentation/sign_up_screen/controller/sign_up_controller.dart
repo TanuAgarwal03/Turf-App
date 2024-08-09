@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/sign_up_screen/models/sign_up_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpController extends GetxController {
   TextEditingController firstNameController = TextEditingController();
@@ -24,10 +25,9 @@ class SignUpController extends GetxController {
     passwordController.clear();
   }
 
-  Future<void> registerUser() async {
+  Future<void> registerUser(String role) async {
     String url =
-        'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=user';
-        
+        'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=$role';
     try {
       var response = await http.post(
         Uri.parse(url),
@@ -36,17 +36,21 @@ class SignUpController extends GetxController {
           'lastname': lastNameController.text,
           'email': emailController.text,
           'password': passwordController.text,
-          'role': 'user',
+          'role': role,
         },
       );
 
       if (response.statusCode == 200) {
+        await _saveDataLocally(response.body, role);
+        // String role = response.body[];
         Get.snackbar('Success', 'User registered successfully',
-            duration: Duration(seconds: 4),
-            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 2),
             backgroundColor: Colors.teal[800]);
+            print(role);
+        
       } else {
         var errorResponse = json.decode(response.body);
+        print(errorResponse['message']);
         errorMessage.value =
             errorResponse['message'] ?? 'Failed to register user';
         Get.snackbar(
@@ -56,5 +60,26 @@ class SignUpController extends GetxController {
       errorMessage.value = 'An error occurred: $e';
       Get.snackbar('Error', 'An error occurred: $e');
     }
+  }
+
+  Future<void> handleLoginResponse(String responseBody) async {
+  final Map<String, dynamic> data = jsonDecode(responseBody);
+  
+  if (data['status'] == 200) {
+    String role = data['role'];
+    await saveUserRole(role);
+    print('User role stored: $role'); 
+  } else {
+    print('SignUp failed');
+  }
+}
+Future<void> saveUserRole(String role) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('role', role);
+}
+
+  Future<void> _saveDataLocally(String responseBody, String role) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('role', role);
   }
 }

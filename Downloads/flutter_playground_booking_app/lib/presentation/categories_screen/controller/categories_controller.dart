@@ -26,7 +26,6 @@ class CategoriesController extends GetxController {
             data.map((json) => CategoriesItemModel.fromJson(json)).toList();
         if (categoriesData.isNotEmpty) {
           fetchTurfDataByCategory(categoriesData.first.id);
-          Get.snackbar('Category list', 'loaded successfully');
         }
       } else {
         print('Failed to load categories: ${response.statusCode}');
