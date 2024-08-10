@@ -75,8 +75,6 @@ Widget _buildCategories() {
   void _onCategoryItemTap(int categoryId , String title) {
     Get.toNamed(AppRoutes.footBallScreen,
      arguments: {
-      // categoryId, 
-      // title
       'categoryId' : categoryId,
       'title' : title
       }

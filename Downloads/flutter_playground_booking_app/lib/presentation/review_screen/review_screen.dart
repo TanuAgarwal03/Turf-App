@@ -36,13 +36,14 @@ void initState(){
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     getCommonAppBar("lbl_reviews".tr),
-                    SizedBox(height: 10.v),
-                    Padding(padding: EdgeInsets.only(right: 15.h) , child: Text("${controller.totalReviews} reviews" , style: TextStyle(color: Colors.black , fontSize: 14 , fontWeight: FontWeight.w600))), 
+                    // SizedBox(height: 10.v),
+                    // Padding(padding: EdgeInsets.only(right: 15.h) , child: Text("${controller.totalReviews} reviews" , style: TextStyle(color: Colors.black , fontSize: 14 , fontWeight: FontWeight.w600))), 
+                    // Padding(padding: EdgeInsets.only(right: 15.h) , child: Text("${controller.averageRating} star" , style: TextStyle(color: Colors.black , fontSize: 14 , fontWeight: FontWeight.w600))), 
                     Expanded(
                       child: Obx(() {
-                        if (controller.reviewList.isEmpty) {
-                          return Center(child: CircularProgressIndicator());
-                        }
+                        // if (controller.reviewList.isEmpty) {
+                        //   return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: const Color.fromARGB(255, 71, 119, 73), size: 35));
+                        // }
                         return ListView.separated(
                           padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 100.h),
                           physics: BouncingScrollPhysics(),
@@ -68,13 +69,6 @@ void initState(){
                         );
                       }),
                     ),
-                    //        Text(
-                    //           'Average Rating: ${controller.averageRating.toStringAsFixed(1)}',
-                    //           style: TextStyle(
-                    //             fontSize: 16,
-                    //             fontWeight: FontWeight.bold,
-                    //           ),
-                    //         ),
                   ]),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -103,12 +97,10 @@ void initState(){
         ));
   }
 
-  /// Navigates to the detailScreen when the action is triggered.
-  onTapReviews() {
-    Get.toNamed(AppRoutes.detailScreen);
-  }
+  // onTapReviews() {
+  //   Get.toNamed(AppRoutes.detailScreen);
+  // }
 
-  /// Navigates to the writeAReviewScreen when the action is triggered.
   onTapWriteAReviews() {
     Get.toNamed(AppRoutes.writeAReviewScreen);
   }

@@ -233,25 +233,21 @@ class _SelectDateTimeScreenState extends State<SelectDateTimeScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 18.v),
+                          SizedBox(height: 100.v),
                           Container(
                             padding: EdgeInsets.all(16.h),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.h),
-                              border: Border.all(color: appTheme.buttonColor),
-                            ),
+                            alignment: Alignment.bottomRight,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'User ID: ${userId ?? 'Loading...'}',
-                                  style: theme.textTheme.bodyLarge!.copyWith(color: appTheme.black900),
+                                  style: theme.textTheme.bodyLarge!.copyWith(color: appTheme.black900, fontSize: 10),
                                 ),
                                 SizedBox(height: 8.v),
                                 Text(
                                   'Turf ID: ${turfId ?? 'Loading...'}',
-                                  style: theme.textTheme.bodyLarge!.copyWith(color: appTheme.black900),
+                                  style: theme.textTheme.bodyLarge!.copyWith(color: appTheme.black900, fontSize: 10),
                                 ),
                               ],
                             ),

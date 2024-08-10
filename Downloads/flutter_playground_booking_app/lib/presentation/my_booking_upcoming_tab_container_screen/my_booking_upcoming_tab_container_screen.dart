@@ -1,3 +1,5 @@
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import '../my_booking_upcoming_page/controller/my_booking_upcoming_controller.dart';
 import '../my_booking_upcoming_page/my_booking_upcoming_page.dart';
 import 'controller/my_booking_upcoming_tab_container_controller.dart';
@@ -24,6 +26,10 @@ class _MyBookingUpcomingTabContainerScreenState
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+
+    if(!controller.isLoading.value){
+      return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: Colors.blue, size: 25),);
+    }
 
     return GetBuilder<MyBookingUpcomingController>(
         init: MyBookingUpcomingController(),

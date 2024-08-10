@@ -37,18 +37,37 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                    padding: EdgeInsets.symmetric(horizontal: 20.h),
                    children: [
                      Text(
-                       "msg_what_is_the_finance".tr,
+                       'Welcome to Turf Locator!',
                        style: theme.textTheme.titleLarge!.copyWith(
                          color: appTheme.black900,
                        ),
                      ),
-                     SizedBox(height: 17.v),
+                     SizedBox(height: 27.v),
                      CustomImageView(
-                       imagePath: ImageConstant.imgChicModernLux,
+                       imagePath: 'assets/images/img_rectangle_395_5.png',
                        height: 160.v,
                        width: double.infinity,
                        radius: BorderRadius.circular(
                          16.h,
+                       ),
+                     ),
+                     SizedBox(height: 30.v),
+                     Container(
+                       width: double.infinity,
+                       margin: EdgeInsets.only(right: 14.h),
+                       child: Text(
+                         'Our mission is to connect you with the best turf locations around you. Our application provides comprehensive information on various turf locations, including their details, images, and user reviews, to help you find the perfect spot for your activities.',
+                         style: theme.textTheme.bodyLarge!.copyWith(
+                           color: appTheme.black900,
+                           height: 1.50,
+                         ),
+                       ),
+                     ),
+                     SizedBox(height: 16.v),
+                     Text(
+                       'Our Story',
+                       style: theme.textTheme.titleLarge!.copyWith(
+                         color: appTheme.black900,
                        ),
                      ),
                      SizedBox(height: 18.v),
@@ -56,9 +75,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                        width: double.infinity,
                        margin: EdgeInsets.only(right: 14.h),
                        child: Text(
-                         "msg_lorem_ipsum_dolor3".tr,
-                         maxLines: 4,
-                         overflow: TextOverflow.ellipsis,
+                         'Turf Locator was founded with the vision of creating a seamless and informative experience for users looking to explore and enjoy turf locations. Our team of dedicated professionals is passionate about delivering accurate and up-to-date information to enhance your turf exploration journey.',
                          style: theme.textTheme.bodyLarge!.copyWith(
                            color: appTheme.black900,
                            height: 1.50,
@@ -66,39 +83,18 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                        ),
                      ),
                      SizedBox(height: 16.v),
-                     SizedBox(
-                       width: double.infinity,
-                       child: Text(
-                         "msg_amet_minim_mollit".tr,
-                         maxLines: 3,
-                         overflow: TextOverflow.ellipsis,
-                         style: theme.textTheme.bodyLarge!.copyWith(
-                           color: appTheme.black900,
-                           height: 1.50,
-                         ),
+                     Text(
+                       'Our Team',
+                       style: theme.textTheme.titleLarge!.copyWith(
+                         color: appTheme.black900,
                        ),
                      ),
-                     SizedBox(height: 16.v),
-                     SizedBox(
-                       width: double.infinity,
-                       child: Text(
-                         "msg_in_a_laoreet_purus".tr,
-                         maxLines: 3,
-                         overflow: TextOverflow.ellipsis,
-                         style: theme.textTheme.bodyLarge!.copyWith(
-                           color: appTheme.black900,
-                           height: 1.50,
-                         ),
-                       ),
-                     ),
-                     SizedBox(height: 16.v),
+                     SizedBox(height: 18.v),
                      Container(
                        width: double.infinity,
-                       margin: EdgeInsets.only(right: 12.h),
+                       margin: EdgeInsets.only(right: 14.h),
                        child: Text(
-                         "msg_vorem_ipsum_dolor".tr,
-                         maxLines: 4,
-                         overflow: TextOverflow.ellipsis,
+                         'Our team is made up of experts in technology, data management, and customer service. We are committed to providing you with the highest quality of service and ensuring that our application meets your needs.',
                          style: theme.textTheme.bodyLarge!.copyWith(
                            color: appTheme.black900,
                            height: 1.50,
@@ -106,33 +102,25 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                        ),
                      ),
                      SizedBox(height: 16.v),
+                     Text(
+                       'Our Values',
+                       style: theme.textTheme.titleLarge!.copyWith(
+                         color: appTheme.black900,
+                       ),
+                     ),
+                     SizedBox(height: 18.v),
                      Container(
                        width: double.infinity,
-                       margin: EdgeInsets.only(right: 12.h),
+                       margin: EdgeInsets.only(right: 14.h),
                        child: Text(
-                         "msg_vorem_ipsum_dolor".tr,
-                         maxLines: 4,
-                         overflow: TextOverflow.ellipsis,
+                         'Integrity: We are committed to providing accurate and honest information.\n\nInnovation: We continuously seek to improve and innovate our app to offer you the best experience.\n\nCustomer Focus: Your satisfaction is our top priority. We are here to support you and address your needs.',
                          style: theme.textTheme.bodyLarge!.copyWith(
                            color: appTheme.black900,
                            height: 1.50,
                          ),
                        ),
                      ),
-                     SizedBox(height: 15.v),
-                     Container(
-                       width:double.infinity,
-                       margin: EdgeInsets.only(right: 36.h),
-                       child: Text(
-                         "msg_dctum_est_a_mattis".tr,
-                         maxLines: 3,
-                         overflow: TextOverflow.ellipsis,
-                         style: theme.textTheme.bodyLarge!.copyWith(
-                           color: appTheme.black900,
-                           height: 1.50,
-                         ),
-                       ),
-                     ),
+                     SizedBox(height: 50,)
                    ],
                  ),
                ),

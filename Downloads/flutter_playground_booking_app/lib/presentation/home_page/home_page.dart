@@ -34,12 +34,16 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    buildAppBar();
     controller.turfList();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    if(!controller.isLoading.value) {
+      return Center(child: LinearProgressIndicator());
+    }else{
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,6 +347,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ]);
+    }
   }
 
   /// Section Widget

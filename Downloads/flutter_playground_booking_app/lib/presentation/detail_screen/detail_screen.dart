@@ -12,7 +12,6 @@ import '../review_screen/models/review_item_model.dart';
 import '../review_screen/widgets/review_item_widget.dart';
 import 'controller/detail_controller.dart';
 import 'models/detailscreen_item_model.dart';
-// import 'package:share_plus/share_plus.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -49,7 +48,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final detailModel = detailController.detailModel.value;
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
@@ -62,7 +60,7 @@ class _DetailScreenState extends State<DetailScreen> {
           child: GetBuilder<DetailController>(
               init: DetailController(),
               builder: (controller) {
-                if (controller.isLoading.value) {
+                if (detailController.isLoading.value) {
                   return Center(
                     child: LoadingAnimationWidget.staggeredDotsWave(
                       color: Colors.blue,
@@ -70,6 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   );
                 }
+                final detailModel = detailController.detailModel.value;
                 return Stack(
                   children: [
                     Column(
@@ -293,7 +292,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                             if (index <
                                                 reviewController
                                                         .reviewList.length -
-                                                    1) 
+                                                    1)
                                               SizedBox(height: 15),
                                           ],
                                         );
@@ -341,7 +340,11 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 24.adaptSize),
           Padding(
               padding: EdgeInsets.only(left: 7.h, top: 3.v),
-              child: Text(" 4.5 Ratings ",
+              child: Text(" ${reviewController.averageRating} Rating ",
+                  style: CustomTextStyles.bodyLargeGray60001)),
+          Padding(
+              padding: EdgeInsets.only(left: 1.h, top: 3.v),
+              child: Text(" (${reviewController.totalReviews} reviews) ",
                   style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),
@@ -360,9 +363,9 @@ class _DetailScreenState extends State<DetailScreen> {
         onPressed: () {
           if (role == 'owner') {
             Get.snackbar('Sorry..!!', 'You cannot book as a owner');
-          } else if (role == 'user') {
+          } else {
             onTapBookNow();
-          } else {}
+          }
         });
   }
 
@@ -373,9 +376,7 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   onTapTxtViewAll() {
-    Get.toNamed(
-      AppRoutes.reviewScreen
-    );
+    Get.toNamed(AppRoutes.reviewScreen);
   }
 
   onTapBookNow() {

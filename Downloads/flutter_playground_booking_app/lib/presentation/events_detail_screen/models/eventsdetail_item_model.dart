@@ -7,15 +7,17 @@
 // }
 class EventsdetailItemModel {
   String? image;
-  String? title; // Add other necessary fields
-  String? description;
-  EventsdetailItemModel({this.image, this.title , this.description});
+  String? description;// Add other necessary fields
+  String? dateTime;
+  String? title;
+  EventsdetailItemModel({this.image, this.dateTime , this.description , this.title});
 
   factory EventsdetailItemModel.fromJson(Map<String, dynamic> json) {
     return EventsdetailItemModel(
       image: json['acf']['event_image'],
-      title: json['acf']['description'],
-      description: json['acf']['event_date_and_time'],
+      description: json['acf']['description'],
+      dateTime: json['acf']['event_date_and_time'],
+      title: json['title']['rendered'],
     );
   }
 }

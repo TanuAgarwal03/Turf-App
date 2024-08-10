@@ -11,17 +11,21 @@ class HomeController extends GetxController {
   List<HomeModel> homeModelList = [];
   var isLoading = true.obs;
 
-  Future<List<HomeModel>> turfList() async {
+  @override
+  void onInit(){
+    super.onInit();
+    turfList();
+  }
 
+  Future<List<HomeModel>> turfList() async {
     try {
       isLoading(true);
       final response = await http.get(
         Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get-turf/18'),
       );
-
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        
+        update();
         homeModelList.clear();
         homeModelList.add(HomeModel.fromJson(jsonResponse));
       } else {

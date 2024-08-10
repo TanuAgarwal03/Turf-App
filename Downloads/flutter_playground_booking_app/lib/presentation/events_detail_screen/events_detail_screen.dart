@@ -472,6 +472,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                                       ),
                                       SizedBox(height: 12.v),
                                       ExpandableText(
+                                        controller.eventDetail!.description ??
                                         "msg_ultricies_arcu_venenatis2".tr +
                                             "msg_ultricies_arcu_venenatis2".tr,
                                         expandText: "lbl_read_more".tr,
@@ -579,7 +580,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
           SizedBox(height: 2.v),
           _buildEntryFee(
             entryFee: 'Day of event :',
-            price: controller.eventDetail!.description ?? '',
+            price: controller.eventDetail!.dateTime ?? '',
           ),
           SizedBox(height: 18.v),
           _buildEntryFee(

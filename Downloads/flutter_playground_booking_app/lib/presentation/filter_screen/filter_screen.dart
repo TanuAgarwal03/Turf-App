@@ -53,8 +53,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         mainAxisExtent: 120.v,
                         crossAxisCount: 4,
-                        mainAxisSpacing: 16.h,
-                        crossAxisSpacing: 16.h),
+                        ),
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: categoriesController.categoriesData.length > 4
                         ? 4
@@ -87,7 +86,8 @@ class _FilterScreenState extends State<FilterScreen> {
                       mainAxisExtent: 56.v,
                       crossAxisCount: 2,
                       mainAxisSpacing: 16.h,
-                      crossAxisSpacing: 16.h),
+                      crossAxisSpacing: 16.h
+                      ),
                   itemBuilder: (context, index) {
                     PriceRangeModel model = controller.priceList[index];
                     return GestureDetector(

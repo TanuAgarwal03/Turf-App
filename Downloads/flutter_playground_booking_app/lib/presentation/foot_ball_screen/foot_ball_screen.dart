@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/foot_ball_controller.dart';
 import 'models/foot_ball_model.dart';
@@ -15,20 +16,30 @@ class _FootBallScreenState extends State<FootBallScreen> {
   final FootBallController controller = Get.put(FootBallController());
   late int categoryId;
   late String title;
- 
-  // final int categoryId = Get.arguments as int;
+
+  final Map<int, String> categoryNames = {
+    7: 'Badminton',
+    8: 'Basketball',
+    9: 'Cricket',
+    10: 'Swimming Pool',
+    11: 'Football',
+    12: 'Kabaddi',
+    13: 'Volleyball',
+    14: 'Golf',
+  };
+
   @override
   void initState() {
     super.initState();
-     if (Get.arguments is Map<String, dynamic>) {
-    final arguments = Get.arguments as Map<String, dynamic>;
-    categoryId = arguments['categoryId'] as int;
-    title = arguments['title'] as String;
-  } else {
-    categoryId = Get.arguments as int; 
-    title = "Default Title"; 
-  }
-    controller.fetchFootBallData(categoryId); 
+    if (Get.arguments is Map<String, dynamic>) {
+      final arguments = Get.arguments as Map<String, dynamic>;
+      categoryId = arguments['categoryId'] as int;
+      title = arguments['title'] as String;
+    } else {
+      categoryId = Get.arguments as int;
+      title = categoryNames[categoryId] ?? categoryId.toString();
+    }
+    controller.fetchFootBallData(categoryId);
   }
 
   @override
@@ -51,7 +62,22 @@ class _FootBallScreenState extends State<FootBallScreen> {
               Expanded(
                 child: Obx(() {
                   if (controller.footBallList.isEmpty) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        LoadingAnimationWidget.bouncingBall(color: Colors.black, size: 25),
+                        Text(
+                        'No grounds available for this category.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16, 
+                          color: Colors.black,
+                        ),
+                      ),
+                      ],)
+                    );
                   } else {
                     return ListView.builder(
                       primary: false,
@@ -65,14 +91,14 @@ class _FootBallScreenState extends State<FootBallScreen> {
                             padding: EdgeInsets.symmetric(vertical: 8.v),
                             child: GestureDetector(
                               onTap: () async {
-                                final prefs = await SharedPreferences.getInstance();
-                                if(model.id != null) {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                if (model.id != null) {
                                   await prefs.setInt('turfId', model.id!);
-                                print('turf id in category : ${model.id}');
-                                Get.toNamed(
-                                  AppRoutes.detailScreen,arguments: {'id':model.id}
-                                );
-                                }else {
+                                  print('turf id in category : ${model.id}');
+                                  Get.toNamed(AppRoutes.detailScreen,
+                                      arguments: {'id': model.id});
+                                } else {
                                   print('model.id is null : ${model.id}');
                                 }
                               },
@@ -88,8 +114,7 @@ class _FootBallScreenState extends State<FootBallScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     buildSeventeen(
-                                      image: model.turfImage
-                                          .toString(), 
+                                      image: model.turfImage.toString(),
                                     ),
                                     SizedBox(height: 12.v),
                                     Padding(
@@ -117,20 +142,22 @@ class _FootBallScreenState extends State<FootBallScreen> {
                                             width: 20.adaptSize,
                                           ),
                                           Container(
-                                            width: 280,
-                                            child: Padding(
-                                            padding: EdgeInsets.only(left: 8.h),
-                                            child: Text(
-                                              model.address ?? 'data',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: theme.textTheme.bodyMedium!
-                                                  .copyWith(
-                                                color: appTheme.black900,
-                                              ),
-                                            ),
-                                          )
-                                          ),
+                                              width: 280,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.h),
+                                                child: Text(
+                                                  model.address ?? 'data',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: theme
+                                                      .textTheme.bodyMedium!
+                                                      .copyWith(
+                                                    color: appTheme.black900,
+                                                  ),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     ),

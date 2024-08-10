@@ -9,4 +9,5 @@ class MyBookingEmptyController extends GetxController {
   MyBookingEmptyController(this.myBookingEmptyModelObj);
 
   Rx<MyBookingEmptyModel> myBookingEmptyModelObj;
+  var isLoading = true.obs;
 }

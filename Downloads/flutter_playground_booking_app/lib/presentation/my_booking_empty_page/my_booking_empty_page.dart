@@ -1,3 +1,5 @@
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import 'controller/my_booking_empty_controller.dart';
 import 'models/my_booking_empty_model.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,10 @@ class MyBookingEmptyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+
+    if(controller.isLoading.value) {
+      return Center(child: LoadingAnimationWidget.fourRotatingDots(color: Colors.blue, size: 25));
+    }else{
 
     return SafeArea(
       child: Scaffold(
@@ -69,6 +75,7 @@ class MyBookingEmptyPage extends StatelessWidget {
         ),
       ),
     );
+    }
   }
 
   /// Section Widget

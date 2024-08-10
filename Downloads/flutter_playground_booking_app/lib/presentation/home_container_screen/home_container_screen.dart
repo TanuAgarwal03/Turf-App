@@ -10,7 +10,6 @@ import 'package:flutter_playground_booking_app/widgets/custom_bottom_bar.dart';
 import '../../widgets/app_bar/custum_bottom_bar_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_outlined_button.dart';
-// import '../histry_upcoming_completed_tab_container/histry_upcoming_completed_tab_container.dart';
 import 'controller/home_container_controller.dart';
 
 
@@ -28,7 +27,6 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
     HomePage(),
     MyBookingUpcomingTabContainerScreen(),
     EventsPage(),
-    // HistryUpcomingCompletedTab(),
     ProfileScreen()
 
 

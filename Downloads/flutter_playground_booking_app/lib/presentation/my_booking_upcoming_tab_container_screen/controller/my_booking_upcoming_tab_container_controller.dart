@@ -10,6 +10,7 @@ class MyBookingUpcomingTabContainerController extends GetxController
     with GetSingleTickerProviderStateMixin {
   Rx<MyBookingUpcomingTabContainerModel> myBookingUpcomingTabContainerModelObj =
       MyBookingUpcomingTabContainerModel().obs;
+      var isLoading = true.obs;
 
   late TabController tabviewController =
       Get.put(TabController(vsync: this, length: 2));

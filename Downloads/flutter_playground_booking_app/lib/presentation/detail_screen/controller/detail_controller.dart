@@ -19,7 +19,6 @@ class DetailController extends GetxController {
     price: '',
     locationUrl: '',
     facilities: [],
-    // groundList: [],
     reviews: [],
   ).obs;
 
@@ -36,45 +35,79 @@ class DetailController extends GetxController {
     super.onInit();
     _loadTurfId();
   }
+
   Future<void> _loadTurfId() async {
     final prefs = await SharedPreferences.getInstance();
     final turfId = prefs.getInt('selectedTurfId') ?? 0;
     if (turfId != 0) {
-      print("turf id from SharedPreferences : $turfId");
       fetchTurfData(turfId);
+      print("turf id from SharedPreferences : $turfId");
     } else {
       Get.snackbar("Error", "No turf ID found");
     }
   }
 
-Future<void> fetchTurfData(int turfId) async {
+  Future<void> fetchTurfData(int turfId) async {
     try {
       isLoading(true);
       final response = await apiService.getAPI('get-turf/$turfId');
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-         if (data is Map<String, dynamic>) {
-        detailModel.value = DetailModel.fromJson(data);
-        facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        // groundList.value = detailModel.value.groundList;
+        print(' Detail page loading for $turfId');
+        isLoading(false);
+        if (data is Map<String, dynamic>) {
+          detailModel.value = DetailModel.fromJson(data);
+          facilityList.value = DetailscreenItemModel.fromFacilities(
+              detailModel.value.facilities);
+        } else {
+          print('Unexpected data format');
+
+          // detailModel.value = DetailModel.fromJson(data);
+          // facilityList.value = DetailscreenItemModel.fromFacilities(
+          //     detailModel.value.facilities);
+        }
       } else {
-        detailModel.value = DetailModel.fromJson(data);
-        facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        // groundList.value = detailModel.value.groundList;
-      }
-        detailModel.value = DetailModel.fromJson(data);
-        facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
-        // groundList.value = detailModel.value.groundList;
-      } else {
+        isLoading(false);
         Get.snackbar('Error', 'Failed to load turf details !');
         isLoading(false);
       }
     } catch (e) {
       print('Exception $e');
-    }
-    finally{
+    } finally {
       isLoading(false);
     }
   }
+//   Future<void> fetchTurfData(int turfId) async {
+//     // if (isLoading(true)) return;
+//   try {
+//     isLoading(true);
+//     final response = await apiService.getAPI('get-turf/$turfId');
+    
+//     if (response.statusCode == 200) {
+//       final data = jsonDecode(response.body);
+//       print('Detail page loading: ${response.body}');
+      
+//       if (data is Map<String, dynamic>) {
+//         print('Data is in Map<String , dynamic form>');
+//         detailModel.value = DetailModel.fromJson(data);
+//         facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
+//       } else {
+//         isLoading(false);
+//       Get.snackbar('Error', 'Unexpected data format!');
+//         // detailModel.value = DetailModel.fromJson(data);
+//         // facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
+//       }
+//     } else {
+//       isLoading(false);
+//       Get.snackbar('Error', 'Failed to load turf details!');
+//     }
+    
+//   } catch (e) {
+//     print('Exception occurred: $e');
+    
+//   } finally {
+//     isLoading(false);
+//   }
+// }
 
 }
