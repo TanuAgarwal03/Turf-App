@@ -7,6 +7,7 @@ import 'package:flutter_playground_booking_app/widgets/app_bar/appbar_subtitle_o
 import 'package:flutter_playground_booking_app/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_icon_button.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_search_view.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../categories_screen/controller/categories_controller.dart';
 import '../categories_screen/models/categories_item_model.dart';
@@ -34,319 +35,331 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    buildAppBar();
     controller.turfList();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    if(!controller.isLoading.value) {
-      return Center(child: LinearProgressIndicator());
-    }else{
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildAppBar(),
-          SizedBox(height: 16.v),
-          _buildSearchbar(),
-          SizedBox(height: 24.v),
-          Expanded(
-            child: ListView(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
-                  child: getViewAllRow("lbl_categories".tr, () {
-                    Get.toNamed(AppRoutes.categoriesScreen);
-                  }),
-                ),
-                SizedBox(height: 16.v),
-                GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 20.h),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 140.v,
-                      crossAxisCount: 4,
-                    ),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: categoriesController.categoriesData.length > 4
-                        ? 4
-                        : categoriesController.categoriesData.length,
-                    itemBuilder: (context, index) {
-                      CategoriesItemModel model =
-                          categoriesController.categoriesData[index];
-                      return animationfunction(
-                          index,
-                          CategoriesItemWidget(model, onTap: () async {
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setInt('categoryId', model.id);
-                            Get.toNamed(AppRoutes.footBallScreen,
-                                arguments: model.id);
-                          }));
+    // if (!controller.isLoading.value) {
+    //   return Center(child: LinearProgressIndicator());
+    return FutureBuilder(
+    future: controller.turfList(), // assuming this method returns a Future
+    builder: (context, AsyncSnapshot snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(child: LoadingAnimationWidget.prograssiveDots(color: Colors.black, size: 50));
+      } else if (snapshot.hasError) {
+        return Center(child: Text('Error: ${snapshot.error}'));
+      // } else if (!snapshot.hasData || snapshot.data.isEmpty) {
+      //   return Center(child: Text('No data available'));
+    } else {
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildAppBar(),
+            SizedBox(height: 16.v),
+            _buildSearchbar(),
+            SizedBox(height: 24.v),
+            Expanded(
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                    child: getViewAllRow("lbl_categories".tr, () {
+                      Get.toNamed(AppRoutes.categoriesScreen);
                     }),
-                SizedBox(height: 24.v),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
-                  child: getViewAllRow("lbl_popular_ground".tr, () {
-                    Get.toNamed(AppRoutes.popularGroundScreen);
-                  }),
-                ),
-                SizedBox(height: 16.v),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.h),
-                    child: Row(
-                      children: List.generate(
-                          popularGroundController.popularGround.length > 2
-                              ? 2
-                              : popularGroundController.popularGround.length,
-                          (index) {
-                        PopulargroundItemModel data =
-                            popularGroundController.popularGround[index];
+                  ),
+                  SizedBox(height: 16.v),
+                  GridView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 20.h),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisExtent: 140.v,
+                        crossAxisCount: 4,
+                      ),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: categoriesController.categoriesData.length > 4
+                          ? 4
+                          : categoriesController.categoriesData.length,
+                      itemBuilder: (context, index) {
+                        CategoriesItemModel model =
+                            categoriesController.categoriesData[index];
                         return animationfunction(
                             index,
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.h),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  // final prefs =
-                                  //     await SharedPreferences.getInstance();
-                                  // await prefs.setInt(
-                                  //     'selectedTurfId', data.id ?? 0);
-                                  // popularGroundController.currentImage.value =
-                                  //     data.image!;
-                                  // popularGroundController.update();
-                                  // Get.toNamed(AppRoutes.detailScreen,
-                                  //     arguments: data.id);
-                                  Get.toNamed(AppRoutes.popularGroundScreen);
-                                },
-                                child: Container(
-                                  width: 238.h,
-                                  decoration: AppDecoration.fillGray.copyWith(
-                                    color: appTheme.textfieldFillColor,
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder16,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Hero(
-                                        tag: data.image!,
-                                        child: CustomImageView(
-                                          fit: BoxFit.cover,
-                                          imagePath: data.image,
-                                          height: 126.v,
-                                          width: double.infinity,
-                                          radius: BorderRadius.circular(
-                                            16.h,
-                                          ),
-                                          alignment: Alignment.topCenter,
-                                        ),
-                                      ),
-                                      SizedBox(height: 12.v),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16.h),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data.title!,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: theme
-                                                      .textTheme.titleMedium!
-                                                      .copyWith(
-                                                    color: appTheme.black900,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 4.5.v),
-                                                Row(
-                                                  children: [
-                                                    CustomImageView(
-                                                      color: appTheme.black900,
-                                                      imagePath: ImageConstant
-                                                          .imgIcLocation,
-                                                      height: 15.adaptSize,
-                                                      width: 15.adaptSize,
-                                                    ),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 5.h),
-                                                        child: Container(
-                                                          width: 155,
-                                                          child: Text(
-                                                              data.location!,
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                color: appTheme
-                                                                    .black900,
-                                                              )),
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
+                            CategoriesItemWidget(model, onTap: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setInt('categoryId', model.id);
+                              Get.toNamed(AppRoutes.footBallScreen,
+                                  arguments: model.id);
+                            }));
+                      }),
+                  SizedBox(height: 24.v),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                    child: getViewAllRow("lbl_popular_ground".tr, () {
+                      Get.toNamed(AppRoutes.popularGroundScreen);
+                    }),
+                  ),
+                  SizedBox(height: 16.v),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.h),
+                      child: Row(
+                        children: List.generate(
+                            popularGroundController.popularGround.length > 2
+                                ? 2
+                                : popularGroundController.popularGround.length,
+                            (index) {
+                          PopulargroundItemModel data =
+                              popularGroundController.popularGround[index];
+                          return animationfunction(
+                              index,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.h),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    // final prefs =
+                                    //     await SharedPreferences.getInstance();
+                                    // await prefs.setInt(
+                                    //     'selectedTurfId', data.id ?? 0);
+                                    // popularGroundController.currentImage.value =
+                                    //     data.image!;
+                                    // popularGroundController.update();
+                                    // Get.toNamed(AppRoutes.detailScreen,
+                                    //     arguments: data.id);
+                                    Get.toNamed(AppRoutes.popularGroundScreen);
+                                  },
+                                  child: Container(
+                                    width: 238.h,
+                                    decoration: AppDecoration.fillGray.copyWith(
+                                      color: appTheme.textfieldFillColor,
+                                      borderRadius:
+                                          BorderRadiusStyle.roundedBorder16,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Hero(
+                                          tag: data.image!,
+                                          child: CustomImageView(
+                                            fit: BoxFit.cover,
+                                            imagePath: data.image,
+                                            height: 126.v,
+                                            width: double.infinity,
+                                            radius: BorderRadius.circular(
+                                              16.h,
                                             ),
-                                          ],
+                                            alignment: Alignment.topCenter,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 16.5.v),
-                                    ],
+                                        SizedBox(height: 12.v),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.h),
+                                          child: Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    data.title!,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: theme
+                                                        .textTheme.titleMedium!
+                                                        .copyWith(
+                                                      color: appTheme.black900,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 4.5.v),
+                                                  Row(
+                                                    children: [
+                                                      CustomImageView(
+                                                        color:
+                                                            appTheme.black900,
+                                                        imagePath: ImageConstant
+                                                            .imgIcLocation,
+                                                        height: 15.adaptSize,
+                                                        width: 15.adaptSize,
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 5.h),
+                                                          child: Container(
+                                                            width: 155,
+                                                            child: Text(
+                                                                data.location!,
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                  color: appTheme
+                                                                      .black900,
+                                                                )),
+                                                          )),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 16.5.v),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ));
-                      }),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.v),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.h, right: 20.h),
-                  child: getViewAllRow("lbl_nearby_you".tr, () {
-                    Get.toNamed(AppRoutes.nearbyYouScreen);
-                  }),
-                ),
-                SizedBox(height: 16.v),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.h),
-                    child: Row(
-                      children: List.generate(
-                        nearbyYouController.turfList.length > 2
-                            ? 2
-                            : nearbyYouController.turfList.length,
-                        (index) {
-                          final NearbyYouModel data =
-                              nearbyYouController.turfList[index];
-
-                          return GestureDetector(
-                            onTap: () {
-                              nearbyYouController.selectedTurf.value = data;
-                              Get.toNamed(AppRoutes.detailScreen,
-                                  arguments: {'id': data.id});
-                            },
-                            child: Container(
-                              width: 280.h,
-                              margin: EdgeInsets.symmetric(horizontal: 8.h),
-                              decoration: AppDecoration.fillGray.copyWith(
-                                color: appTheme.textfieldFillColor,
-                                borderRadius: BorderRadiusStyle.roundedBorder16,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 140,
-                                    width: double.infinity,
-                                    child: Stack(
-                                      alignment: Alignment.topRight,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                          child: Image.network(
-                                            data.image ??
-                                                'assets/images/placeholder.png',
-                                            height: 140,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                top: 12, right: 12),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Text(
-                                              data.distance ?? '... km',
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 12),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.h),
-                                    child: Text(
-                                      data.title ?? 'No title',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.h),
-                                    child: Row(
-                                      children: [
-                                        CustomImageView(
-                                          color: appTheme.black900,
-                                          imagePath:
-                                              ImageConstant.imgIcLocation,
-                                          height: 20.adaptSize,
-                                          width: 20.adaptSize,
-                                        ),
-                                        Container(
-                                          width:200,
-                                          padding: EdgeInsets.only(left: 8.h),
-                                          child: Text(
-                                            data.location ?? 'No location',
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: theme.textTheme.bodyMedium!
-                                                .copyWith(
-                                              color: appTheme.black900,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 16),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                              ));
+                        }),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 24.v),
-              ],
+                  SizedBox(height: 24.v),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.h, right: 20.h),
+                    child: getViewAllRow("lbl_nearby_you".tr, () {
+                      Get.toNamed(AppRoutes.nearbyYouScreen);
+                    }),
+                  ),
+                  SizedBox(height: 16.v),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.h),
+                      child: Row(
+                        children: List.generate(
+                          nearbyYouController.turfList.length > 2
+                              ? 2
+                              : nearbyYouController.turfList.length,
+                          (index) {
+                            final NearbyYouModel data =
+                                nearbyYouController.turfList[index];
+
+                            return GestureDetector(
+                              onTap: () {
+                                nearbyYouController.selectedTurf.value = data;
+                                Get.toNamed(AppRoutes.detailScreen,
+                                    arguments: {'id': data.id});
+                              },
+                              child: Container(
+                                width: 280.h,
+                                margin: EdgeInsets.symmetric(horizontal: 8.h),
+                                decoration: AppDecoration.fillGray.copyWith(
+                                  color: appTheme.textfieldFillColor,
+                                  borderRadius:
+                                      BorderRadiusStyle.roundedBorder16,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 140,
+                                      width: double.infinity,
+                                      child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                            child: Image.network(
+                                              data.image ??
+                                                  'assets/images/placeholder.png',
+                                              height: 140,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 12, right: 12),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                data.distance ?? '... km',
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 12),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.h),
+                                      child: Text(
+                                        data.title ?? 'No title',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.h),
+                                      child: Row(
+                                        children: [
+                                          CustomImageView(
+                                            color: appTheme.black900,
+                                            imagePath:
+                                                ImageConstant.imgIcLocation,
+                                            height: 20.adaptSize,
+                                            width: 20.adaptSize,
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            padding: EdgeInsets.only(left: 8.h),
+                                            child: Text(
+                                              data.location ?? 'No location',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: theme.textTheme.bodyMedium!
+                                                  .copyWith(
+                                                color: appTheme.black900,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 16),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24.v),
+                ],
+              ),
             ),
-          ),
-        ]);
+          ]);
+  }});
     }
   }
 
@@ -358,8 +371,7 @@ class _HomePageState extends State<HomePage> {
           height: 72.v,
           title: Column(children: [
             AppbarSubtitleOne(
-                text: 'Hello User',
-                margin: EdgeInsets.only(right: 79.h)),
+                text: 'Hello User', margin: EdgeInsets.only(right: 79.h)),
             SizedBox(height: 5.v),
             AppbarSubtitle(text: "lbl_good_morning".tr)
           ]),
@@ -367,8 +379,7 @@ class _HomePageState extends State<HomePage> {
             getCustomIconButton(ImageConstant.imgGroup9, () {
               Get.toNamed(AppRoutes.notificationScreen);
             })
-          ]
-        ),
+          ]),
     );
   }
 
@@ -383,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                     Get.toNamed(AppRoutes.searchScreen);
                   },
                   textInputType: TextInputType.none,
-                  controller: controller.searchController,
+                  // controller: controller.searchController,
                   hintText: "lbl_search".tr)),
           Padding(
               padding: EdgeInsets.only(left: 16.h),
@@ -480,4 +491,4 @@ class _HomePageState extends State<HomePage> {
                           color: theme.colorScheme.onErrorContainer))))
         ]));
   }
-}
+

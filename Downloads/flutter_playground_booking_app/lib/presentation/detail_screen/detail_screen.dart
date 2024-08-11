@@ -60,14 +60,33 @@ class _DetailScreenState extends State<DetailScreen> {
           child: GetBuilder<DetailController>(
               init: DetailController(),
               builder: (controller) {
-                if (detailController.isLoading.value) {
-                  return Center(
+                return FutureBuilder(future: controller.fetchTurfData(turfId), builder: (context , snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return Center(
                     child: LoadingAnimationWidget.staggeredDotsWave(
                       color: Colors.blue,
                       size: 50,
                     ),
                   );
-                }
+                  } else if (snapshot.hasError){
+                    return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                  }
+                //   else if (!snapshot.hasData) {
+                //   return Center(
+                //     child: Text('No data available'),
+                //   );
+                // }
+                else{
+                // if (detailController.isLoading.value) {
+                //   return Center(
+                //     child: LoadingAnimationWidget.staggeredDotsWave(
+                //       color: Colors.blue,
+                //       size: 50,
+                //     ),
+                //   );
+                // }
                 final detailModel = detailController.detailModel.value;
                 return Stack(
                   children: [
@@ -321,7 +340,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ],
                 );
-              }),
+              }});})
         ),
       ),
     );

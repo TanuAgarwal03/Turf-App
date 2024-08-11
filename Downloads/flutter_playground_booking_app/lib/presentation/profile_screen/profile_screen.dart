@@ -136,7 +136,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  /// Section Widget
   Widget buildComponentOne() {
     return Container(
       width: double.maxFinite,

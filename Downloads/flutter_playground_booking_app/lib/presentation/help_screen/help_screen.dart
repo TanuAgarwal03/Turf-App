@@ -36,28 +36,28 @@ class _HelpScreenState extends State<HelpScreen> {
                 child: ListView(
                   children: [
                     _buildFrame(
-                      whatIsPlayground: "msg_what_is_called_playground".tr,
+                      whatIsPlayground:'How do I create an account?',
                     ),
                     SizedBox(height: 16.v),
                     _buildFrame(
-                      whatIsPlayground: "msg_what_is_a_playing".tr,
+                      whatIsPlayground: 'How do I view details about a turf location?',
                     ),
                     SizedBox(height: 16.v),
                     _buildFrame(
-                      whatIsPlayground: "msg_what_is_playground".tr,
+                      whatIsPlayground: 'How do I update my profile information?',
                     ),
                     SizedBox(height: 16.v),
                     _buildFrame(
-                      whatIsPlayground: "msg_what_type_of_play".tr,
+                      whatIsPlayground: 'I\’m having trouble logging in. What should I do?',
                     ),
                     SizedBox(height: 16.v),
                     _buildFrame(
-                      whatIsPlayground: "msg_what_is_playground2".tr,
+                      whatIsPlayground: 'The app isn\’t working properly. How can I fix it?',
                     ),
-                    SizedBox(height: 16.v),
-                    _buildFrame(
-                      whatIsPlayground: "msg_why_do_kids_play".tr,
-                    ),
+                    // SizedBox(height: 16.v),
+                    // _buildFrame(
+                    //   whatIsPlayground: "msg_why_do_kids_play".tr,
+                    // ),
                     SizedBox(height: 5.v),
                   ],
                 ),
@@ -100,11 +100,10 @@ class _HelpScreenState extends State<HelpScreen> {
             child: Container(
                 width: double.infinity,
                 child: Text(
-                    "msg_lorem_ipsum_dolor2"
-                        .tr,
-                    maxLines: 3,
+                    'To create an account, open the app and click on the "Sign Up" button. Enter your details, such as your name, email address, and password, then follow the prompts to complete the registration process. \nTap on any turf location from the search results or map to view its details. This will include information such as images, descriptions, address, and user reviews. \nGo to your profile settings by tapping on the "Profile" icon. From there, you can update your personal information, including your name, email address, and password. \nCheck that you are using the correct email address and password. If you’ve forgotten your password, use the "Forgot Password" link on the login screen to reset it.\nTry restarting the app or reinstalling it. If the issue persists, please contact our support team about the problem.',
+                    // maxLines: 3,
                     overflow:
-                    TextOverflow.ellipsis,
+                    TextOverflow.visible,
                     textAlign: TextAlign.left,
                     style: theme
                         .textTheme.bodyLarge!.copyWith(
