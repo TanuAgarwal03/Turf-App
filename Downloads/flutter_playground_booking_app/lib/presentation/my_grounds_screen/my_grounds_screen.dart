@@ -44,7 +44,7 @@ class _MyGroundsScreenState extends State<MyGroundsScreen> {
               SizedBox(height: 16.v),
               Expanded(
                 child: buildMyGrounds(),
-              ),
+            ),
               if (role != 'user') 
                     Align(
                       alignment: Alignment.bottomCenter,

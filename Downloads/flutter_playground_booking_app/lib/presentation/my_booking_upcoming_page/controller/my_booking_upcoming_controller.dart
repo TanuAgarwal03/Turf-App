@@ -38,7 +38,7 @@ class MyBookingUpcomingController extends GetxController {
     }
   }
   
-  void fetchMyBookingUpcoming() async {
+  Future<void> fetchMyBookingUpcoming() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt('user_id') ?? 0;
@@ -63,6 +63,7 @@ class MyBookingUpcomingController extends GetxController {
     } finally {
       isLoading(false);
     }
+    return null;
   }
 
   Future<void> _requestPhoneCallPermission() async {

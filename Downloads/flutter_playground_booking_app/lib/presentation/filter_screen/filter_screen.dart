@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_elevated_button.dart';
@@ -25,20 +23,19 @@ class _FilterScreenState extends State<FilterScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         Get.back();
         return true;
       },
       child: Scaffold(
-          backgroundColor: appTheme.bgColor,
-          resizeToAvoidBottomInset: false,
-          body: SafeArea(
-            child: GetBuilder<FilterController>(
-              init: FilterController(),
-              builder: (controller) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-              getCommonAppBar("lbl_filter".tr),
+        backgroundColor: appTheme.bgColor,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getCommonAppBar("lbl_filter".tr),
                 SizedBox(height: 20.v),
                 Padding(
                   padding: EdgeInsets.only(left: 20.h, right: 20.h),
@@ -51,9 +48,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20.h),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        mainAxisExtent: 120.v,
-                        crossAxisCount: 4,
-                        ),
+                      mainAxisExtent: 120.v,
+                      crossAxisCount: 4,
+                    ),
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: categoriesController.categoriesData.length > 4
                         ? 4
@@ -69,13 +66,21 @@ class _FilterScreenState extends State<FilterScreen> {
                     }),
                 SizedBox(height: 28.v),
                 Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 20.h),
-                        child: Text("lbl_price_range".tr,
-                            style: theme.textTheme.titleLarge!.copyWith(
-                              color: appTheme.black900,
-                            )))),
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20.h),
+                    child: Text(
+                      "lbl_price_range".tr,
+                      style: theme.textTheme.titleLarge!.copyWith(
+                        color: appTheme.black900,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20.h),
+                  child: Text('Select Price Range to display turfs in that range :'),
+                ),
                 SizedBox(height: 17.v),
                 GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -83,77 +88,144 @@ class _FilterScreenState extends State<FilterScreen> {
                   shrinkWrap: true,
                   itemCount: controller.priceList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 56.v,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16.h,
-                      crossAxisSpacing: 16.h
-                      ),
+                    mainAxisExtent: 56.v,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16.h,
+                    crossAxisSpacing: 16.h,
+                  ),
                   itemBuilder: (context, index) {
                     PriceRangeModel model = controller.priceList[index];
                     return GestureDetector(
                       onTap: () {
-                        controller.currentPrice = model.id!;
-                        controller.update();
+                        controller.onSelectPriceRange(
+                            model.id!,
+                            100 + (index * 150),
+                            100 + ((index + 1) * 150));
                       },
                       child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.h),
-                              border: Border.all(color: controller.currentPrice == model.id?appTheme.buttonColor:Colors.transparent),
-                              color:  controller.currentPrice == model.id?appTheme.buttonColor.withOpacity(0.20):appTheme.textfieldFillColor),
-                          child: Center(
-                              child: Text(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.h),
+                          border: Border.all(
+                              color: controller.currentPrice == model.id
+                                  ? appTheme.buttonColor
+                                  : Colors.transparent),
+                          color: controller.currentPrice == model.id
+                              ? appTheme.buttonColor.withOpacity(0.20)
+                              : appTheme.textfieldFillColor,
+                        ),
+                        child: Center(
+                          child: Text(
                             model.priceRange!,
                             style: theme.textTheme.bodyLarge!.copyWith(
                               color: appTheme.black900,
                             ),
-                          ))),
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ),
                 SizedBox(height: 28.v),
-
-              ]),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20.h),
+                    child: Text(
+                      "List of Turfs",
+                      style: theme.textTheme.titleLarge!.copyWith(
+                        color: appTheme.black900,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Obx(() {
+                  // Check if the filteredGrounds list is empty
+                  if (controller.filteredGrounds.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.h),
+                      child: Center(
+                        child: Text(
+                          "No turfs available in the selected price range.",
+                          style: theme.textTheme.bodyLarge!.copyWith(
+                            color: appTheme.black900,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 20.h),
+                      shrinkWrap: true,
+                      itemCount: controller.filteredGrounds.length,
+                      itemBuilder: (context, index) {
+                        var ground = controller.filteredGrounds[index];
+                        return Card(
+                          child: ListTile(
+                            leading: ClipRRect(
+                              child: Image.network(
+                                ground['acf']['turf_image'],
+                                fit: BoxFit.cover,
+                                width: 70,
+                                height: 50,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            title: Text(ground['title']),
+                            subtitle: Text(ground['acf']['address'] ?? ''),
+                            trailing: Text("\$${ground['acf']['price']}"),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }),
+              ],
             ),
           ),
-          bottomNavigationBar: buildButtons()),
+        ),
+        bottomNavigationBar: buildButtons(),
+      ),
     );
   }
 
-
-  /// Section Widget
-  Widget buildReset() {
-    return Expanded(
-        child: CustomOutlinedButton(
-            text: "lbl_reset".tr,
-            margin: EdgeInsets.only(right: 8.h),
-            onPressed: () {
-             Get.back();
-            }));
-  }
-
-  /// Section Widget
   Widget buildApply() {
     return Expanded(
-        child: CustomElevatedButton(
-            text: "lbl_apply".tr,
-            margin: EdgeInsets.only(left: 8.h),
-            onPressed: () {
-              Get.back();
-            }));
+      child: CustomElevatedButton(
+        text: "lbl_apply".tr,
+        margin: EdgeInsets.only(left: 8.h),
+        onPressed: () {
+          // final controller = Get.find<FilterController>();
+          // controller.applyFilter();
+          // Get.back();
+        },
+      ),
+    );
   }
 
-  /// Section Widget
+  Widget buildReset() {
+    return Expanded(
+      child: CustomOutlinedButton(
+        text: "lbl_reset".tr,
+        margin: EdgeInsets.only(right: 8.h),
+        onPressed: () {
+          controller.resetFilters();
+        },
+      ),
+    );
+  }
+
   Widget buildButtons() {
     return Container(
       width: double.infinity,
-        color: appTheme.bgColor,
-        padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 32.v,top: 16.v),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [buildReset(), buildApply()]));
+      color: appTheme.bgColor,
+      padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 32.v, top: 16.v),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [buildReset(), buildApply()],
+      ),
+    );
   }
-
-
 
   onTapTxtViewAll() {
     Get.toNamed(

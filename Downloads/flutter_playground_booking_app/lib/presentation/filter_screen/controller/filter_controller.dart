@@ -1,82 +1,85 @@
 
-// import 'dart:convert';
-
+import 'dart:convert';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/filter_screen/models/filter_model.dart';
 import '../models/price_range_model.dart';
 import 'package:http/http.dart' as http;
 
 class FilterController extends GetxController {
- List<PriceRangeModel> priceList =  FilterModel.getPriceList();
-
-  List<PriceRangeModel> filteredGrounds = <PriceRangeModel>[].obs;
- int currentPrice = 1;
- int currentGroundType = 1;
- Future<void> fetchFilteredGrounds() async {
-    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/price_filter?min_price=100&max_price=1200'));
+  List<PriceRangeModel> priceList = FilterModel.getPriceList();
+  RxList<Map<String, dynamic>> filteredGrounds = <Map<String, dynamic>>[].obs;
+  int currentPrice = 1;
+   int? selectedMinPrice;
+  int? selectedMaxPrice;
+  Future<void> fetchFilteredGrounds({required int minPrice, required int maxPrice}) async {
+    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/price_filter?min_price=$minPrice&max_price=$maxPrice'));
 
     if (response.statusCode == 200) {
-      // List<dynamic> data = json.decode(response.body);
-      // filteredGrounds = data.map((item) => PriceRangeModel.fromJson(item)).toList();
-      update();
+      List<dynamic> data = json.decode(response.body);
+      filteredGrounds.value = data.cast<Map<String, dynamic>>();
     } else {
       print('Failed to load data');
     }
   }
+
+  void onSelectPriceRange(int id, int minPrice, int maxPrice) {
+    currentPrice = id;
+    selectedMinPrice = minPrice;
+    selectedMaxPrice = maxPrice;
+    fetchFilteredGrounds(minPrice: minPrice, maxPrice: maxPrice);
+    update();
+  }
+  void resetFilters() {
+    currentPrice = 0;
+    selectedMinPrice = null;
+    selectedMaxPrice = null;
+    filteredGrounds.clear();
+  }
 }
 // class FilterController extends GetxController {
-//   int? selectedCategoryId;
-//   int? currentPrice;
+//   var priceList = <PriceRangeModel>[].obs;
+//   var currentPrice = ''.obs;
+//   var filteredGrounds = <dynamic>[].obs;
 
-//   // This list will hold the fetched turf data.
-//   List<TurfModel> filteredTurfs = [];
-
-//   void setSelectedCategory(int id) {
-//     selectedCategoryId = id;
-//     update();
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     // Initialize your priceList and other data if needed
+//     fetchFilteredGrounds();
 //   }
 
-//   void setSelectedPriceRange(int id) {
-//     currentPrice = id;
-//     update();
+//   void onSelectPriceRange(String id, double minPrice, double maxPrice) {
+//     currentPrice.value = id;
+//     fetchFilteredGrounds(minPrice, maxPrice);
 //   }
 
-//   Future<void> fetchFilteredTurfs() async {
-//     if (selectedCategoryId != null && currentPrice != null) {
-//       // Map the selected price range id to min and max price values
-//       Map<String, String> priceRange = _getPriceRangeFromId(currentPrice!);
-      
-//       final response = await http.get(
-//         Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/price_filter?min_price=${priceRange['min_price']}&max_price=${priceRange['max_price']}'),
-//       );
+//   void fetchFilteredGrounds([double? minPrice, double? maxPrice]) async {
+//     // Fetch all turfs from API
+//     var allGrounds = await fetchAllGroundsFromAPI();
 
-//       if (response.statusCode == 200) {
-//         List<dynamic> data = jsonDecode(response.body);
-//         filteredTurfs = data.map((item) => TurfModel.fromJson(item)).toList();
-//         update();
-//       } else {
-//         // Handle error
+//     // Filter turfs based on selected price range
+//     filteredGrounds.value = allGrounds.where((ground) {
+//       double price = double.parse(ground['acf']['price']);
+//       print('Checking price: $price against range: $minPrice - $maxPrice');
+//       if (minPrice != null && maxPrice != null) {
+//         return price >= minPrice && price < maxPrice;
 //       }
+//       return true;
+//     }).toList();
+//   }
+
+//   Future<List<dynamic>> fetchAllGroundsFromAPI() async {
+//     // Replace with your API call logic
+//     var response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/turflist'));
+//     if (response.statusCode == 200) {
+//       return jsonDecode(response.body);
+//     } else {
+//       throw Exception('Failed to load grounds');
 //     }
 //   }
 
-//   Map<String, String> _getPriceRangeFromId(int id) {
-//     // Example mapping, you can adjust the values as needed
-//     switch (id) {
-//       case 1:
-//         return {'min_price': '100', 'max_price': '150'};
-//       case 2:
-//         return {'min_price': '150', 'max_price': '300'};
-//       case 3:
-//         return {'min_price': '300', 'max_price': '450'};
-//       case 4:
-//         return {'min_price': '450', 'max_price': '600'};
-//       case 5:
-//         return {'min_price': '600', 'max_price': '750'};
-//       case 6:
-//         return {'min_price': '750', 'max_price': '1000'};
-//       default:
-//         return {'min_price': '100', 'max_price': '1200'};
-//     }
+//   void resetFilters() {
+//     currentPrice.value = '';
+//     fetchFilteredGrounds(); 
 //   }
 // }
