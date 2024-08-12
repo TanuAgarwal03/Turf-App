@@ -10,7 +10,6 @@ import 'models/price_range_model.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
-
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
@@ -22,6 +21,7 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -39,31 +39,45 @@ class _FilterScreenState extends State<FilterScreen> {
                 SizedBox(height: 20.v),
                 Padding(
                   padding: EdgeInsets.only(left: 20.h, right: 20.h),
-                  child: getViewAllRow("lbl_categories".tr, () {
-                    Get.toNamed(AppRoutes.categoriesScreen);
-                  }),
+                  child: Text(
+                    "lbl_categories".tr,
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      color: appTheme.black900,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 16.v),
                 GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 20.h),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 120.v,
-                      crossAxisCount: 4,
-                    ),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: categoriesController.categoriesData.length > 4
-                        ? 4
-                        : categoriesController.categoriesData.length,
-                    itemBuilder: (context, index) {
-                      CategoriesItemModel model =
-                          categoriesController.categoriesData[index];
-                      return animationfunction(
-                          index,
-                          CategoriesItemWidget(model, onTap: () {
-                            // Get.toNamed(AppRoutes.footBallScreen);
-                          }));
-                    }),
+                  padding: EdgeInsets.symmetric(horizontal: 20.h),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisExtent: 120.v,
+                    crossAxisCount: 4,
+                  ),
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: categoriesController.categoriesData
+                      .where((category) => category.title != 'Uncategorized')
+                      .toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                    var filteredCategories = categoriesController.categoriesData
+                        .where((category) => category.title != 'Uncategorized')
+                        .toList();
+                    CategoriesItemModel model = filteredCategories[index];
+                    bool isSelected =
+                        controller.currentCategory.value == model.id;
+                    return animationfunction(
+                      index,
+                      CategoriesItemWidget(
+                        model,
+                        onTap: () {
+                          controller.setSelectedCategory(model.id);
+                        },
+                        isSelected: isSelected,
+                      ),
+                    );
+                  },
+                ),
                 SizedBox(height: 28.v),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -79,7 +93,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 20.h),
-                  child: Text('Select Price Range to display turfs in that range :'),
+                  child: Text(
+                      'Select Price Range to display turfs in that range :'),
                 ),
                 SizedBox(height: 17.v),
                 GridView.builder(
@@ -97,10 +112,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     PriceRangeModel model = controller.priceList[index];
                     return GestureDetector(
                       onTap: () {
-                        controller.onSelectPriceRange(
-                            model.id!,
-                            100 + (index * 150),
-                            100 + ((index + 1) * 150));
+                        controller.onSelectPriceRange(model.id!,
+                            100 + (index * 150), 100 + ((index + 1) * 150));
+                        controller.update();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -140,7 +154,6 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
                 SizedBox(height: 20.h),
                 Obx(() {
-                  // Check if the filteredGrounds list is empty
                   if (controller.filteredGrounds.isEmpty) {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -160,6 +173,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       itemCount: controller.filteredGrounds.length,
                       itemBuilder: (context, index) {
                         var ground = controller.filteredGrounds[index];
+                        int turfId = ground['id'];
                         return Card(
                           child: ListTile(
                             leading: ClipRRect(
@@ -174,6 +188,9 @@ class _FilterScreenState extends State<FilterScreen> {
                             title: Text(ground['title']),
                             subtitle: Text(ground['acf']['address'] ?? ''),
                             trailing: Text("\$${ground['acf']['price']}"),
+                            onTap: () {
+                              Get.toNamed(AppRoutes.detailScreen , arguments: turfId);
+                            },
                           ),
                         );
                       },
@@ -194,11 +211,7 @@ class _FilterScreenState extends State<FilterScreen> {
       child: CustomElevatedButton(
         text: "lbl_apply".tr,
         margin: EdgeInsets.only(left: 8.h),
-        onPressed: () {
-          // final controller = Get.find<FilterController>();
-          // controller.applyFilter();
-          // Get.back();
-        },
+        onPressed: () {},
       ),
     );
   }
@@ -219,10 +232,12 @@ class _FilterScreenState extends State<FilterScreen> {
     return Container(
       width: double.infinity,
       color: appTheme.bgColor,
-      padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 32.v, top: 16.v),
+      padding:
+          EdgeInsets.only(left: 20.h, right: 20.h, bottom: 32.v, top: 16.v),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [buildReset(), buildApply()],
+        children: [buildReset()
+        ],
       ),
     );
   }
@@ -239,9 +254,9 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  onTapApply() {
-    Get.toNamed(
-      AppRoutes.homeContainerScreen,
-    );
-  }
+  // onTapApply() {
+  //   Get.toNamed(
+  //     AppRoutes.homeContainerScreen,
+  //   );
+  // }
 }
