@@ -144,11 +144,9 @@ class NearbyYouController extends GetxController {
   }
 
   Future<void> fetchTurflist() async {
-    print('Fetching nearby turfs');
     final response = await http.get(Uri.parse(
         'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard'));
     if (response.statusCode == 200) {
-      print('API called for nearby');
       List<dynamic> data = jsonDecode(response.body);
       List<NearbyYouModel> loadedTurfs = data.map((json) => NearbyYouModel.fromJson(json)).toList();
       

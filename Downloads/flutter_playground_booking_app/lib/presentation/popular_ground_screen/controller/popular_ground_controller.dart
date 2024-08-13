@@ -15,22 +15,22 @@ class PopularGroundController extends GetxController {
 
 Future<void> fetchPopularGroundData() async {
   final url = 'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard';
-  print('Calling API: $url');
+  // print('Calling API: $url');
   try {
     final response = await http.get(Uri.parse(url));
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body) as List;
-      print('Type of data: ${data.runtimeType}');
+      // print('Type of data: ${data.runtimeType}');
 
       popularGround.value = data
           .map((json) => PopulargroundItemModel.fromJson(json as Map<String, dynamic>))
           .toList();
-      print('List of popular grounds: ${popularGround.length}');
+      // print('List of popular grounds: ${popularGround.length}');
         } else {
-      print('Failed to fetch data: ${response.statusCode}');
+      // print('Failed to fetch data: ${response.statusCode}');
       Get.snackbar("Error", "Failed to fetch data");
     }
   } catch (e) {

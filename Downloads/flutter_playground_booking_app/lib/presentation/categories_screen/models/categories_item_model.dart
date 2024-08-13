@@ -26,7 +26,7 @@ String getAssetImagePath(String title) {
       return 'assets/images/img_biathlonist_1.svg';
       case 'Shooting':
       return 'assets/images/img_gun_1.svg';
-      case 'Swimming Pool':
+      case 'Swimming':
       return 'assets/images/img_beachball_1.svg';
     default:
       return 'assets/images/img_avtar_1.svg';

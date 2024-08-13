@@ -17,7 +17,6 @@ class ReviewController extends GetxController {
  double get totalRating {
     double total = 0.0;
     for (var review in reviewList) {
-      // Convert the String rating to double before adding
       double rating = double.tryParse(review.rating) ?? 0.0;
       total += rating;
     }
@@ -33,8 +32,6 @@ class ReviewController extends GetxController {
   
 
   Future<void> fetchReviews() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // int userId = prefs.getInt('user_id') ?? 0;
     
     final url = Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_all_review_owner?post_author=1');
     final response = await http.get(url);

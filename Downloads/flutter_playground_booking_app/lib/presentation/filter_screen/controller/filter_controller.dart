@@ -13,9 +13,12 @@ class FilterController extends GetxController {
   int? selectedMinPrice;
   int? selectedMaxPrice;
 
-  void setSelectedCategory(int? categoryId) {
+   setSelectedCategory(int? categoryId){
     currentCategory.value = categoryId;
     print('Category on Tap : ${currentCategory.value}');
+    fetchFilteredGrounds(minPrice: 
+    0, maxPrice: 2000);
+    update();
   }
 
   Future<void> fetchFilteredGrounds(
@@ -31,6 +34,8 @@ class FilterController extends GetxController {
       filteredGrounds.value = data.cast<Map<String, dynamic>>();
     } else {
       print('Failed to load data');
+      Get.snackbar('Sorry', 'No turf exists for the applied filters');
+      resetFilters();
     }
   }
 
@@ -39,7 +44,6 @@ class FilterController extends GetxController {
     selectedMinPrice = minPrice;
     selectedMaxPrice = maxPrice;
     fetchFilteredGrounds(minPrice: minPrice, maxPrice: maxPrice);
-    update();
   }
 
   void resetFilters() {

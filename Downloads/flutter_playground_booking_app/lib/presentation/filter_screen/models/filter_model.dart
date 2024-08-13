@@ -11,8 +11,8 @@ class FilterModel {
       PriceRangeModel("\$850.00 To \$1000.00 ",6),
       PriceRangeModel("\$1000.00 To \$1150.00 ",7),
       PriceRangeModel("\$1150.00 To \$1300.00 ",8),
-      PriceRangeModel("\$1300.00 To \$1500.00 ",9),
-      PriceRangeModel("\$1500.00 To \$2000.00 ",10),
+      PriceRangeModel("\$1300.00 To \$1450.00 ",9),
+      PriceRangeModel("\$1450.00 To \$2000.00 ",10),
    ];
  }
 }
