@@ -47,6 +47,41 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                 ),
                 SizedBox(height: 16.v),
+                // Obx(() {
+                //   return GridView.builder(
+                //     padding: EdgeInsets.symmetric(horizontal: 20.h),
+                //     shrinkWrap: true,
+                //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //       mainAxisExtent: 120.v,
+                //       crossAxisCount: 4,
+                //     ),
+                //     physics: NeverScrollableScrollPhysics(),
+                //     itemCount: categoriesController.categoriesData
+                //         .where((category) => category.title != 'Uncategorized')
+                //         .toList()
+                //         .length,
+                //     itemBuilder: (context, index) {
+                //       var filteredCategories =
+                //           categoriesController.categoriesData
+                //               .where((category) =>
+                //                   category.title != 'Uncategorized')
+                //               .toList();
+                //       CategoriesItemModel model = filteredCategories[index];
+                //       bool isSelected =
+                //           controller.currentCategory.value == model.id;
+                //       return animationfunction(
+                //         index,
+                //         CategoriesItemWidget(
+                //           model,
+                //           onTap: () {
+                //             controller.setSelectedCategory(model.id);
+                //           },
+                //           isSelected: isSelected,
+                //         ),
+                //       );
+                //     },
+                //   );
+                // }),
                 GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20.h),
                   shrinkWrap: true,
@@ -97,6 +132,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       'Select Price Range to display turfs in that range :'),
                 ),
                 SizedBox(height: 17.v),
+                
                 GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20.h),
                   primary: false,
@@ -189,7 +225,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             subtitle: Text(ground['acf']['address'] ?? ''),
                             trailing: Text("\$${ground['acf']['price']}"),
                             onTap: () {
-                              Get.toNamed(AppRoutes.detailScreen , arguments: turfId);
+                              Get.toNamed(AppRoutes.detailScreen , arguments: {'id': turfId},);
                             },
                           ),
                         );
