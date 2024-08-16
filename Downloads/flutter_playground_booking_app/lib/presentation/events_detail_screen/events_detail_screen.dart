@@ -375,6 +375,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         Get.back();

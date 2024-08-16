@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
@@ -49,6 +47,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -283,6 +282,54 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 },
                                               ),
                                               SizedBox(height: 40.v),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.only(bottom: 20.0),
+                                                child: Text(
+                                                    "Gallery",
+                                                    style: theme
+                                                        .textTheme.titleLarge!
+                                                        .copyWith(
+                                                            color: appTheme
+                                                                .black900),
+                                                  ),
+                                              ),
+                                              if (controller
+                                                  .galleryImages.isNotEmpty)
+                                                GridView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 3,
+                                                    crossAxisSpacing: 8.0,
+                                                    mainAxisSpacing: 8.0,
+                                                  ),
+                                                  itemCount: controller
+                                                      .galleryImages.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final imageUrl = controller
+                                                        .galleryImages[index];
+                                                    return ClipRRect(
+                                                      borderRadius: BorderRadius.circular(15.0),
+                                                      child: Image.network(
+                                                        imageUrl,
+                                                        width: 50,
+                                                        height: 50,
+                                                        fit: BoxFit.cover)
+                                                    );
+                                                  },
+                                                )
+                                              else
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      'No images available'),
+                                                ),
+                                                SizedBox(height: 30.0),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -297,15 +344,20 @@ class _DetailScreenState extends State<DetailScreen> {
                                                                 .black900),
                                                   ),
                                                   InkWell(
-
                                                     child: Row(
                                                       children: [
-                                                        Icon(Icons.edit , size: 15,),
+                                                        Icon(
+                                                          Icons.edit,
+                                                          size: 15,
+                                                        ),
                                                         Text('Add Review')
                                                       ],
                                                     ),
                                                     onTap: () {
-                                                      Get.toNamed(AppRoutes.writeAReviewScreen , arguments: turfId);
+                                                      Get.toNamed(
+                                                          AppRoutes
+                                                              .writeAReviewScreen,
+                                                          arguments: turfId);
                                                     },
                                                   )
                                                 ],

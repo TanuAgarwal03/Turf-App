@@ -17,7 +17,8 @@ class AddGroundController extends GetxController {
   TextEditingController googleLocationUrlController = TextEditingController();
   int? selectedCategoryId;
   String? selectedCategoryName;
-
+  var selectedImages = <String>[].obs;
+  var imageAttachmentIds = <int>[].obs;
   @override
   void onInit() {
     super.onInit();
@@ -35,12 +36,14 @@ class AddGroundController extends GetxController {
     }
   }
 
-  Future<void> createGround() async {
+  Future<void> createGround(List<int> galleryIds) async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int user_id = prefs.getInt('user_id') ?? 4;
+    final galleryJson = jsonEncode(galleryIds);
+    print('gallery in controller : $galleryJson');
     final response = await apiService.postAPI(
-      'create-turf?title=${titleController.text}&description=${descriptionController.text}&image=${imageController.text}&address=${locationController.text}&price=${priceController.text}&facilities=${facilitiesController.text}&user_id=$user_id&post_category=$selectedCategoryId&google_location_url=$googleLocationUrlController.text',
+      'create-turf?title=${titleController.text}&description=${descriptionController.text}&image=${imageController.text}&address=${locationController.text}&price=${priceController.text}&facilities=${facilitiesController.text}&user_id=$user_id&post_category=$selectedCategoryId&google_location_url=${googleLocationUrlController.text}&gallery=$galleryJson',
       {
         'title': titleController.text,
         'description': descriptionController.text,
@@ -51,11 +54,7 @@ class AddGroundController extends GetxController {
         'facilities': facilitiesController.text,
         'user_id': user_id,
         'post_category': selectedCategoryId,
-        // 'list_of_ground': formattedGroundList,
-        // ...formattedGroundList,
-        // 'list_of_ground' : (json['list_of_ground'] as List)
-        //   .map((item) => Ground.fromJson(item))
-        //   .toList(),
+        'gallery' : galleryIds,
       },
     );
     if (response.statusCode == 200) {

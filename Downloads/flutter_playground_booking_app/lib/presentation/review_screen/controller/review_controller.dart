@@ -1,4 +1,4 @@
-import 'package:flutter_playground_booking_app/presentation/detail_screen/models/detail_model.dart';
+// import 'package:flutter_playground_booking_app/presentation/detail_screen/models/detail_model.dart';
 import 'package:flutter_playground_booking_app/presentation/review_screen/models/review_item_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -6,19 +6,20 @@ import 'dart:convert';
 
 class ReviewController extends GetxController {
   RxList<ReviewItemModel> reviewList = <ReviewItemModel>[].obs;
-  // final ReviewItemModel reviewModel = ReviewItemModel(id: '', title: '', rating: '', description: '', firstName: '', lastName: '', status: '');
-  final DetailModel detailModel = DetailModel(
-    id: 0,
-    title: '',
-    description: '',
-    image: '',
-    address: '',
-    price: '',
-    locationUrl: '',
-    facilities: [],
-    reviews: [],
-    // images: []
-  );
+  final ReviewItemModel reviewModel = ReviewItemModel(id: '', title: '', rating: '', description: '', firstName: '', lastName: '', status: '');
+  // final DetailModel detailModel = DetailModel(
+  //   id: 0,
+  //   title: '',
+  //   description: '',
+  //   image: '',
+  //   address: '',
+  //   price: '',
+  //   locationUrl: '',
+  //   facilities: [],
+  //   reviews: [],
+  //   galleryImages: []
+  //   // images: []
+  // );
   late int turfId;
 
   @override
@@ -96,7 +97,5 @@ class ReviewController extends GetxController {
     Get.snackbar('Error', 'Failed to fetch reviews');
   }
 }
-
-
   int get totalReviews => reviewList.length;
 }

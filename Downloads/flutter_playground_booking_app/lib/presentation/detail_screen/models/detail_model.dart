@@ -10,6 +10,7 @@ class DetailModel {
   final String locationUrl;
   final List<Facility> facilities;
   final List<Review> reviews;
+  final List<String> galleryImages;
   // List<Gallery>? images;
 
   DetailModel({
@@ -22,13 +23,14 @@ class DetailModel {
     required this.locationUrl,
     required this.facilities,
     required this.reviews,
+    required this.galleryImages,
     // this.images,
   });
 
   factory DetailModel.fromJson(Map<String, dynamic> json) {
     var facilitiesJson = json['facilities'] as List;
     var reviewsJson = json['review'] as List;
-    // var imagesJson = json['gallery'] as List;
+    var galleryJson = json['gallery'] as List? ?? [];
 
     return DetailModel(
       id: json['id'] as int,
@@ -40,9 +42,7 @@ class DetailModel {
       locationUrl: json['location_url'],
       facilities: facilitiesJson.map((e) => Facility.fromJson(e)).toList(),
       reviews: reviewsJson.map((e) => Review.fromJson(e)).toList(),
-      // images: imagesJson.cast<String>().toList(),
-      // images: imagesJson.map((e) => e.toString()).toList()
-      // images:  imagesJson.map((e) => Gallery.fromJson(e)).toList(),
+      galleryImages: galleryJson.map((e) => e['turf_images'] as String).toList()
     );
   }
 
@@ -64,14 +64,14 @@ class Facility {
     );
   }
 }
-class Gallery {
-  final String images;
-  Gallery({required this.images});
-  factory Gallery.fromJson(Map<String , dynamic> json) {
-    return Gallery(images: json['gallery']);
-  }
+// class Gallery {
+//   final String images;
+//   Gallery({required this.images});
+//   factory Gallery.fromJson(Map<String , dynamic> json) {
+//     return Gallery(images: json['gallery']);
+//   }
 
-}
+// }
 
 class Review {
   final String rating;

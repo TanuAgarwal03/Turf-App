@@ -27,7 +27,6 @@ class WriteAReviewController extends GetxController {
         Get.snackbar('Error', 'User ID not found');
         return;
       }
-
       final url = Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/write_review?user_id=${userId}&post_id=$turfId&rating=${rating.value.toString()}&description=${reviewController.text}');
       final body = {
         'user_id': userId.toString(),

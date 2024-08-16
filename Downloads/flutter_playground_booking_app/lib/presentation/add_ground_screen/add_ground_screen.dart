@@ -26,6 +26,8 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   final AddGroundController addGroundController =
       Get.put(AddGroundController());
   var categories = [].obs;
+  bool _isLoading = false;
+  File? _selectedImage;
 
   List<String> facilities = [
     'Parking',
@@ -38,6 +40,8 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   ];
 
   List<String> selectedFacilities = [];
+  List<String> uploadedImageUrls = [];
+  List<int> galleryAttachmentIds = [];
 
   @override
   void initState() {
@@ -50,7 +54,10 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+        _isLoading = true;
+      });
 
       final request = http.MultipartRequest(
         'POST',
@@ -58,13 +65,13 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
             'https://lytechxagency.website/turf/wp-json/wp/v1/upload-image'),
       );
       request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+          .add(await http.MultipartFile.fromPath('file', _selectedImage!.path));
 
       final response = await request.send();
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = jsonDecode(responseBody);
-        print(jsonResponse['attachment_id']);
+
         if (jsonResponse['attachment_id'] != null) {
           controller.imageController.text =
               jsonResponse['attachment_id'].toString();
@@ -75,51 +82,67 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       } else {
         Get.snackbar('Error', 'Server error');
       }
-      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
     } else {
       Get.snackbar('Error', 'No image selected');
-      Get.back();
     }
   }
 
+  Future<void> _pickImages() async {
+    final picker = ImagePicker();
+    final pickedFiles = await picker.pickMultiImage(); // Select multiple images
 
-//   Future<void> _pickGalleryImages() async {
-//   final picker = ImagePicker();
-//   final pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
+      setState(() {
+        _isLoading = true; // Show loader
+      });
 
-//   if (pickedFiles.isNotEmpty) {
-//     for (var pickedFile in pickedFiles) {
-//       File imageFile = File(pickedFile.path);
+      List<int> newAttachmentIds = [];
+      List<String> newImageUrls = [];
 
-//       final request = http.MultipartRequest(
-//         'POST',
-//         Uri.parse(
-//             'https://lytechxagency.website/turf/wp-json/wp/v1/upload-image'),
-//       );
-//       request.files
-//           .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      for (var pickedFile in pickedFiles) {
+        File imageFile = File(pickedFile.path);
 
-//       final response = await request.send();
-//       if (response.statusCode == 200) {
-//         final responseBody = await response.stream.bytesToString();
-//         final jsonResponse = jsonDecode(responseBody);
-//         print(jsonResponse['attachment_id']);
-//         if (jsonResponse['attachment_id'] != null) {
-//           controller.imageController.text =
-//               jsonResponse['attachment_id'].toString();
-//           Get.snackbar('Success', 'Image uploaded successfully');
-//         } else {
-//           Get.snackbar('Error', 'Failed to upload image');
-//         }
-//       } else {
-//         Get.snackbar('Error', 'Server error');
-//       }
-//     }
-//   } else {
-//     Get.snackbar('Error', 'No images selected');
-//   }
-//   Get.back();
-// }
+        final request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://lytechxagency.website/turf/wp-json/wp/v1/upload-image'),
+        );
+        request.files
+            .add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+        final response = await request.send();
+        if (response.statusCode == 200) {
+          final responseBody = await response.stream.bytesToString();
+          final jsonResponse = jsonDecode(responseBody);
+
+          final attachmentId = jsonResponse['attachment_id'];
+          final imageUrl =
+              jsonResponse['url']; // Adjust this if URL is in a different field
+          if (attachmentId != null) {
+            newAttachmentIds.add(attachmentId);
+            newImageUrls.add(imageUrl);
+            Get.snackbar('Success', 'Image uploaded successfully');
+          } else {
+            Get.snackbar('Error', 'Failed to upload image');
+          }
+        } else {
+          Get.snackbar('Error', 'Failed to upload image');
+        }
+      }
+
+      setState(() {
+        galleryAttachmentIds.addAll(newAttachmentIds);
+        uploadedImageUrls.addAll(newImageUrls);
+        _isLoading = false; // Hide loader
+      });
+    } else {
+      Get.snackbar('Error', 'No images selected');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +189,10 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                           SizedBox(height: 25.v),
                           _categoryDropdown(),
                           SizedBox(height: 25.v),
-                          // _uploadGalleryImages(),
+                          _uploadGalleryImages(),
+                          SizedBox(height: 25.v),
                           // SizedBox(height: 25.v),
+                          // _uploadGalleryImages(),
                           Center(
                             child: _uploadImage(),
                           ),
@@ -316,38 +341,56 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   Widget _uploadImage() {
     return Padding(
       padding: EdgeInsets.all(25.0),
-      child: ElevatedButton(
-          onPressed: () => Get.defaultDialog(
-              title: 'Image upload',
-              content: Text('Choose the image from gallery'),
-              cancel: ElevatedButton(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Get.defaultDialog(
+                title: 'Image upload',
+                content: Text('Choose the image from gallery'),
+                cancel: ElevatedButton(
                   onPressed: () {
                     Get.back();
                   },
                   child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Back',
-                        style: TextStyle(color: Colors.white),
-                      ))),
-              onCancel: () => Get.back(),
-              confirm: ElevatedButton(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Back', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                onCancel: () => Get.back(),
+                confirm: ElevatedButton(
                   onPressed: () {
                     _pickImage();
                     Get.back();
                   },
                   child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Upload',
-                        style: TextStyle(color: Colors.white),
-                      )))),
-          child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child:
+                        Text('Upload', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              );
+            },
+            child: Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Upload Image',
-                style: TextStyle(color: Colors.white),
-              ))),
+              child:
+                  Text('Upload Image', style: TextStyle(color: Colors.white)),
+            ),
+          ),
+          SizedBox(height: 20),
+          _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : _selectedImage != null
+                  ? Image.file(
+                      _selectedImage!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                  : Text('No image selected'),
+        ],
+      ),
     );
   }
 
@@ -404,49 +447,102 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       ),
     );
   }
+
 //   Widget _uploadGalleryImages() {
 //   return Padding(
 //     padding: EdgeInsets.all(25.0),
-//     child: ElevatedButton(
-//         onPressed: () => Get.defaultDialog(
-//             title: 'Upload Gallery Images',
-//             content: Text('Choose images from gallery'),
-//             cancel: ElevatedButton(
-//                 onPressed: () {
-//                   Get.back();
-//                 },
-//                 child: Padding(
-//                     padding: EdgeInsets.all(10.0),
-//                     child: Text(
-//                       'Back',
-//                       style: TextStyle(color: Colors.white),
-//                     ))),
-//             onCancel: () => Get.back(),
-//             confirm: ElevatedButton(
-//                 onPressed: () {
-//                   // _pickImage()
-//                   _pickGalleryImages();
-//                   Get.back();
-//                 },
-//                 child: Padding(
-//                     padding: EdgeInsets.all(10.0),
-//                     child: Text(
-//                       'Upload',
-//                       style: TextStyle(color: Colors.white),
-//                     )))),
-//         child: Padding(
-//             padding: EdgeInsets.all(10.0),
-//             child: Text(
-//               'Upload Gallery Images',
-//               style: TextStyle(color: Colors.white),
-//             ))),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text(
+//           'Upload Gallery Images',
+//           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//         ),
+//         SizedBox(height: 10),
+//         ElevatedButton(
+//           onPressed: _pickImages,
+//           child: Padding(
+//               padding: EdgeInsets.all(10.0),
+//               child: Text(
+//                 'Select Images',
+//                 style: TextStyle(color: Colors.white),
+//               )),
+//         ),
+//         SizedBox(height: 10),
+//         Wrap(
+//           spacing: 10,
+//           runSpacing: 10,
+//           children: uploadedImageUrls.isNotEmpty
+//               ? uploadedImageUrls.map((url) {
+//                   return Image.network(
+//                     url,
+//                     width: 100,
+//                     height: 100,
+//                     fit: BoxFit.cover,
+//                     errorBuilder: (context, error, stackTrace) {
+//                       return Icon(Icons.error, color: Colors.red);
+//                     },
+//                   );
+//                 }).toList()
+//               : [Text('No images uploaded')],
+//         ),
+//       ],
+//     ),
 //   );
 // }
-
+  Widget _uploadGalleryImages() {
+    return Padding(
+      padding: EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Upload Gallery Images',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: _pickImages,
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'Select Images',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          _isLoading
+              ? Center(child: CircularProgressIndicator()) // Show loader
+              : Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: uploadedImageUrls.isNotEmpty
+                      ? uploadedImageUrls.map((url) {
+                          return Image.network(
+                            url,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(Icons.error, color: Colors.red);
+                            },
+                          );
+                        }).toList()
+                      : [Text('No images uploaded')],
+                ),
+        ],
+      ),
+    );
+  }
 
   onTapContinue() {
     if (_formKey.currentState!.validate()) {
-      controller.createGround();
+      final galleryImages =
+          uploadedImageUrls.map((url) => {'turf_images': url}).toList();
+      print(' Gallery images in screen: $galleryImages');
+
+      controller.createGround(galleryAttachmentIds);
       Get.back();
       Get.toNamed(
         AppRoutes.myGroundsScreen,

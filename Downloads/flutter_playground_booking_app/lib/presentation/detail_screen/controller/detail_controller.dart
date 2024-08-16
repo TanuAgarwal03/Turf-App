@@ -21,12 +21,14 @@ class DetailController extends GetxController {
     locationUrl: '',
     facilities: [],
     reviews: [],
+    galleryImages: [],
   ).obs;
 
   final RxList<DetailscreenItemModel> facilityList =
       <DetailscreenItemModel>[].obs;
   final RxList<GroundListModel> groundList = <GroundListModel>[].obs;
   final RxList<ReviewItemModel> reviewList = <ReviewItemModel>[].obs;
+   final RxList<String> galleryImages = <String>[].obs;
   ApiService apiService = ApiService();
 
   PageController pageController = PageController();
@@ -83,12 +85,12 @@ class DetailController extends GetxController {
                 lastName: '', title: '', status: ''
               ))
           .toList();
+          galleryImages.value = detailModel.value.galleryImages;
         } else {
           print('Unexpected data format');
         }
       } else {
         isLoading(false);
-        Get.snackbar('Error', 'Failed to load turf details !');
         isLoading(false);
       }
     } catch (e) {

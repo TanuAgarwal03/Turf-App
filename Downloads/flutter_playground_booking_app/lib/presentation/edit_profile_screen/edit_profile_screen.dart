@@ -12,6 +12,7 @@ import 'package:flutter_playground_booking_app/widgets/custom_text_form_field.da
 // import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'controller/edit_profile_controller.dart';
+
 // import 'package:http/http.dart' as http;
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -26,8 +27,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    controller = Get.put(EditProfileController());
-    controller.fetchUserData();
+    // controller = Get.put(EditProfileController());
+    // controller.fetchUserData();
   }
 
   @override
@@ -41,103 +42,89 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: Scaffold(
           backgroundColor: appTheme.bgColor,
           resizeToAvoidBottomInset: false,
-          body: SafeArea(
-              child: FutureBuilder(
-                  future: controller.fetchUserData(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: LoadingAnimationWidget.staggeredDotsWave(
-                              color: Colors.green, size: 50));
-                    } else {
-                      return Form(
-                          key: _formKey,
-                          child: Column(children: [
-                            getCommonAppBar("lbl_edit_profile".tr),
-                            SizedBox(height: 24.v),
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                    padding: EdgeInsets.only(left: 20.h),
-                                    child: Row(children: [
-                                      SizedBox(
-                                          height: 80.adaptSize,
-                                          width: 80.adaptSize,
-                                          child: Stack(
-                                              alignment: Alignment.bottomRight,
-                                              children: [
-                                                InkWell(
-                                                  child: CustomImageView(
-                                                    imagePath: controller.profilePicUrl.value,
-                                                    height: 80.adaptSize,
-                                                    width: 80.adaptSize,
-                                                    radius:
-                                                        BorderRadius.circular(
-                                                            40.h),
-                                                    alignment:
-                                                        Alignment.center),
-                                                        onTap: () async {
-                                                          await controller.pickImage();
-                                                    setState(() {});
-                                                        },
-                                                ),  
-                                                CustomIconButton(
-                                                    height: 40.adaptSize,
-                                                    width: 40.adaptSize,
-                                                    padding:
-                                                        EdgeInsets.all(8.h),
-                                                    decoration:
-                                                        IconButtonStyleHelper
-                                                            .outlineBlack,
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: CustomImageView(
-                                                        imagePath: ImageConstant
-                                                            .imgGroup1171274939))
-                                              ])),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 15.h,
-                                              top: 12.v,
-                                              bottom: 9.v),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    controller
-                                                            .masterInputController
-                                                            .text +
-                                                        ' ' +
-                                                        controller
-                                                            .masterInputController1
-                                                            .text,
-                                                    style: theme
-                                                        .textTheme.titleLarge!
-                                                        .copyWith(
-                                                      color: appTheme.black900,
-                                                    )),
-                                                SizedBox(height: 14.v),
-                                                Text(
-                                                    controller
-                                                        .emailController.text,
-                                                    style: theme
-                                                        .textTheme.bodyLarge!
-                                                        .copyWith(
-                                                      color: appTheme.black900,
-                                                    ))
-                                              ]))
-                                    ]))),
-                            SizedBox(height: 32.v),
-                            _buildMasterInput(),
-                            SizedBox(height: 25.v),
-                            _buildMasterInput1(),
-                            SizedBox(height: 25.v),
-                            _buildEmail(),
-                            SizedBox(height: 5.v)
-                          ]));
-                    }
-                  })),
+          body: SafeArea(child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(
+                child: LoadingAnimationWidget.prograssiveDots(color: Colors.green, size: 50), // Show a loading spinner
+              );
+            } else {
+              return Form(
+                  key: _formKey,
+                  child: Column(children: [
+                    getCommonAppBar("lbl_edit_profile".tr),
+                    SizedBox(height: 24.v),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 20.h),
+                            child: Row(children: [
+                              SizedBox(
+                                  height: 80.adaptSize,
+                                  width: 80.adaptSize,
+                                  child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        InkWell(
+                                          child: CustomImageView(
+                                              imagePath: controller
+                                                  .profilePicUrl.value,
+                                              height: 80.adaptSize,
+                                              width: 80.adaptSize,
+                                              radius:
+                                                  BorderRadius.circular(40.h),
+                                              alignment: Alignment.center),
+                                          onTap: () async {
+                                            await controller.pickImage();
+                                            setState(() {});
+                                          },
+                                        ),
+                                        CustomIconButton(
+                                            height: 40.adaptSize,
+                                            width: 40.adaptSize,
+                                            padding: EdgeInsets.all(8.h),
+                                            decoration: IconButtonStyleHelper
+                                                .outlineBlack,
+                                            alignment: Alignment.bottomRight,
+                                            child: CustomImageView(
+                                                imagePath: ImageConstant
+                                                    .imgGroup1171274939))
+                                      ])),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15.h, top: 12.v, bottom: 9.v),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            controller.masterInputController
+                                                    .text +
+                                                ' ' +
+                                                controller
+                                                    .masterInputController1
+                                                    .text,
+                                            style: theme.textTheme.titleLarge!
+                                                .copyWith(
+                                              color: appTheme.black900,
+                                            )),
+                                        SizedBox(height: 14.v),
+                                        Text(controller.emailController.text,
+                                            style: theme.textTheme.bodyLarge!
+                                                .copyWith(
+                                              color: appTheme.black900,
+                                            ))
+                                      ]))
+                            ]))),
+                    SizedBox(height: 32.v),
+                    _buildMasterInput(),
+                    SizedBox(height: 25.v),
+                    _buildMasterInput1(),
+                    SizedBox(height: 25.v),
+                    _buildEmail(),
+                    SizedBox(height: 5.v)
+                  ]));
+            }
+          })),
           bottomNavigationBar: buildButtons()),
     );
   }
@@ -186,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
             controller.updateUserDetails();
-            // Get.back();
+            Get.back();
           }
         },
       ),

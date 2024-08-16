@@ -116,11 +116,11 @@ class EditProfileController extends GetxController {
   final emailController = TextEditingController();
   final profilePicUrl = RxString('');
   final ImagePicker _picker = ImagePicker();
-
+  final isLoading = false.obs;
   @override
   void onInit() {
     super.onInit();
-    pickImage();
+    // pickImage();
     fetchUserData();
   }
 
@@ -151,6 +151,7 @@ class EditProfileController extends GetxController {
   }
 
   Future fetchUserData() async {
+    isLoading.value = true;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       int userId = prefs.getInt('user_id') ?? 12;
@@ -170,7 +171,10 @@ class EditProfileController extends GetxController {
       }
     } catch (e) {
       print('Error: $e');
+    }finally {
+      isLoading.value = false; // Set loading to false when done
     }
+
   }
 
   void updateUserDetails() async {
