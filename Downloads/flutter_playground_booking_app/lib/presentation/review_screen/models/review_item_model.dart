@@ -1,12 +1,11 @@
 class ReviewItemModel {
   String id;
-  String title;
+  String? title;
   String rating;
-  // double rating;
-  String description;
-  String firstName;
-  String lastName;
-  String status;
+  String? description;
+  String? firstName;
+  String? lastName;
+  String? status;
 
   ReviewItemModel({
     required this.id,
@@ -21,13 +20,12 @@ class ReviewItemModel {
   factory ReviewItemModel.fromJson(Map<String, dynamic> json) {
     return ReviewItemModel(
       id: json['id'],
-      title: json['title'],
-      rating: json['rating'],
-      // rating:  double.tryParse(json['rating'] ?? '0.0') ?? 0.0,
-      description: json['discription'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      status: json['status'],
+      title: json['title'] ?? '',
+      rating: json['rating'].toString(),
+      description: json['discription'] ?? '',
+      firstName: json['first_name'] ?? '',
+      lastName: json['last_name'] ?? '',
+      status: json['status'] ?? '',
     );
   }
 }

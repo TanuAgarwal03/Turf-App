@@ -1,4 +1,3 @@
-
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/presentation/foot_ball_screen/models/foot_ball_data.dart';
 import 'package:flutter_playground_booking_app/presentation/foot_ball_screen/models/foot_ball_model.dart';
@@ -11,21 +10,22 @@ class FootBallController extends GetxController {
   ApiService apiService = ApiService();
   var isLoading = true.obs;
 
+  fetchFootBallData(int categoryId) async {
+    isLoading(true);
+    print('method called with categoryId: $categoryId');
+    final response = await apiService
+        .getApi('turf?&acf_format=standard&categories=$categoryId');
+    print(response.body);
 
-Future<void> fetchFootBallData(int categoryId) async {
-  isLoading(true);
-  print('method called with categoryId: $categoryId');
-  final response = await apiService.getApi('turf?&acf_format=standard&categories=$categoryId');
-  print(response.body);
-  
-  if (response.statusCode == 200) {
-    print("API called successfully");
-    final List<dynamic> data = json.decode(response.body);
-    footBallList.value = data.map((item) => FootBallModel.fromJson(item)).toList();
-    isLoading(false);
-  } else {
-    print('Error fetching data');
-    footBallList.value = FootBallData.getFootBollData();
+    if (response.statusCode == 200) {
+      print("API called successfully");
+      final List<dynamic> data = json.decode(response.body);
+      footBallList.value =
+          data.map((item) => FootBallModel.fromJson(item)).toList();
+      isLoading(false);
+    } else {
+      print('Error fetching data');
+      footBallList.value = FootBallData.getFootBollData();
+    }
   }
-}
 }

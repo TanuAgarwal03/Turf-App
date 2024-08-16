@@ -4,17 +4,7 @@ import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/mo
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import '../models/nearby_model_data.dart';
-// import 'package:flutter_map_math/flutter_map_math.dart';
-// class NearbyYouController extends GetxController {
-//   List<NearbyYouModel> nearlyYoudata = NearbyYouData.getNearbyYouData();
-//   var turfList = <NearbyYouModel>[].obs;
-  
 
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchTurflist();
-//   }
 
 //   Future<void> fetchTurflist() async {
 //     // LocationPermission permission = await Geolocator.requestPermission();
@@ -134,6 +124,7 @@ import '../models/nearby_model_data.dart';
 // }
 class NearbyYouController extends GetxController {
   List<NearbyYouModel> nearlyYoudata = NearbyYouData.getNearbyYouData();
+  
   var turfList = <NearbyYouModel>[].obs;
   Rx<NearbyYouModel?> selectedTurf = Rx<NearbyYouModel?>(null);
 
@@ -212,27 +203,5 @@ class NearbyYouController extends GetxController {
       print('Error fetching turf details');
     }
   }
-  //   Future<void> _calculateDistances2(
-  //     double turfLongitude, double turfLatitude, NearbyYouModel turf, String meters) async {
-  //   try {
-  //     FlutterMapMath mapMath = FlutterMapMath();
-  //     const double fixedLatitude = 25.88823;
-  //     const double fixedLongitude = 76.777793;
-  //     double distanceInMeters = mapMath.distanceBetween(
-  //       turfLatitude,
-  //       turfLongitude,
-  //       fixedLatitude,
-  //       fixedLongitude,
-  //       meters,
-  //     );
-
-  //     double distanceInKm = distanceInMeters / 1000;
-  //     turf.distance = distanceInKm.toStringAsFixed(2) + ' km';
-  //     print(' distance using method 2 : ${turf.distance}');
-  //     turfList.refresh(); 
-  //   } catch (e) {
-  //     print('Error calculating distances: $e');
-  //   }
-  // }
 }
 

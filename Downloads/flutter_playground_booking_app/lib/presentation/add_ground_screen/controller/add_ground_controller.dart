@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_playground_booking_app/presentation/add_ground_screen/models/add_ground_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -83,41 +82,6 @@ class AddGroundController extends GetxController {
     locationController.dispose();
     priceController.dispose();
     facilitiesController.dispose();
-    // groundImageController.dispose();
-    // groundNameController.dispose();
-    // groundTimeController.dispose();
   }
 }
 
-
-
-  // TextEditingController groundNameController = TextEditingController();
-  // TextEditingController groundTimeController = TextEditingController();
-  // TextEditingController groundImageController = TextEditingController();
-  // List<Map<String, dynamic>> listOfGrounds = [];
-  // Rx<AddGroundModel> addGroundModelObj = AddGroundModel(listofGrounds: []).obs;
-
-
-    // Map<String, dynamic> formattedGroundList = {};
-    // for (int i = 0; i < listOfGrounds.length; i++) {
-    //   formattedGroundList['list_of_ground[$i][ground_name]'] = listOfGrounds[i]['ground_name'];
-    //   formattedGroundList['list_of_ground[$i][time]'] = listOfGrounds[i]['time'];
-    //   formattedGroundList['list_of_ground[$i][ground_image]'] = listOfGrounds[i]['ground_image'];
-    // }
-    // if (addGroundModelObj.value.listofGrounds.isEmpty) {
-    //   Get.snackbar('Error', 'Please add at least one ground');
-    //   return;
-    // }
-
-    // Format list_of_ground parameters
-    // List<Map<String, dynamic>> formattedGroundList = [];
-    // for (int i = 0; i < addGroundModelObj.value.listofGrounds.length; i++) {
-    //   formattedGroundList.add({
-    //     'ground_name': addGroundModelObj.value.listofGrounds[i]['ground_name'],
-    //     'time': addGroundModelObj.value.listofGrounds[i]['time'],
-    //     'ground_image': addGroundModelObj.value.listofGrounds[i]['ground_image'],
-    //   });
-    // }
-    
-  // print(' list : $listOfGrounds');
-  // print('formatted list : $formattedGroundList');

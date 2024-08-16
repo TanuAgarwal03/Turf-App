@@ -29,21 +29,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 getCommonAppBar( "lbl_settings".tr),
                 SizedBox(height: 16.v),
-                _buildProfile1((){
-                  controller.pushNotification = !controller.pushNotification;
-                  controller.update();
-                }, ImageConstant.imgGroup9, "msg_push_notification".tr, !controller.pushNotification?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn,),
-                SizedBox(height: 16.v),
-                _buildProfile1((){
-                  controller.message = !controller.message;
-                  controller.update();
-                },ImageConstant.imgGroup1171274860, "lbl_message".tr, !controller.message?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn),
-                SizedBox(height: 16.v),
-                _buildProfile1((){
-                  controller.faceId = !controller.faceId;
-                  controller.update();
-                },ImageConstant.imgGroup1171274860Onerrorcontainer, "lbl_face_id".tr, !controller.faceId?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn),
-                SizedBox(height: 16.v),
+                // _buildProfile1((){
+                //   controller.pushNotification = !controller.pushNotification;
+                //   controller.update();
+                // }, ImageConstant.imgGroup9, "msg_push_notification".tr, !controller.pushNotification?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn,),
+                // SizedBox(height: 16.v),
+                // _buildProfile1((){
+                //   controller.message = !controller.message;
+                //   controller.update();
+                // },ImageConstant.imgGroup1171274860, "lbl_message".tr, !controller.message?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn),
+                // SizedBox(height: 16.v),
+                // _buildProfile1((){
+                //   controller.faceId = !controller.faceId;
+                //   controller.update();
+                // },ImageConstant.imgGroup1171274860Onerrorcontainer, "lbl_face_id".tr, !controller.faceId?ImageConstant.imgSwitchOff:ImageConstant.imgSwitchOn),
+                // SizedBox(height: 16.v),
                 _buildProfile1((){
 
                   ThemeHelper().changeTheme();

@@ -40,13 +40,13 @@ class _CategoriesItemWidgetState extends State<CategoriesItemWidget> {
             ),
             child: CustomImageView(
               imagePath: widget.categoriesItemModelObj.icon,
-              height: 40.adaptSize,
-              width: 40.adaptSize,
+              height: 40,
+              width: 40,
               alignment: Alignment.center,
             ),
           ),
         ),
-        SizedBox(height: 8.v),
+        SizedBox(height: 5.v),
         Text(
           widget.categoriesItemModelObj.title ?? 'No Title',
           textAlign: TextAlign.center,

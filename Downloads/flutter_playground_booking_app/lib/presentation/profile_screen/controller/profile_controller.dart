@@ -15,8 +15,7 @@ class ProfileController extends GetxController {
 
   TextEditingController profileController3 = TextEditingController();
 
-  Rx<ProfileModel> profileModelObj = ProfileModel(email: '' , firstName: '' , lastName: '').obs;
-
+  Rx<ProfileModel> profileModelObj = ProfileModel(email: '' , firstName: '' , lastName: '' , image: '').obs;
 
   @override 
   void onInit() {
@@ -27,7 +26,7 @@ class ProfileController extends GetxController {
   Future<void> fetchUserProfile() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int user_id = prefs.getInt('user_id') ?? 7;
-    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/user_profile?user_id=$user_id'));
+    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_user_details/?user_id=$user_id'));
     if(response.statusCode == 200) {
       profileModelObj.value =
           ProfileModel.fromJson(jsonDecode(response.body));

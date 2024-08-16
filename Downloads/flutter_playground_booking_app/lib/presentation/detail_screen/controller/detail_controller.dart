@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
+import 'package:flutter_playground_booking_app/presentation/review_screen/models/review_item_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/detail_model.dart';
 import '../models/detailscreen_item_model.dart';
@@ -25,6 +26,7 @@ class DetailController extends GetxController {
   final RxList<DetailscreenItemModel> facilityList =
       <DetailscreenItemModel>[].obs;
   final RxList<GroundListModel> groundList = <GroundListModel>[].obs;
+  final RxList<ReviewItemModel> reviewList = <ReviewItemModel>[].obs;
   ApiService apiService = ApiService();
 
   PageController pageController = PageController();
@@ -57,8 +59,15 @@ class DetailController extends GetxController {
         isLoading(false);
         if (data is Map<String, dynamic>) {
           detailModel.value = DetailModel.fromJson(data);
-          facilityList.value = DetailscreenItemModel.fromFacilities(
-              detailModel.value.facilities);
+          facilityList.value = DetailscreenItemModel.fromFacilities(detailModel.value.facilities);
+          reviewList.value = detailModel.value.reviews
+          .map((review) => ReviewItemModel(
+                rating: review.rating,
+                description: review.description,
+                firstName: review.name, id: '',
+                lastName: '', title: '', status: ''
+              ))
+          .toList();
         } else {
           print('Unexpected data format');
         }

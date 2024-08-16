@@ -57,278 +57,300 @@ class _DetailScreenState extends State<DetailScreen> {
       child: Scaffold(
         backgroundColor: appTheme.bgColor,
         body: SafeArea(
-          child: GetBuilder<DetailController>(
-              init: DetailController(),
-              builder: (controller) {
-                return FutureBuilder(future: controller.fetchTurfData(turfId), builder: (context , snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center(
-                    child: LoadingAnimationWidget.staggeredDotsWave(
-                      color: Colors.blue,
-                      size: 50,
-                    ),
-                  );
-                  } else if (snapshot.hasError){
-                    return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                  }
-                else{
-                final detailModel = detailController.detailModel.value;
-                return Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child: CustomScrollView(
-                          shrinkWrap: true,
-                          primary: true,
-                          physics: blockScroll
-                              ? NeverScrollableScrollPhysics()
-                              : BouncingScrollPhysics(),
-                          slivers: [
-                            SliverAppBar(
-                              toolbarHeight: 68.v,
-                              backgroundColor: Colors.transparent,
-                              expandedHeight: 285.v,
-                              leadingWidth: 68.h,
-                              leading: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 20.h, top: 16.v),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.back();
-                                    },
-                                    child: Container(
-                                      height: 48.v,
-                                      width: 48.h,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12.h),
-                                          color: appTheme.blackTransperant
-                                              .withOpacity(0.30)),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(12.h),
-                                        child: CustomImageView(
-                                          imagePath:
-                                              ImageConstant.imgGroup1171274870,
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                              centerTitle: true,
-                              // actions: [
-                              //   Padding(
-                              //       padding:
-                              //           EdgeInsets.only(right: 20.h, top: 16.v),
-                              //       child: GestureDetector(
-                              //         onTap: () {
-                              //         },
-                              //         child: Container(
-                              //           height: 48.v,
-                              //           width: 48.h,
-                              //           decoration: BoxDecoration(
-                              //               borderRadius:
-                              //                   BorderRadius.circular(12.h),
-                              //               color: appTheme.blackTransperant
-                              //                   .withOpacity(0.30)),
-                              //           child: Padding(
-                              //             padding: EdgeInsets.all(12.h),
-                              //             child: CustomImageView(
-                              //               imagePath: ImageConstant
-                              //                   .imgGroup1171274871,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       )),
-                              // ],
-                              flexibleSpace: FlexibleSpaceBar(
-                                background: Container(
-                                    height: 285.v,
-                                    child: Stack(
-                                      children: [
-                                        PageView.builder(
-                                          onPageChanged: (value) {
-                                            controller.currentPage = value;
-                                            controller.update();
-                                          },
-                                          controller: controller.pageController,
-                                          itemCount: 1,
-                                          itemBuilder: (context, index) {
-                                            return Hero(
-                                              tag: popularGroundController
-                                                  .currentImage,
-                                              child: CustomImageView(
-                                                imagePath: detailModel.image,
-                                                height: double.infinity,
-                                                width: double.infinity,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    )),
-                              ),
+            child: GetBuilder<DetailController>(
+                init: DetailController(),
+                builder: (controller) {
+                  return FutureBuilder(
+                      future: controller.fetchTurfData(turfId),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: LoadingAnimationWidget.staggeredDotsWave(
+                              color: Colors.blue,
+                              size: 50,
                             ),
-                            SliverList(
-                              delegate: SliverChildListDelegate([
-                                ListView(
-                                  padding: EdgeInsets.only(
-                                      left: 20.h, right: 20.h, bottom: 120.v),
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: [
-                                    SizedBox(
-                                      height: 16.v,
-                                    ),
-                                    buildReviews(),
-                                    SizedBox(height: 12.v),
-                                    ExpandableText(
-                                      detailModel.description,
-                                      expandText: "lbl_read_more".tr,
-                                      collapseText: 'Read less',
-                                      maxLines: 3,
-                                      linkColor: appTheme.buttonColor,
-                                      style: theme.textTheme.bodyLarge!
-                                          .copyWith(color: appTheme.black900),
-                                      linkStyle:
-                                          theme.textTheme.titleMedium!.copyWith(
-                                        color: appTheme.buttonColor,
-                                        fontSize: 16.fSize,
-                                      ),
-                                    ),
-                                    SizedBox(height: 24.v),
-                                    Text(
-                                      "lbl_facilities".tr,
-                                      style: theme.textTheme.titleLarge!
-                                          .copyWith(color: appTheme.black900),
-                                    ),
-                                    SizedBox(height: 19.v),
-                                    GridView.builder(
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      itemCount: controller.facilityList.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              mainAxisExtent: 85.v,
-                                              crossAxisCount: 4,
-                                              mainAxisSpacing: 16.h,
-                                              crossAxisSpacing: 16.h),
-                                      itemBuilder: (context, index) {
-                                        DetailscreenItemModel model =
-                                            controller.facilityList[index];
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12.h),
-                                            color: appTheme.textfieldFillColor,
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.h),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 40.v,
-                                                  width: 40.h,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color:
-                                                          appTheme.whiteA700),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.h),
-                                                    child: CustomImageView(
-                                                      imagePath: model.icon,
-                                                      height: 24.adaptSize,
-                                                      width: 24.adaptSize,
-                                                    ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        } else {
+                          final detailModel =
+                              detailController.detailModel.value;
+                          return Stack(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      child: CustomScrollView(
+                                    shrinkWrap: true,
+                                    primary: true,
+                                    physics: blockScroll
+                                        ? NeverScrollableScrollPhysics()
+                                        : BouncingScrollPhysics(),
+                                    slivers: [
+                                      SliverAppBar(
+                                        toolbarHeight: 68.v,
+                                        backgroundColor: Colors.transparent,
+                                        expandedHeight: 285.v,
+                                        leadingWidth: 68.h,
+                                        leading: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 20.h, top: 16.v),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                height: 48.v,
+                                                width: 48.h,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.h),
+                                                    color: appTheme
+                                                        .blackTransperant
+                                                        .withOpacity(0.30)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(12.h),
+                                                  child: CustomImageView(
+                                                    imagePath: ImageConstant
+                                                        .imgGroup1171274870,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  height: 10.v,
+                                              ),
+                                            )),
+                                        centerTitle: true,
+                                        flexibleSpace: FlexibleSpaceBar(
+                                          background: Container(
+                                              height: 285.v,
+                                              child: Stack(
+                                                children: [
+                                                  PageView.builder(
+                                                    onPageChanged: (value) {
+                                                      controller.currentPage =
+                                                          value;
+                                                      controller.update();
+                                                    },
+                                                    controller: controller
+                                                        .pageController,
+                                                    itemCount: 1,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Hero(
+                                                        tag:
+                                                            popularGroundController
+                                                                .currentImage,
+                                                        child: CustomImageView(
+                                                          imagePath:
+                                                              detailModel.image,
+                                                          height:
+                                                              double.infinity,
+                                                          width:
+                                                              double.infinity,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ),
+                                      SliverList(
+                                        delegate: SliverChildListDelegate([
+                                          ListView(
+                                            padding: EdgeInsets.only(
+                                                left: 20.h,
+                                                right: 20.h,
+                                                bottom: 120.v),
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            children: [
+                                              SizedBox(
+                                                height: 16.v,
+                                              ),
+                                              buildReviews(),
+                                              SizedBox(height: 12.v),
+                                              ExpandableText(
+                                                detailModel.description,
+                                                expandText: "lbl_read_more".tr,
+                                                collapseText: 'Read less',
+                                                maxLines: 3,
+                                                linkColor: appTheme.buttonColor,
+                                                style: theme
+                                                    .textTheme.bodyLarge!
+                                                    .copyWith(
+                                                        color:
+                                                            appTheme.black900),
+                                                linkStyle: theme
+                                                    .textTheme.titleMedium!
+                                                    .copyWith(
+                                                  color: appTheme.buttonColor,
+                                                  fontSize: 16.fSize,
                                                 ),
-                                                Text(model.title!,
-                                                    maxLines: 1,
-                                                    textAlign: TextAlign.center,
-                                                    style: CustomTextStyles
-                                                        .bodyMediumOnErrorContainer
-                                                        .copyWith(
-                                                            color: appTheme
-                                                                .black900)),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(height: 24.v),
+                                              Text(
+                                                "lbl_facilities".tr,
+                                                style: theme
+                                                    .textTheme.titleLarge!
+                                                    .copyWith(
+                                                        color:
+                                                            appTheme.black900),
+                                              ),
+                                              SizedBox(height: 19.v),
+                                              GridView.builder(
+                                                primary: false,
+                                                shrinkWrap: true,
+                                                itemCount: controller
+                                                    .facilityList.length,
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                        mainAxisExtent: 85.v,
+                                                        crossAxisCount: 4,
+                                                        mainAxisSpacing: 16.h,
+                                                        crossAxisSpacing: 16.h),
+                                                itemBuilder: (context, index) {
+                                                  DetailscreenItemModel model =
+                                                      controller
+                                                          .facilityList[index];
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.h),
+                                                      color: appTheme
+                                                          .textfieldFillColor,
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10.h),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            height: 40.v,
+                                                            width: 40.h,
+                                                            decoration: BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: appTheme
+                                                                    .whiteA700),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.h),
+                                                              child:
+                                                                  CustomImageView(
+                                                                imagePath:
+                                                                    model.icon,
+                                                                height: 24
+                                                                    .adaptSize,
+                                                                width: 24
+                                                                    .adaptSize,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10.v,
+                                                          ),
+                                                          Text(model.title!,
+                                                              maxLines: 1,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: CustomTextStyles
+                                                                  .bodyMediumOnErrorContainer
+                                                                  .copyWith(
+                                                                      color: appTheme
+                                                                          .black900)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              SizedBox(height: 26.v),
+                                              getViewAllRow("lbl_reviews".tr,
+                                                  () {
+                                                Get.toNamed(
+                                                    AppRoutes.reviewScreen,
+                                                    arguments: turfId);
+                                              }),
+                                              SizedBox(height: 16.v),
+                                              Container(
+                                                // height: 200,
+                                                child: ListView.builder(
+                                                physics:
+                                                    BouncingScrollPhysics(),
+                                                shrinkWrap: true,
+                                                primary: false,
+                                                itemCount: detailController
+                                                            .reviewList.length >
+                                                        3
+                                                    ? 3
+                                                    : detailController
+                                                        .reviewList.length,
+                                                // itemCount: detailController.reviewList.length,
+                                                itemBuilder: (context, index) {
+                                                  ReviewItemModel model =
+                                                      detailController
+                                                          .reviewList[index];
+                                                  return Column(
+                                                    children: [
+                                                      ReviewItemWidget(model),
+                                                      if (index <
+                                                          detailController
+                                                                  .reviewList
+                                                                  .length -
+                                                              1)
+                                                        SizedBox(height: 15),
+                                                    ],
+                                                  );
+                                                },
+                                              )
+                                              ),
+                                              SizedBox(height: 26.v),
+                                            ],
                                           ),
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(height: 26.v),
-                                    SizedBox(height: 26.v),
-                                    getViewAllRow("lbl_reviews".tr, () {
-                                      Get.toNamed(AppRoutes.reviewScreen);
-                                    }),
-                                    SizedBox(height: 16.v),
-                                    ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      primary: false,
-                                      itemCount:
-                                          reviewController.reviewList.length > 1
-                                              ? 3
-                                              : reviewController
-                                                  .reviewList.length,
-                                      itemBuilder: (context, index) {
-                                        int reverseIndex =
-                                            reviewController.reviewList.length -
-                                                1 -
-                                                index;
-                                        ReviewItemModel model = reviewController
-                                            .reviewList[reverseIndex];
-
-                                        return Column(
-                                          children: [
-                                            ReviewItemWidget(model),
-                                            if (index <
-                                                reviewController
-                                                        .reviewList.length -
-                                                    1)
-                                              SizedBox(height: 15),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(height: 26.v),
-                                  ],
+                                        ]),
+                                      ),
+                                    ],
+                                  ))
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  color: appTheme.bgColor,
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 16.v,
+                                        bottom: 32.v,
+                                        left: 20.h,
+                                        right: 20.h),
+                                    child: buildButtons(),
+                                  ),
                                 ),
-                              ]),
-                            ),
-                          ],
-                        ))
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: appTheme.bgColor,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.v, bottom: 32.v, left: 20.h, right: 20.h),
-                          child: buildButtons(),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }});})
-        ),
+                              ),
+                            ],
+                          );
+                        }
+                      });
+                })),
       ),
     );
   }
@@ -375,14 +397,10 @@ class _DetailScreenState extends State<DetailScreen> {
         });
   }
 
-  onTapIconButton() {
-    Get.toNamed(
-      AppRoutes.nearbyYouScreen,
-    );
-  }
-
   onTapTxtViewAll() {
-    Get.toNamed(AppRoutes.reviewScreen);
+    print('On tap view all');
+    print(turfId);
+    Get.toNamed(AppRoutes.reviewScreen, arguments: turfId);
   }
 
   onTapBookNow() {

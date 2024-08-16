@@ -46,14 +46,14 @@ class ReviewItemWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          reviewItemModelObj.firstName,
+                          reviewItemModelObj.firstName ?? 'First Name',
                           style: CustomTextStyles.titleMedium16!.copyWith(
                               color:appTheme.black900
                           ),
                         ),
                         SizedBox(width: 2.0),
                         Text(
-                          reviewItemModelObj.lastName,
+                          reviewItemModelObj.lastName ?? 'Last Name',
                           style: CustomTextStyles.titleMedium16!.copyWith(
                               color:appTheme.black900
                           ),
@@ -94,7 +94,7 @@ class ReviewItemWidget extends StatelessWidget {
             width: double.infinity,
             margin: EdgeInsets.only(right: 11.h),
             child:  Text(
-              reviewItemModelObj.description,
+              reviewItemModelObj.description ?? 'Review description',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodyLarge!.copyWith(

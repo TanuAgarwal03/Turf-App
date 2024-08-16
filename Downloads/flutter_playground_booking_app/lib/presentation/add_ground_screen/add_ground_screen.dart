@@ -82,6 +82,45 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     }
   }
 
+
+//   Future<void> _pickGalleryImages() async {
+//   final picker = ImagePicker();
+//   final pickedFiles = await picker.pickMultiImage();
+
+//   if (pickedFiles.isNotEmpty) {
+//     for (var pickedFile in pickedFiles) {
+//       File imageFile = File(pickedFile.path);
+
+//       final request = http.MultipartRequest(
+//         'POST',
+//         Uri.parse(
+//             'https://lytechxagency.website/turf/wp-json/wp/v1/upload-image'),
+//       );
+//       request.files
+//           .add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+//       final response = await request.send();
+//       if (response.statusCode == 200) {
+//         final responseBody = await response.stream.bytesToString();
+//         final jsonResponse = jsonDecode(responseBody);
+//         print(jsonResponse['attachment_id']);
+//         if (jsonResponse['attachment_id'] != null) {
+//           controller.imageController.text =
+//               jsonResponse['attachment_id'].toString();
+//           Get.snackbar('Success', 'Image uploaded successfully');
+//         } else {
+//           Get.snackbar('Error', 'Failed to upload image');
+//         }
+//       } else {
+//         Get.snackbar('Error', 'Server error');
+//       }
+//     }
+//   } else {
+//     Get.snackbar('Error', 'No images selected');
+//   }
+//   Get.back();
+// }
+
   @override
   Widget build(BuildContext context) {
     final viewInsets = MediaQuery.of(context).viewInsets;
@@ -127,6 +166,8 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
                           SizedBox(height: 25.v),
                           _categoryDropdown(),
                           SizedBox(height: 25.v),
+                          // _uploadGalleryImages(),
+                          // SizedBox(height: 25.v),
                           Center(
                             child: _uploadImage(),
                           ),
@@ -156,7 +197,15 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: CustomTextFormField(
-          controller: controller.titleController, hintText: "Title"),
+        controller: controller.titleController,
+        hintText: "Title",
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Title cannot be empty';
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -167,6 +216,12 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
         controller: controller.descriptionController,
         hintText: "Description",
         textInputType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Email address cannot be empty';
+          }
+          return null;
+        },
       ),
     );
   }
@@ -175,7 +230,15 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: CustomTextFormField(
-          controller: controller.priceController, hintText: "Price"),
+        controller: controller.priceController,
+        hintText: "Price",
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '*This field cannot be empty';
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -183,7 +246,15 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: CustomTextFormField(
-          controller: controller.locationController, hintText: "Address"),
+        controller: controller.locationController,
+        hintText: "Address",
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '*Address of the turf is mandatory.';
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -194,11 +265,17 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
         controller: controller.googleLocationUrlController,
         hintText: "Google Location URL",
         textInputType: TextInputType.text,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Location URL cannot be empty';
+          }
+          return null;
+        },
       ),
     );
   }
 
-   Widget _buildMasterInput3() {
+  Widget _buildMasterInput3() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: Column(
@@ -327,12 +404,53 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
       ),
     );
   }
+//   Widget _uploadGalleryImages() {
+//   return Padding(
+//     padding: EdgeInsets.all(25.0),
+//     child: ElevatedButton(
+//         onPressed: () => Get.defaultDialog(
+//             title: 'Upload Gallery Images',
+//             content: Text('Choose images from gallery'),
+//             cancel: ElevatedButton(
+//                 onPressed: () {
+//                   Get.back();
+//                 },
+//                 child: Padding(
+//                     padding: EdgeInsets.all(10.0),
+//                     child: Text(
+//                       'Back',
+//                       style: TextStyle(color: Colors.white),
+//                     ))),
+//             onCancel: () => Get.back(),
+//             confirm: ElevatedButton(
+//                 onPressed: () {
+//                   // _pickImage()
+//                   _pickGalleryImages();
+//                   Get.back();
+//                 },
+//                 child: Padding(
+//                     padding: EdgeInsets.all(10.0),
+//                     child: Text(
+//                       'Upload',
+//                       style: TextStyle(color: Colors.white),
+//                     )))),
+//         child: Padding(
+//             padding: EdgeInsets.all(10.0),
+//             child: Text(
+//               'Upload Gallery Images',
+//               style: TextStyle(color: Colors.white),
+//             ))),
+//   );
+// }
+
 
   onTapContinue() {
-    controller.createGround();
-    Get.back();
-    Get.toNamed(
-      AppRoutes.myGroundsScreen,
-    );
+    if (_formKey.currentState!.validate()) {
+      controller.createGround();
+      Get.back();
+      Get.toNamed(
+        AppRoutes.myGroundsScreen,
+      );
+    }
   }
 }

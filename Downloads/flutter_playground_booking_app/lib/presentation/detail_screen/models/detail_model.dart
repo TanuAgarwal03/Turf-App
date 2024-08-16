@@ -10,6 +10,7 @@ class DetailModel {
   final String locationUrl;
   final List<Facility> facilities;
   final List<Review> reviews;
+  // List<Gallery>? images;
 
   DetailModel({
     required this.id,
@@ -21,11 +22,13 @@ class DetailModel {
     required this.locationUrl,
     required this.facilities,
     required this.reviews,
+    // this.images,
   });
 
   factory DetailModel.fromJson(Map<String, dynamic> json) {
     var facilitiesJson = json['facilities'] as List;
     var reviewsJson = json['review'] as List;
+    // var imagesJson = json['gallery'] as List;
 
     return DetailModel(
       id: json['id'] as int,
@@ -37,6 +40,9 @@ class DetailModel {
       locationUrl: json['location_url'],
       facilities: facilitiesJson.map((e) => Facility.fromJson(e)).toList(),
       reviews: reviewsJson.map((e) => Review.fromJson(e)).toList(),
+      // images: imagesJson.cast<String>().toList(),
+      // images: imagesJson.map((e) => e.toString()).toList()
+      // images:  imagesJson.map((e) => Gallery.fromJson(e)).toList(),
     );
   }
 
@@ -57,6 +63,14 @@ class Facility {
       listOfAminities: json['list_of_aminities'],
     );
   }
+}
+class Gallery {
+  final String images;
+  Gallery({required this.images});
+  factory Gallery.fromJson(Map<String , dynamic> json) {
+    return Gallery(images: json['gallery']);
+  }
+
 }
 
 class Review {

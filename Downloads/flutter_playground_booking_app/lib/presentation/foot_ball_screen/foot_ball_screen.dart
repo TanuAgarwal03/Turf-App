@@ -79,6 +79,8 @@ class _FootBallScreenState extends State<FootBallScreen> {
                       ],)
                     );
                   } else {
+                  return FutureBuilder(future: controller.fetchFootBallData(categoryId), builder: (context , AsyncSnapshot snapshot){
+                    
                     return ListView.builder(
                       primary: false,
                       shrinkWrap: true,
@@ -170,6 +172,8 @@ class _FootBallScreenState extends State<FootBallScreen> {
                         );
                       },
                     );
+                  
+                  });
                   }
                 }),
               ),

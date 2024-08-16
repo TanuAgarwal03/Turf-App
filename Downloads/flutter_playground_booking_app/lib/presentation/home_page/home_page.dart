@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
   HomeController controller = Get.put(HomeController());
   CategoriesController categoriesController = Get.put(CategoriesController());
   NearbyYouController nearbyYouController = Get.put(NearbyYouController());
-  PopularGroundController popularGroundController =
-      Get.put(PopularGroundController());
+  PopularGroundController popularGroundController = Get.put(PopularGroundController());
   final ApiService apiService = ApiService();
   int? id;
 
@@ -38,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     controller.turfList();
     categoriesController.fetchCategories();
-    // nearbyYouController.fetchTurfDetails(id!);
     popularGroundController.fetchPopularGroundData();
   }
 
@@ -157,8 +155,11 @@ class _HomePageState extends State<HomePage> {
                                                   horizontal: 8.h),
                                               child: GestureDetector(
                                                 onTap: () async {
-                                                  Get.toNamed(AppRoutes
-                                                      .popularGroundScreen);
+                                                  Get.toNamed(
+                                                      AppRoutes.detailScreen,
+                                                      arguments: {
+                                                        'id': data.id
+                                                      });
                                                 },
                                                 child: Container(
                                                   width: 238.h,

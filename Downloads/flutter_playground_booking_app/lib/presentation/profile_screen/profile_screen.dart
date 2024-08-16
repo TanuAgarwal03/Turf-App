@@ -272,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     children: [
                       CustomImageView(
-                        imagePath: ImageConstant.imgAvtar1,
+                        imagePath: controller.profileModelObj.value.image,
                         height: 80.adaptSize,
                         width: 80.adaptSize,
                       ),
