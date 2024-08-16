@@ -282,46 +282,65 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   );
                                                 },
                                               ),
-                                              SizedBox(height: 26.v),
-                                              getViewAllRow("lbl_reviews".tr,
-                                                  () {
-                                                Get.toNamed(
-                                                    AppRoutes.reviewScreen,
-                                                    arguments: turfId);
-                                              }),
+                                              SizedBox(height: 40.v),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "lbl_reviews".tr,
+                                                    style: theme
+                                                        .textTheme.titleLarge!
+                                                        .copyWith(
+                                                            color: appTheme
+                                                                .black900),
+                                                  ),
+                                                  InkWell(
+
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.edit , size: 15,),
+                                                        Text('Add Review')
+                                                      ],
+                                                    ),
+                                                    onTap: () {
+                                                      Get.toNamed(AppRoutes.writeAReviewScreen , arguments: turfId);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
                                               SizedBox(height: 16.v),
                                               Container(
-                                                // height: 200,
-                                                child: ListView.builder(
-                                                physics:
-                                                    BouncingScrollPhysics(),
-                                                shrinkWrap: true,
-                                                primary: false,
-                                                itemCount: detailController
-                                                            .reviewList.length >
-                                                        3
-                                                    ? 3
-                                                    : detailController
+                                                  height: 400,
+                                                  child: ListView.builder(
+                                                    physics:
+                                                        BouncingScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    primary: false,
+                                                    itemCount: detailController
                                                         .reviewList.length,
-                                                // itemCount: detailController.reviewList.length,
-                                                itemBuilder: (context, index) {
-                                                  ReviewItemModel model =
-                                                      detailController
-                                                          .reviewList[index];
-                                                  return Column(
-                                                    children: [
-                                                      ReviewItemWidget(model),
-                                                      if (index <
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      ReviewItemModel model =
                                                           detailController
-                                                                  .reviewList
-                                                                  .length -
-                                                              1)
-                                                        SizedBox(height: 15),
-                                                    ],
-                                                  );
-                                                },
-                                              )
-                                              ),
+                                                                  .reviewList[
+                                                              index];
+                                                      return Column(
+                                                        children: [
+                                                          ReviewItemWidget(
+                                                              model),
+                                                          if (index <
+                                                              detailController
+                                                                      .reviewList
+                                                                      .length -
+                                                                  1)
+                                                            SizedBox(
+                                                                height: 15),
+                                                        ],
+                                                      );
+                                                    },
+                                                  )),
                                               SizedBox(height: 26.v),
                                             ],
                                           ),
@@ -368,11 +387,11 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 24.adaptSize),
           Padding(
               padding: EdgeInsets.only(left: 7.h, top: 3.v),
-              child: Text(" ${reviewController.averageRating} Rating ",
+              child: Text(" ${detailController.averageRating} Rating ",
                   style: CustomTextStyles.bodyLargeGray60001)),
           Padding(
               padding: EdgeInsets.only(left: 1.h, top: 3.v),
-              child: Text(" (${reviewController.totalReviews} reviews) ",
+              child: Text(" (${detailController.totalReviews} reviews) ",
                   style: CustomTextStyles.bodyLargeGray60001))
         ]),
         SizedBox(height: 12.v),

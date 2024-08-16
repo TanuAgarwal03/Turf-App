@@ -38,6 +38,21 @@ class DetailController extends GetxController {
     _loadTurfId();
   }
 
+  double get totalRating {
+    double total = 0.0;
+    for (var review in reviewList) {
+      double rating = double.tryParse(review.rating) ?? 0.0;
+      total += rating;
+    }
+    return total;
+  }
+  double get averageRating {
+    if (totalReviews == 0) {
+      return 0.0;
+    }
+    double avg = totalRating / totalReviews;
+    return double.parse(avg.toStringAsFixed(1));
+  }
   Future<void> _loadTurfId() async {
     final prefs = await SharedPreferences.getInstance();
     final turfId = prefs.getInt('selectedTurfId') ?? 0;
@@ -81,5 +96,7 @@ class DetailController extends GetxController {
     } finally {
       isLoading(false);
     }
+   
   }
+  int get totalReviews => reviewList.length;
 }
