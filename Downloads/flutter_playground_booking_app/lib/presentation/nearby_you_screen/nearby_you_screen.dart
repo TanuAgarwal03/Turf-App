@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/controller/nearby_you_controller.dart';
 import 'package:flutter_playground_booking_app/presentation/nearby_you_screen/models/nearby_you_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NearbyYouScreen extends StatefulWidget {
   const NearbyYouScreen({super.key});
@@ -19,6 +21,36 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
     super.initState();
     controller.fetchTurflist();
   }
+
+
+
+void _getDirections(BuildContext context, double destinationLatitude, double destinationLongitude) async {
+  // Fetch the current location
+  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  final double currentLatitude = position.latitude;
+  final double currentLongitude = position.longitude;
+
+  // Construct the directions URL
+  final Uri url = Uri.parse(
+    'https://www.google.com/maps/dir/?api=1&origin=$currentLatitude,$currentLongitude&destination=$destinationLatitude,$destinationLongitude&travelmode=driving',
+  );
+
+  // Launch the URL
+  if (await canLaunchUrl(url)) {
+    await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
+  } else {
+    print('Could not launch $url');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Could not open the directions in Maps'),
+      ),
+    );
+  }
+}
+
 
   Future<void> _storeSelectedId(int id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -108,6 +140,30 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
                             ],
                           ),
                         ),
+                        Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+
+                            if (data.latitude != null &&
+                                data.longitude != null) {
+                              _getDirections(context, data.latitude!, data.longitude!);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Coordinates not available for this turf'),
+                                ),
+                              );
+                            }
+                          },
+                          icon: Icon(Icons.directions),
+                          label: Text('Get Directions'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
                         SizedBox(height: 12),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
