@@ -12,20 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="tel" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="http" />
-        <data android:scheme="https" />
-                <data android:scheme="sms"/>
-        </intent>
-    </queries> -->
+
     <queries>
     <intent>
         <action android:name="android.intent.action.VIEW" />

@@ -23,14 +23,11 @@ class _NearbyYouScreenState extends State<NearbyYouScreen> {
   }
 
 
-
 void _getDirections(BuildContext context, double destinationLatitude, double destinationLongitude) async {
-  // Fetch the current location
   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   final double currentLatitude = position.latitude;
   final double currentLongitude = position.longitude;
 
-  // Construct the directions URL
   final Uri url = Uri.parse(
     'https://www.google.com/maps/dir/?api=1&origin=$currentLatitude,$currentLongitude&destination=$destinationLatitude,$destinationLongitude&travelmode=driving',
   );

@@ -94,8 +94,13 @@ class _MyGroundsScreenState extends State<MyGroundsScreen> {
         child: CustomElevatedButton(
           text: "lbl_add".tr,
           onPressed: () {
+          if (role == 'owner') {
             onTapAdd();
-          },
+          } else {
+            // onTapAdd();
+            Get.snackbar('Sorry..!!', 'You cannot add any ground as user.');
+          }
+        }
         ),
       ),
     );

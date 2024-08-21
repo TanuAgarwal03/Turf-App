@@ -258,54 +258,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: LoadingAnimationWidget.prograssiveDots(color:const Color.fromARGB(255, 86, 141, 107) , size: 50));
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error loading profile data'));
+        // } else if (snapshot.hasError) {
+        //   return Center(child: Text('Error loading profile data'));
         } else {
           return Column(
             children: [
               buildComponentOne(),
               SizedBox(height: 24.v),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20.h),
-                  child: Row(
-                    children: [
-                      CustomImageView(
-                        imagePath: controller.profileModelObj.value.image,
-                        height: 80.adaptSize,
-                        width: 80.adaptSize,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 15.h,
-                          top: 16.v,
-                          bottom: 13.v,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${controller.profileModelObj.value.firstName} ${controller.profileModelObj.value.lastName}',
-                              style: theme.textTheme.titleLarge!.copyWith(
-                                color: appTheme.black900,
-                              ),
-                            ),
-                            SizedBox(height: 6.v),
-                            Text(
-                              controller.profileModelObj.value.email,
-                              style: theme.textTheme.bodyLarge!.copyWith(
-                                color: appTheme.black900,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 32.v),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: EdgeInsets.only(left: 20.h),
+              //     child: Row(
+              //       children: [
+              //         CustomImageView(
+              //           imagePath: controller.profileModelObj.value.image,
+              //           height: 80.adaptSize,
+              //           width: 80.adaptSize,
+              //         ),
+              //         Padding(
+              //           padding: EdgeInsets.only(
+              //             left: 15.h,
+              //             top: 16.v,
+              //             bottom: 13.v,
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Text(
+              //                 '${controller.profileModelObj.value.firstName} ${controller.profileModelObj.value.lastName}',
+              //                 style: theme.textTheme.titleLarge!.copyWith(
+              //                   color: appTheme.black900,
+              //                 ),
+              //               ),
+              //               SizedBox(height: 6.v),
+              //               Text(
+              //                 controller.profileModelObj.value.email,
+              //                 style: theme.textTheme.bodyLarge!.copyWith(
+              //                   color: appTheme.black900,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 32.v),
               Expanded(
                 child: ListView(
                   children: [

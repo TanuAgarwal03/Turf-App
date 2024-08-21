@@ -62,7 +62,7 @@ class DetailController extends GetxController {
       fetchTurfData(turfId);
       print("turf id from SharedPreferences : $turfId");
     } else {
-      Get.snackbar("Error", "No turf ID found");
+      // Get.snackbar("Error", "No turf ID found");
     }
   }
 

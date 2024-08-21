@@ -29,9 +29,6 @@ class _AddGroundScreenState extends State<AddGroundScreen> {
   var categories = [].obs;
   bool _isLoading = false;
   File? _selectedImage;
-  bool _isImageSelected() {
-  return _selectedImage != null;
-}
 bool _areImagesUploaded() {
   return uploadedImageUrls.isNotEmpty;
 }
@@ -398,68 +395,6 @@ bool _areImagesUploaded() {
   );
 }
 
-
-  // Widget _uploadImage() {
-  //   return Padding(
-  //     padding: EdgeInsets.all(25.0),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           'Upload Featured Image: ',
-  //           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  //         ),
-  //         SizedBox(height: 15),
-  //         ElevatedButton(
-  //           onPressed: () {
-  //             Get.defaultDialog(
-  //               title: 'Image upload',
-  //               content: Text('Choose the image from gallery'),
-  //               cancel: ElevatedButton(
-  //                 onPressed: () {
-  //                   Get.back();
-  //                 },
-  //                 child: Padding(
-  //                   padding: EdgeInsets.all(10.0),
-  //                   child: Text('Back', style: TextStyle(color: Colors.white)),
-  //                 ),
-  //               ),
-  //               onCancel: () => Get.back(),
-  //               confirm: ElevatedButton(
-  //                 onPressed: () {
-  //                   _pickImage();
-  //                   Get.back();
-  //                 },
-  //                 child: Padding(
-  //                   padding: EdgeInsets.all(10.0),
-  //                   child:
-  //                       Text('Upload', style: TextStyle(color: Colors.white)),
-  //                 ),
-  //               ),
-  //             );
-  //           },
-  //           child: Padding(
-  //             padding: EdgeInsets.all(10.0),
-  //             child:
-  //                 Text('Upload Image', style: TextStyle(color: Colors.white)),
-  //           ),
-  //         ),
-  //         SizedBox(height: 10),
-  //         _isLoading
-  //             ? Center(child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 30))
-  //             : _selectedImage != null
-  //                 ? Image.file(
-  //                     _selectedImage!,
-  //                     width: 150,
-  //                     height: 150,
-  //                     fit: BoxFit.cover,
-  //                   )
-  //                 : Text('No image selected'),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildContinue() {
     return Padding(
       padding:
@@ -514,51 +449,7 @@ bool _areImagesUploaded() {
     );
   }
 
-  // Widget _uploadGalleryImages() {
-  //   return Padding(
-  //     padding: EdgeInsets.all(25.0),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           'Upload Gallery Images',
-  //           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  //         ),
-  //         SizedBox(height: 10),
-  //         ElevatedButton(
-  //           onPressed: _pickImages,
-  //           child: Padding(
-  //             padding: EdgeInsets.all(10.0),
-  //             child: Text(
-  //               'Select Images',
-  //               style: TextStyle(color: Colors.white),
-  //             ),
-  //           ),
-  //         ),
-  //         SizedBox(height: 10),
-  //         _isLoading
-  //             ? Center(child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 30))
-  //             : Wrap(
-  //                 spacing: 10,
-  //                 runSpacing: 10,
-  //                 children: uploadedImageUrls.isNotEmpty
-  //                     ? uploadedImageUrls.map((url) {
-  //                         return Image.network(
-  //                           url,
-  //                           width: 100,
-  //                           height: 100,
-  //                           fit: BoxFit.cover,
-  //                           errorBuilder: (context, error, stackTrace) {
-  //                             return Icon(Icons.error, color: Colors.red);
-  //                           },
-  //                         );
-  //                       }).toList()
-  //                     : [Text('No images uploaded')],
-  //               ),
-  //       ],
-  //     ),
-    // );
-  // }
+
   Widget _uploadGalleryImages() {
   return Padding(
     padding: EdgeInsets.all(25.0),
