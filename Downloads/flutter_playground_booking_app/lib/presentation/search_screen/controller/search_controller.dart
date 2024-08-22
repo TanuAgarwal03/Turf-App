@@ -1,31 +1,13 @@
-// import 'package:flutter/material.dart';
-
-// /// A controller class for the SearchScreen.
-// import 'package:flutter_playground_booking_app/core/app_export.dart';
-// import 'package:flutter_playground_booking_app/presentation/search_screen/models/search_model.dart';
-
-// ///
-// /// This class manages the state of the SearchScreen, including the
-// /// current searchModelObj
-// // class SearchControllers extends GetxController {
-// //   TextEditingController searchController = TextEditingController();
-
-
-// //   @override
-// //   void onClose() {
-// //     super.onClose();
-// //     searchController.clear();
-// //   }
-// // }
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/presentation/search_screen/models/search_model.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class SearchControllers extends GetxController {
   TextEditingController searchController = TextEditingController();
-
+  ApiService apiService = ApiService();
   List<TurfModel> allTurfs = [];
   List<TurfModel> filteredTurfs = [];
   List<SearchModel> searchModelList = [];
@@ -36,13 +18,12 @@ class SearchControllers extends GetxController {
     fetchAllTurfs();
   }
 
-
-
    fetchAllTurfs() async {
-    const url = 'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard';
+    // const url = 'https://lytechxagency.website/turf/wp-json/wp/v2/turf?&acf_format=standard';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await apiService.getApi('turf?&acf_format=standard');
+      // final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);

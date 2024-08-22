@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_playground_booking_app/config/app_config.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/sign_up_screen/models/sign_up_model.dart';
@@ -26,23 +26,29 @@ class SignUpController extends GetxController {
   }
 
   Future<void> registerUser(String role) async {
-    String url =
-        'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=$role';
+    // String url =
+    //     'https://lytechxagency.website/turf/wp-json/wp/v1/register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=$role&profile_pic=123';
     try {
-      var response = await http.post(
-        Uri.parse(url),
-        body: {
-          'firstname': firstNameController.text,
+      var response = await apiService.postAPI('register?firstname=${firstNameController.text} &lastname=${lastNameController.text}&email=${emailController.text}&password=${passwordController.text}&role=$role&profile_pic=123', {'firstname': firstNameController.text,
           'lastname': lastNameController.text,
           'email': emailController.text,
           'password': passwordController.text,
           'role': role,
-        },
-      );
+          'profile_pic': 123});
+      // var response = await http.post(
+      //   Uri.parse(url),
+      //   body: {
+      //     'firstname': firstNameController.text,
+      //     'lastname': lastNameController.text,
+      //     'email': emailController.text,
+      //     'password': passwordController.text,
+      //     'role': role,
+      //     'profile_pic': 123
+      //   },
+      // );
 
       if (response.statusCode == 200) {
         await _saveDataLocally(response.body, role);
-        // String role = response.body[];
         Get.snackbar('Success', 'User registered successfully',
             duration: Duration(seconds: 2),
             backgroundColor: Colors.teal[800]);

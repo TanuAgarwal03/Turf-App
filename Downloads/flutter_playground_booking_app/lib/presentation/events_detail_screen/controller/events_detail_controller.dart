@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import '../models/eventsdetail_item_model.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class EventsDetailController extends GetxController {
   List<EventsdetailItemModel> previouseMemory = [];
   PageController pageController = PageController();
+  ApiService apiService =ApiService();
   int currentPage = 0;
   int currentGround = 0;
   EventsdetailItemModel? eventDetail;
@@ -20,8 +22,9 @@ class EventsDetailController extends GetxController {
   void fetchEvents() async {
     loading.value = true;
     try {
-      final response = await http.get(Uri.parse(
-          'https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'));
+      final response = await apiService.getApi('events?&acf_format=standard');
+      // final response = await http.get(Uri.parse(
+      //     'https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'));
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         if (data.isNotEmpty) {

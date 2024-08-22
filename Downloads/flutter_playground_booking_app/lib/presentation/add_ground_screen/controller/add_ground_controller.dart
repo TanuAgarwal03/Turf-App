@@ -4,7 +4,7 @@ import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class AddGroundController extends GetxController {
   ApiService apiService = ApiService();
@@ -21,14 +21,16 @@ class AddGroundController extends GetxController {
   var imageAttachmentIds = <int>[].obs;
   @override
   void onInit() {
-    super.onInit();
+    super.onInit(); 
     fetchCategories();
   }
 
   Future<List<dynamic>> fetchCategories() async {
     print(facilitiesController.text);
-    final response = await http.get(Uri.parse(
-        'https://lytechxagency.website/turf/wp-json/wp/v2/categories'));
+    final response = await apiService.getApi('categories');
+    // final response = await http.get(Uri.parse(
+    //     'https://lytechxagency.website/turf/wp-json/wp/v2/categories'));
+    
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

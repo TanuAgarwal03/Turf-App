@@ -44,8 +44,6 @@ class _FootBallScreenState extends State<FootBallScreen> {
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
-    print(categoryId);
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
@@ -62,26 +60,37 @@ class _FootBallScreenState extends State<FootBallScreen> {
               SizedBox(height: 16.v),
               Expanded(
                 child: Obx(() {
-                  if (controller.footBallList.isEmpty) {
+                  if (controller.isLoading.value) {
+                    return Center(
+                      child: LoadingAnimationWidget.bouncingBall(
+                        color: Colors.black,
+                        size: 50,
+                      ),
+                    );
+                  } else if (controller.footBallList.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                        LoadingAnimationWidget.bouncingBall(color: Colors.black, size: 25),
-                        Text(
-                        'No grounds available for this category.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16, 
-                          color: Colors.black,
-                        ),
+                          Icon(
+                            Icons.sports_soccer,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 16.v),
+                          Text(
+                            'No grounds available for this category.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      ],)
                     );
                   } else {
-                  return FutureBuilder(future: controller.fetchFootBallData(categoryId), builder: (context , AsyncSnapshot snapshot){
-                    
                     return ListView.builder(
                       primary: false,
                       shrinkWrap: true,
@@ -173,8 +182,6 @@ class _FootBallScreenState extends State<FootBallScreen> {
                         );
                       },
                     );
-                  
-                  });
                   }
                 }),
               ),
@@ -191,16 +198,19 @@ class _FootBallScreenState extends State<FootBallScreen> {
     return SizedBox(
       height: 163.v,
       width: double.infinity,
-      child: Stack(alignment: Alignment.topRight, children: [
-        CustomImageView(
-          imagePath: image,
-          height: 163.v,
-          width: double.infinity,
-          radius: BorderRadius.circular(16.h),
-          alignment: Alignment.center,
-          fit: BoxFit.cover,
-        ),
-      ]),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          CustomImageView(
+            imagePath: image,
+            height: 163.v,
+            width: double.infinity,
+            radius: BorderRadius.circular(16.h),
+            alignment: Alignment.center,
+            fit: BoxFit.cover,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,22 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/profile_screen/models/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   TextEditingController profileController = TextEditingController();
-
   TextEditingController profileController1 = TextEditingController();
-
   TextEditingController profileController2 = TextEditingController();
-
   TextEditingController profileController3 = TextEditingController();
-
   Rx<ProfileModel> profileModelObj = ProfileModel(email: '' , firstName: '' , lastName: '' , image: '').obs;
-
+  ApiService apiService = ApiService();
   @override 
   void onInit() {
     super.onInit();
@@ -26,7 +23,8 @@ class ProfileController extends GetxController {
   Future<void> fetchUserProfile() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int user_id = prefs.getInt('user_id') ?? 7;
-    final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_user_details/?user_id=$user_id'));
+    final response = await apiService.getAPI('get_user_details/?user_id=$user_id');
+    // final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_user_details/?user_id=$user_id'));
     if(response.statusCode == 200) {
       profileModelObj.value =
           ProfileModel.fromJson(jsonDecode(response.body));

@@ -2,7 +2,7 @@ import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/my_booking_upcoming_page/models/my_booking_upcoming_model.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +44,8 @@ class MyBookingUpcomingController extends GetxController {
     int userId = prefs.getInt('user_id') ?? 0;
       isLoading(true);
       print(role);
-      var response =(role=='owner') ? await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=$userId')) : await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=$userId'));
+      var response = (role=='owner') ? await apiService.getAPI('get_booking_by_owner?author_id=$userId') : await apiService.getAPI('get_booking_by_user?user_id=$userId');
+      // var response =(role=='owner') ? await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=$userId')) : await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_user?user_id=$userId'));
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body) as List;

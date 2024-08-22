@@ -283,17 +283,45 @@ class _DetailScreenState extends State<DetailScreen> {
                                               ),
                                               SizedBox(height: 40.v),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.only(bottom: 20.0),
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 20.0),
                                                 child: Text(
-                                                    "Gallery",
-                                                    style: theme
-                                                        .textTheme.titleLarge!
-                                                        .copyWith(
-                                                            color: appTheme
-                                                                .black900),
-                                                  ),
+                                                  "Gallery",
+                                                  style: theme
+                                                      .textTheme.titleLarge!
+                                                      .copyWith(
+                                                          color: appTheme
+                                                              .black900),
+                                                ),
                                               ),
+                                              // if (controller
+                                              //     .galleryImages.isNotEmpty)
+                                              //   GridView.builder(
+                                              //     shrinkWrap: true,
+                                              //     physics:
+                                              //         NeverScrollableScrollPhysics(),
+                                              //     gridDelegate:
+                                              //         SliverGridDelegateWithFixedCrossAxisCount(
+                                              //       crossAxisCount: 3,
+                                              //       crossAxisSpacing: 8.0,
+                                              //       mainAxisSpacing: 8.0,
+                                              //     ),
+                                              //     itemCount: controller
+                                              //         .galleryImages.length,
+                                              //     itemBuilder:
+                                              //         (context, index) {
+                                              //       final imageUrl = controller
+                                              //           .galleryImages[index];
+                                              //       return ClipRRect(
+                                              //         borderRadius: BorderRadius.circular(15.0),
+                                              //         child: Image.network(
+                                              //           imageUrl,
+                                              //           width: 50,
+                                              //           height: 50,
+                                              //           fit: BoxFit.cover)
+                                              //       );
+                                              //     },
+                                              //   )
                                               if (controller
                                                   .galleryImages.isNotEmpty)
                                                 GridView.builder(
@@ -312,13 +340,54 @@ class _DetailScreenState extends State<DetailScreen> {
                                                       (context, index) {
                                                     final imageUrl = controller
                                                         .galleryImages[index];
-                                                    return ClipRRect(
-                                                      borderRadius: BorderRadius.circular(15.0),
-                                                      child: Image.network(
-                                                        imageUrl,
-                                                        width: 50,
-                                                        height: 50,
-                                                        fit: BoxFit.cover)
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return Dialog(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              insetPadding:
+                                                                  EdgeInsets
+                                                                      .all(10),
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(); // Close the dialog when tapped again
+                                                                },
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15.0),
+                                                                  child: Image
+                                                                      .network(
+                                                                    imageUrl,
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.0),
+                                                        child: Image.network(
+                                                          imageUrl,
+                                                          width: 50,
+                                                          height: 50,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     );
                                                   },
                                                 )
@@ -329,7 +398,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   child: Text(
                                                       'No images available'),
                                                 ),
-                                                SizedBox(height: 30.0),
+                                              SizedBox(height: 30.0),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

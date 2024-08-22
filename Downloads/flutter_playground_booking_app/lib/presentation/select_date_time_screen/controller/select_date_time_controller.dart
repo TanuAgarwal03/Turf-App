@@ -1,3 +1,4 @@
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/select_date_time_screen/models/select_date_time_model.dart';
 import '../models/selet_time_data.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 class SelectDateTimeController extends GetxController {
   List<SelectDateTimeModel> timeData = SelectTimeData.getTimeData();
-
+  ApiService apiService = ApiService();
   RxInt currentTime = 0.obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxBool isLoading = false.obs;
@@ -32,6 +33,7 @@ class SelectDateTimeController extends GetxController {
       'phone_number': phoneNumberController.text,
     };
     isLoading(true);
+    // final response = await apiService.postAPI('turf_booking', bookingRequest);
     final response = await http.post(
       Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/turf_booking'),
       body: bookingRequest,

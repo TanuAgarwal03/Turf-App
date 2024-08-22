@@ -1,8 +1,9 @@
 
 /// A controller class for the BookingDetailsScreen.
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/presentation/booking_details_screen/models/booking_details_model.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'dart:convert';
 ///
 /// This class manages the state of the BookingDetailsScreen, including the
@@ -13,6 +14,7 @@ import 'dart:convert';
 class BookingDetailsController extends GetxController {
   var bookingList = <BookingDetailsModel>[].obs;
   var isLoading = true.obs;
+  ApiService apiService = ApiService();
 
   @override
   void onInit() {
@@ -23,7 +25,8 @@ class BookingDetailsController extends GetxController {
   void fetchBookingDetails() async {
     try {
       isLoading(true);
-      final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=1'));
+      final response = await apiService.getAPI('get_booking_by_owner?author_id=1');
+      // final response = await http.get(Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v1/get_booking_by_owner?author_id=1'));
 
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);

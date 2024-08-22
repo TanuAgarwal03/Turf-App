@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 import 'package:flutter_playground_booking_app/widgets/custom_icon_button.dart';
 
-
-
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 

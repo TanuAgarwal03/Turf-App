@@ -39,8 +39,11 @@
 </queries>
 
     <application
-        android:label="flutter_playground_booking_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Playground booking"
+        android:icon="@mipmap/logo">
+        <!-- "@mipmap/ic_launcher"> -->
+        <!-- assets/images/Screenshot from 2024-08-21 11-42-49.png -->
+        <!-- /home/tanu/Downloads/flutter_playground_booking_app/android/app/src/main/res/mipmap-hdpi/Screenshot from 2024-08-21 11-42-49.png -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

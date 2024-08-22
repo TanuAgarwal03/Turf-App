@@ -1,13 +1,15 @@
+import 'package:flutter_playground_booking_app/config/app_config.dart';
 import 'package:flutter_playground_booking_app/core/app_export.dart';
 
 import '../models/events_item_model.dart';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class EventsController extends GetxController {
   List<EventsItemModel> eventDataList = [];
+  ApiService apiService = ApiService();
   var isLoading = true.obs;
   @override
   void onInit() {
@@ -18,9 +20,10 @@ class EventsController extends GetxController {
 
   Future<void> fetchEventsData() async {
     isLoading(true);
-    final response = await http.get(
-      Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'),
-    );
+    final response = await apiService.getApi('events?&acf_format=standard');
+    // final response = await http.get(
+    //   Uri.parse('https://lytechxagency.website/turf/wp-json/wp/v2/events?&acf_format=standard'),
+    // );
     await Future.delayed(Duration(seconds:2));
 
     if (response.statusCode == 200) {

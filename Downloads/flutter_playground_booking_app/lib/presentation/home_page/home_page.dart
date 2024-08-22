@@ -469,11 +469,12 @@ buildAppBar() {
           SizedBox(height: 5.v),
           AppbarSubtitle(text: "lbl_good_morning".tr)
         ]),
-        actions: [
-          getCustomIconButton(ImageConstant.imgGroup9, () {
-            Get.toNamed(AppRoutes.notificationScreen);
-          })
-        ]),
+        // actions: [
+        //   getCustomIconButton(ImageConstant.imgGroup9, () {
+        //     Get.toNamed(AppRoutes.notificationScreen);
+        //   })
+        // ]
+        ),
   );
 }
 
@@ -524,11 +525,11 @@ Widget buildFrame1({
   ]);
 }
 
-onTapIconButton() {
-  Get.toNamed(
-    AppRoutes.notificationEmptyScreen,
-  );
-}
+// onTapIconButton() {
+//   Get.toNamed(
+//     AppRoutes.notificationEmptyScreen,
+//   );
+// }
 
 onTapBtnIconButton() {
   Get.toNamed(
