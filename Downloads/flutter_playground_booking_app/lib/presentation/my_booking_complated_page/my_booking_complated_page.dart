@@ -177,7 +177,7 @@ class MyBookingComplatedPage extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 8),
                                 child: Text(
                                   data.bookingDate,
-                                  style: theme.textTheme.bodyLarge?.copyWith(color: Colors.black),
+                                  style: theme.textTheme.bodyLarge?.copyWith(color: Colors.red[900]),
                                 ),
                               ),
                               SizedBox(width: 16),

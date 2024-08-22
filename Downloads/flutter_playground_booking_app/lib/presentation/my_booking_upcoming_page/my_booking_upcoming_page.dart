@@ -109,7 +109,8 @@ class _MyBookingUpcomingPageState extends State<MyBookingUpcomingPage> {
                                 width: 150,
                                 padding: EdgeInsets.only(left: 5),
                                 child: Text(
-                                  '${data.timeFrom} ',  //${data.timeFrom} - ${data.timeTo}
+                                  '${data.timeFrom} ',
+                                    // '${data.timeFrom} - ${data.timeTo}',
                                   style: theme.textTheme.bodyLarge,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

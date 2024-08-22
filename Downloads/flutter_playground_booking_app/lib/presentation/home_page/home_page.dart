@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                                           popularGroundController
                                                       .popularGround.length >
                                                   2
-                                              ? 2
+                                              ? 3
                                               : popularGroundController
                                                   .popularGround
                                                   .length, (index) {
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Row(
                                       children: List.generate(
                                         nearbyYouController.turfList.length > 2
-                                            ? 2
+                                            ? 3
                                             : nearbyYouController
                                                 .turfList.length,
                                         (index) {
